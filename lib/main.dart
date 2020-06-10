@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Screen/screenselector.dart';
 import 'package:provider/provider.dart';
-
 import 'Provider/homeproduct_provider.dart';
-import 'Screen/home.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,14 +13,15 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: HomeProductProvider(),
-        )
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: Home(),
+        home: ScreenSelector(),
       ),
     );
   }
