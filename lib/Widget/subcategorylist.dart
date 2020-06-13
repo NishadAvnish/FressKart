@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/model/category_model.dart';
 
-Widget SubCategoryList(BuildContext context, CategoryModel categoryItem) {
+Widget subCategoryList(BuildContext context, CategoryModel categoryItem) {
   final _size = MediaQuery.of(context).size;
   return Container(
       width: _size.width,

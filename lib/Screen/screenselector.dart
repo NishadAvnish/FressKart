@@ -16,12 +16,12 @@ class _ScreenSelectorState extends State<ScreenSelector>
   List<Widget> _screenList = [];
   double _previousValue = 0.0;
 
-  AnimationController _animationController;
+  AnimationController animationController;
   @override
   void initState() {
     super.initState();
     _selectedBottomNavIndex = 0;
-    _animationController =
+    animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
     _screenList = [
       Home(),
@@ -49,12 +49,12 @@ class _ScreenSelectorState extends State<ScreenSelector>
                   final _isMovable = _previousValue;
                   _previousValue = value;
                   value > _isMovable
-                      ? _animationController.reverse()
-                      : _animationController.forward();
+                      ? animationController.reverse()
+                      : animationController.forward();
                   return SlideTransition(
                     position:
                         Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0))
-                            .animate(_animationController),
+                            .animate(animationController),
                     child: _customBottomNavigation(context),
                   );
                 }),
@@ -75,16 +75,16 @@ class _ScreenSelectorState extends State<ScreenSelector>
         padding: EdgeInsets.only(left: 22, right: 22, top: 5, bottom: 8),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          _bottomNavigationItem(Icons.home, "Home", 0),
-          _bottomNavigationItem(Icons.search, "Search", 1),
-          _bottomNavigationItem(Icons.add_shopping_cart, "Wishlist", 2),
-          _bottomNavigationItem(Icons.assignment, "Order", 3),
+          bottomNavigationItem(Icons.home, "Home", 0),
+          bottomNavigationItem(Icons.search, "Search", 1),
+          bottomNavigationItem(Icons.add_shopping_cart, "Wishlist", 2),
+          bottomNavigationItem(Icons.assignment, "Order", 3),
         ]),
       ),
     );
   }
 
-  _bottomNavigationItem(IconData icon, String title, int index) {
+  bottomNavigationItem(IconData icon, String title, int index) {
     return GestureDetector(
       onTap: () => setState(() {
         _selectedBottomNavIndex = index;

@@ -46,42 +46,43 @@ class FeatureItem extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   )),
-                              productItem.rating != null
-                                  ? Text(
-                                      "Rating: " +
-                                          productItem.rating.toString() +
-                                          "  (" +
-                                          productItem.reviewPersonNo
-                                              .toString() +
-                                          ")",
-                                      style: TextStyle(
-                                          fontStyle: FontStyle.normal,
-                                          color: Colors.grey))
-                                  : Container(),
+                              Text(
+                                  "Rating: " +
+                                      productItem.rating.toString() +
+                                      "  (" +
+                                      productItem.ratingPersonNo.toString() +
+                                      ")",
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.grey)),
                               Row(
                                 children: <Widget>[
                                   Text(
                                       "₹ " +
-                                          productItem.productList[0].price
+                                          productItem
+                                              .productQuantityList[0].price
                                               .toString(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          decoration: productItem.productList[0]
+                                          decoration: productItem
+                                                      .productQuantityList[0]
                                                       .newModifiedPrice !=
                                                   null
                                               ? TextDecoration.lineThrough
                                               : TextDecoration.none,
-                                          color: productItem.productList[0]
+                                          color: productItem
+                                                      .productQuantityList[0]
                                                       .newModifiedPrice !=
                                                   null
                                               ? Colors.grey
                                               : Colors.black)),
                                   //this conditional operation work if there is new modified price that means the tag is OFF
-                                  productItem.productList[0].newModifiedPrice !=
+                                  productItem.productQuantityList[0]
+                                              .newModifiedPrice !=
                                           null
                                       ? Text(
                                           " ₹ " +
-                                              productItem.productList[0]
+                                              productItem.productQuantityList[0]
                                                   .newModifiedPrice
                                                   .toString(),
                                           style: TextStyle(
@@ -92,7 +93,7 @@ class FeatureItem extends StatelessWidget {
                               ),
                               //this is for adding unit with price i.e kg, Litre, Quintol etc.
                               Text(
-                                productItem.productList[0].quantity,
+                                productItem.productQuantityList[0].quantity,
                                 style: TextStyle(fontStyle: FontStyle.italic),
                               )
                             ]),
@@ -110,7 +111,8 @@ class FeatureItem extends StatelessWidget {
                             borderRadius: BorderRadius.circular(3.0),
                             color: secondaryColor,
                           ),
-                          child: Text(productItem.tag)))
+                          child: Text(productItem.tag))),
+             Positioned(top:0,right:0,child: Text(productItem.id.toString()))
             ]),
           )),
     );

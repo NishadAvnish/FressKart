@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
-import 'package:freshkart/Widget/featureitem.dart';
+import 'package:freshkart/Widget/list_items.dart';
 import 'package:freshkart/Widget/carouselslider.dart';
 import 'package:freshkart/Widget/home_category_widget.dart';
 import 'package:provider/provider.dart';

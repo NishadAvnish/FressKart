@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
+import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
 import '../Widget/productdetail_pageview.dart';
@@ -16,11 +18,9 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   ProductModel _product;
-  int _count;
   @override
   void initState() {
     super.initState();
-    _count = 1;
     _callProvider();
   }
 
@@ -71,29 +71,30 @@ class _ProductDetailState extends State<ProductDetail> {
                                 constraints: BoxConstraints(maxWidth: 300),
                                 child: Text(
                                   _product.title,
-                                  style: Theme.of(context).textTheme.subtitle,
+                                  style: Theme.of(context).textTheme.headline6,
                                 )),
                             _price(),
                           ],
                         ),
-                        SizedBox(height: 12),
-                        _product.rating != null
-                            ? Text(
-                                "Rating: " +
-                                    _product.rating.toString() +
-                                    "  (" +
-                                    _product.reviewPersonNo.toString() +
-                                    ")",
-                                style: TextStyle(
-                                    fontStyle: FontStyle.normal,
-                                    color: Colors.grey))
-                            : Container(),
-                        SizedBox(height: 24),
-                        IncDec(_product),
                         SizedBox(height: 24),
                         Text(
+                          "Quantity",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        IncDec(_product),
+                        SizedBox(height: 15),
+                        Text(
                           "Description",
-                          style: Theme.of(context).textTheme.subtitle,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.black),
                         ),
                         SizedBox(height: 12),
                         Container(
@@ -101,8 +102,13 @@ class _ProductDetailState extends State<ProductDetail> {
                             constraints: BoxConstraints(maxWidth: 300),
                             child: Text(
                               _product.description,
-                              style: Theme.of(context).textTheme.body1,
+                              style: Theme.of(context).textTheme.bodyText2,
                             )),
+                        Divider(color: secondaryColor),
+                        SizedBox(height: 12),
+                        ReviewWidget(
+                          product: _product,
+                        ),
                       ],
                     ),
                   ),
@@ -135,7 +141,7 @@ class _ProductDetailState extends State<ProductDetail> {
               child: Text(_product.tag,
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle
+                      .bodyText1
                       .copyWith(fontSize: 15)),
             ),
           )
@@ -143,27 +149,57 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   Widget _price() {
-    return Row(
-      children: <Widget>[
-        Text("₹ " + (_count * _product.productList[0].price).toString(),
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                decoration: _product.productList[0].newModifiedPrice != null
-                    ? TextDecoration.lineThrough
-                    : TextDecoration.none,
-                color: _product.productList[0].newModifiedPrice != null
-                    ? Colors.grey
-                    : Colors.black)),
-        //this conditional operation work if there is new modified price that means the tag is OFF
-        _product.productList[0].newModifiedPrice != null
-            ? Text(" ₹ " + (_count * _product.productList[0].newModifiedPrice).toString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ))
-            : Container(),
-        //this is for adding unit with price i.e kg, Litre, Quintol etc.
-        // Text(" /" + _product.productList[0].quantityUnit)
-      ],
-    );
+    return ValueListenableBuilder(
+        valueListenable: productQuantity,
+        builder: (context, listenedQuantityValue, _) {
+          return ValueListenableBuilder(
+              valueListenable: productUnit,
+              builder: (context, listenedUnitValue, _) {
+                int _index = _product.productQuantityList.indexWhere(
+                    (element) => element.quantity == listenedQuantityValue);
+
+                //valuenotifer at first is null
+
+                if (_index == -1) {
+                  _index = 0;
+                }
+
+                return Row(
+                  children: <Widget>[
+                    Text(
+                        "₹ " +
+                            (listenedUnitValue *
+                                    _product.productQuantityList[_index].price)
+                                .toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decoration:
+                                _product.productQuantityList[_index].newModifiedPrice !=
+                                        null
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none,
+                            color:
+                                _product.productQuantityList[_index].newModifiedPrice !=
+                                        null
+                                    ? Colors.grey
+                                    : Colors.black)),
+                    //this conditional operation work if there is new modified price that means the tag is OFF
+                    _product.productQuantityList[_index].newModifiedPrice != null
+                        ? Text(
+                            " ₹ " +
+                                (listenedUnitValue *
+                                        _product.productQuantityList[_index]
+                                            .newModifiedPrice)
+                                    .toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ))
+                        : Container(),
+                    //this is for adding unit with price i.e kg, Litre, Quintol etc.
+                    // Text(" /" + _product.productList[0].quantityUnit)
+                  ],
+                );
+              });
+        });
   }
 }
