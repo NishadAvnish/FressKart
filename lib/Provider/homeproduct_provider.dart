@@ -375,10 +375,10 @@ class HomeProductProvider with ChangeNotifier {
           .compareTo(b.productQuantityList[0].price));
     } else if (flag == 1) //sort by price in high to low
     {
-     final ascending= _productlist
+      final ascending = _productlist
         ..sort((a, b) => (a.productQuantityList[0].price)
             .compareTo(b.productQuantityList[0].price));
-       ascending .reversed;
+      ascending.reversed;
 
       _productlist.forEach((element) {
         print(element.id);
