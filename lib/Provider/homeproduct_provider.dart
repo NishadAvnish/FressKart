@@ -2,18 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:freshkart/model/category_model.dart';
 import 'package:freshkart/model/productmodel.dart';
 
+import '../model/productmodel.dart';
+
 class HomeProductProvider with ChangeNotifier {
   List<ProductModel> _productlist = [];
   List<CategoryModel> _mainCategoryList = [];
   bool _sortingFilterClicked = false;
   int _sortingFilterFlag = -1;
-  bool _subcategoryFilter = false;
+  String _subCategoryFlag = "All";
+  String _categoryFlag;
   List<ProductModel> _filterList = [];
   // List<ProductModel> _subcategoryList = [];
 
   List<ProductModel> get productList {
-    if (_subcategoryFilter || _sortingFilterClicked) {
-      return [...productList];
+    if (_sortingFilterClicked) {
+      return [..._filterList];
     } else {
       return [..._productlist];
     }
@@ -262,14 +265,28 @@ class HomeProductProvider with ChangeNotifier {
     ];
   }
 
+
+  
+
   Future<void> sortingFilter(int flag) async {
     List<ProductModel> _templist = [];
-    _templist = _subcategoryFilter ? _filterList : _productlist;
+
+    if (_subCategoryFlag != null && _subCategoryFlag != "All") {
+      _templist = _productlist
+          .where((element) =>
+              element.subCategory == _subCategoryFlag &&
+              element.category == _categoryFlag)
+          .toList();
+    } else {
+      _templist = _productlist.toList();
+    }
+
     _sortingFilterFlag = flag;
 
     if (flag == -1) // this means no filter is selected
     {
-      _sortingFilterClicked = false;
+      _sortingFilterClicked = true;
+      _filterList = _templist;
     } else {
       _sortingFilterClicked = true;
       switch (flag) {
@@ -310,27 +327,19 @@ class HomeProductProvider with ChangeNotifier {
   }
 
   void categoryFilter(String categoryFlag, String subcategoryFlag) {
-    List<ProductModel> _temp = [];
-    _temp = _productlist;
-
-    if (subcategoryFlag != "All") {
-      _subcategoryFilter = true;
-
-      _filterList = _temp
+    _subCategoryFlag = subcategoryFlag;
+    _categoryFlag = categoryFlag;
+    _sortingFilterClicked = true;
+    if (categoryFlag != null && subcategoryFlag != "All") {
+      _filterList = _productlist
           .where((element) =>
               element.subCategory == subcategoryFlag &&
               element.category == categoryFlag)
           .toList();
     } else {
-      _subcategoryFilter = false;
-
-      _filterList = _temp.toList();
+      _filterList = _productlist.toList();
     }
-
-    if (_sortingFilterFlag >= 0) {
-      sortingFilter(_sortingFilterFlag);
-    } else
-      notifyListeners();
+    notifyListeners();
   }
 
 // used by productdetail screen
