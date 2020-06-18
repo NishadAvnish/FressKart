@@ -11,8 +11,7 @@ class FeatureItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-          fadeTransition(child: ProductDetail(productId: productItem.id))),
+      onTap: () => Navigator.of(context).pushNamed("detailScreen",arguments: productItem.id),
       child: MediaQuery.removePadding(
           removeTop: true,
           context: context,
@@ -112,7 +111,8 @@ class FeatureItem extends StatelessWidget {
                             color: secondaryColor,
                           ),
                           child: Text(productItem.tag))),
-             Positioned(top:0,right:0,child: Text(productItem.id.toString()))
+              Positioned(
+                  top: 0, right: 0, child: Text(productItem.id.toString()))
             ]),
           )),
     );

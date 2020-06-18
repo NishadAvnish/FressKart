@@ -5,13 +5,18 @@ import 'package:freshkart/model/productmodel.dart';
 class HomeProductProvider with ChangeNotifier {
   List<ProductModel> _productlist = [];
   List<CategoryModel> _mainCategoryList = [];
-  bool _filterClicked = false;
+  bool _sortingFilterClicked = false;
+  int _sortingFilterFlag = -1;
+  bool _subcategoryFilter = false;
   List<ProductModel> _filterList = [];
+  // List<ProductModel> _subcategoryList = [];
+
   List<ProductModel> get productList {
-    if (_filterClicked)
-      return [..._filterList];
-    else
+    if (_subcategoryFilter || _sortingFilterClicked) {
+      return [...productList];
+    } else {
       return [..._productlist];
+    }
   }
 
   List<CategoryModel> get mainCategoryList {
@@ -20,6 +25,7 @@ class HomeProductProvider with ChangeNotifier {
           imageUrl: "assets/Images/fruits.png",
           title: "Fruits",
           subCategory: [
+            "All",
             "Pepsi",
             "Cola",
             "Sprite",
@@ -55,6 +61,7 @@ class HomeProductProvider with ChangeNotifier {
           imageUrl: "assets/Images/fruits.png",
           title: "Vegetables",
           subCategory: [
+            "All",
             "Pepsi",
             "Cola",
             "Sprite",
@@ -70,256 +77,142 @@ class HomeProductProvider with ChangeNotifier {
   void fetchItem() {
     _productlist = [
       ProductModel(
-        id: 0,
-        title: "Kiwi",
-        imageUrl: [
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png"
-        ],
-        description: "Fresh Kiwi and deliverable at time\n\nFull of nutrition",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 100,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 2400,
-            newModifiedPrice: 1800,
-          )
-        ],
-        rating: 4.5,
-        ratingPersonNo: 400,
-      ),
+          id: 0,
+          title: "Kiwi",
+          imageUrl: [
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png"
+          ],
+          description:
+              "Fresh Kiwi and deliverable at time\n\nFull of nutrition",
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 100,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 2400,
+              newModifiedPrice: 1800,
+            )
+          ],
+          rating: 4.5,
+          ratingPersonNo: 400,
+          category: "Fruits",
+          subCategory: "Maaza"),
       ProductModel(
-        id: 1,
-        title: "Onion",
-        imageUrl: ["assets/Images/veggies.png", "assets/Images/fruits.png"],
-        description: "Fresh Onion and deliverable at time",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 200,
-            newModifiedPrice: 600,
-          ),
-        ],
-        rating: 0.0,
-        ratingPersonNo: 0,
-      ),
+          id: 3,
+          title: "Pepsi",
+          imageUrl: ["assets/Images/veggies.png"],
+          description: "Fresh Onion and deliverable at time",
+          rating: 0.0,
+          ratingPersonNo: 0,
+          productQuantityList: [
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 400,
+              newModifiedPrice: 600,
+            )
+          ],
+          tag: "Hot",
+          category: "Fruits",
+          subCategory: "Pepsi"),
       ProductModel(
-        id: 2,
-        title: "Kiwi",
-        imageUrl: ["assets/Images/fruits.png"],
-        description: "Fresh Kiwi and deliverable at time",
-        rating: 4.5,
-        ratingPersonNo: 400,
-        tag: "Sale",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 300,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
+          id: 5,
+          title: "Cola",
+          imageUrl: [
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png"
+          ],
+          description: "Fresh Onion and deliverable at time",
+          rating: 0.0,
+          ratingPersonNo: 0,
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 600,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 800,
+              newModifiedPrice: 600,
+            )
+          ],
+          tag: "Hot",
+          category: "Fruits",
+          subCategory: "Cola"),
       ProductModel(
-        id: 3,
-        title: "Onion",
-        imageUrl: ["assets/Images/veggies.png"],
-        description: "Fresh Onion and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 400,
-            newModifiedPrice: 600,
-          )
-        ],
-        tag: "Hot",
-      ),
+          id: 7,
+          title: "Maaza",
+          imageUrl: [
+            "assets/Images/veggies.png",
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png"
+          ],
+          description: "Fresh Onion and deliverable at time",
+          rating: 4.5,
+          ratingPersonNo: 400,
+          tag: "Hot",
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 800,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 800,
+              newModifiedPrice: 600,
+            )
+          ],
+          category: "Fruits",
+          subCategory: "Maaza"),
       ProductModel(
-        id: 4,
-        title: "Potato",
-        imageUrl: ["assets/Images/veggies.png"],
-        description: "Fresh Kiwi and deliverable at time",
-        rating: 4.5,
-        ratingPersonNo: 400,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 500,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
+          id: 9,
+          title: "Mazza",
+          imageUrl: ["assets/Images/veggies.png"],
+          description: "Fresh Onion and deliverable at time",
+          rating: 0.0,
+          ratingPersonNo: 0,
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 1000,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 800,
+              newModifiedPrice: 600,
+            ),
+            ProductListModel(
+              quantity: "4 Kg",
+              price: 800,
+            )
+          ],
+          category: "Fruits",
+          subCategory: "Maaza"),
       ProductModel(
-        id: 5,
-        title: "Banana",
-        imageUrl: [
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png"
-        ],
-        description: "Fresh Onion and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-        tag: "Hot",
-      ),
-      ProductModel(
-        id: 6,
-        title: "Kiwi",
-        imageUrl: ["assets/Images/fruits.png"],
-        description: "Fresh Kiwi and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 700,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-        tag: "Sale",
-      ),
-      ProductModel(
-        id: 7,
-        title: "Onion",
-        imageUrl: [
-          "assets/Images/veggies.png",
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png"
-        ],
-        description: "Fresh Onion and deliverable at time",
-        rating: 4.5,
-        ratingPersonNo: 400,
-        tag: "Hot",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 800,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
-      ProductModel(
-        id: 8,
-        title: "Kiwi",
-        imageUrl: ["assets/Images/fruits.png"],
-        description: "Fresh Kiwi and deliverable at time",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 900,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-          ),
-          ProductListModel(
-            quantity: "4 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-        rating: 4.5,
-        ratingPersonNo: 400,
-        tag: "Sale",
-      ),
-      ProductModel(
-        id: 9,
-        title: "Onion",
-        imageUrl: ["assets/Images/veggies.png"],
-        description: "Fresh Onion and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 1000,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "4 Kg",
-            price: 800,
-          )
-        ],
-      ),
-      ProductModel(
-        id: 10,
-        title: "Kiwi",
-        imageUrl: ["assets/Images/fruits.png"],
-        description: "Fresh Kiwi and deliverable at time",
-        rating: 4.5,
-        ratingPersonNo: 400,
-        tag: "Sale",
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 1100,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
-      ProductModel(
-        id: 11,
-        title: "Onion",
-        imageUrl: ["assets/Images/veggies.png"],
-        description: "Fresh Onion and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 1200,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
+          id: 11,
+          title: "Pepsi",
+          imageUrl: ["assets/Images/veggies.png"],
+          description: "Fresh Onion and deliverable at time",
+          rating: 0.0,
+          ratingPersonNo: 0,
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 1200,
+              newModifiedPrice: 900,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 800,
+              newModifiedPrice: 600,
+            )
+          ],
+          category: "Fruits",
+          subCategory: "Pepsi"),
       ProductModel(
         id: 12,
         title: "Kiwi",
@@ -332,7 +225,7 @@ class HomeProductProvider with ChangeNotifier {
           ProductListModel(
             quantity: "300 gram",
             price: 1300,
-            newModifiedPrice: 600,
+            newModifiedPrice: 300,
           ),
           ProductListModel(
             quantity: "1 Kg",
@@ -342,54 +235,105 @@ class HomeProductProvider with ChangeNotifier {
         ],
       ),
       ProductModel(
-        id: 13,
-        title: "Onion",
-        imageUrl: [
-          "assets/Images/veggies.png",
-          "assets/Images/fruits.png",
-          "assets/Images/fruits.png"
-        ],
-        description: "Fresh Onion and deliverable at time",
-        rating: 0.0,
-        ratingPersonNo: 0,
-        productQuantityList: [
-          ProductListModel(
-            quantity: "300 gram",
-            price: 1400,
-            newModifiedPrice: 600,
-          ),
-          ProductListModel(
-            quantity: "1 Kg",
-            price: 800,
-            newModifiedPrice: 600,
-          )
-        ],
-      ),
+          id: 13,
+          title: "Pepsi",
+          imageUrl: [
+            "assets/Images/veggies.png",
+            "assets/Images/fruits.png",
+            "assets/Images/fruits.png"
+          ],
+          description: "Fresh Onion and deliverable at time",
+          rating: 0.0,
+          ratingPersonNo: 0,
+          productQuantityList: [
+            ProductListModel(
+              quantity: "300 gram",
+              price: 1400,
+              newModifiedPrice: 1200,
+            ),
+            ProductListModel(
+              quantity: "1 Kg",
+              price: 800,
+              newModifiedPrice: 600,
+            )
+          ],
+          category: "Fruits",
+          subCategory: "Pepsi"),
     ];
   }
 
-  Future<void> filter(int flag) async {
-    if (flag == 0) // flag ==0 means sort by price in low to high
-    {
-      _productlist.sort((a, b) => a.productQuantityList[0].price
-          .compareTo(b.productQuantityList[0].price));
-    } else if (flag == 1) //sort by price in high to low
-    {
-      final ascending = _productlist
-        ..sort((a, b) => (a.productQuantityList[0].price)
-            .compareTo(b.productQuantityList[0].price));
-      ascending.reversed;
+  Future<void> sortingFilter(int flag) async {
+    List<ProductModel> _templist = [];
+    _templist = _subcategoryFilter ? _filterList : _productlist;
+    _sortingFilterFlag = flag;
 
-      _productlist.forEach((element) {
-        print(element.id);
-      });
-    } else if (flag == 2) //popularity
+    if (flag == -1) // this means no filter is selected
     {
-      _productlist.sort((a, b) => a.rating.compareTo(b.rating));
+      _sortingFilterClicked = false;
+    } else {
+      _sortingFilterClicked = true;
+      switch (flag) {
+        case 0: // flag ==0 means sort by price in low to high ordre
+
+          _filterList = _templist
+            ..sort((a, b) => (a.productQuantityList[0].price)
+                .compareTo(b.productQuantityList[0].price));
+          break;
+
+        case 1: //sort by price in high to low order
+
+          _filterList = _templist
+            ..sort((a, b) => (a.productQuantityList[0].price)
+                .compareTo(b.productQuantityList[0].price));
+          _filterList = List.from(_filterList.reversed);
+          break;
+
+        case 2: //popularity
+          _filterList = _templist..sort((b, a) => a.rating.compareTo(b.rating));
+          break;
+
+        default:
+          _filterList = _templist.where((element) {
+            final _productItem = element.productQuantityList[0];
+            return _productItem.newModifiedPrice != null &&
+                _productItem.newModifiedPrice > _productItem.price;
+          }).toList(); //this line will help us show only discounted price and whose new modifiedPrice is less than actual price
+
+          _filterList = _filterList
+            ..sort((a, b) => (a.productQuantityList[0].newModifiedPrice)
+                .compareTo(b.productQuantityList[0].newModifiedPrice));
+          _filterList = List.from(_filterList.reversed);
+          break;
+      }
     }
     notifyListeners();
   }
 
+  void categoryFilter(String categoryFlag, String subcategoryFlag) {
+    List<ProductModel> _temp = [];
+    _temp = _productlist;
+
+    if (subcategoryFlag != "All") {
+      _subcategoryFilter = true;
+
+      _filterList = _temp
+          .where((element) =>
+              element.subCategory == subcategoryFlag &&
+              element.category == categoryFlag)
+          .toList();
+    } else {
+      _subcategoryFilter = false;
+
+      _filterList = _temp.toList();
+    }
+
+    if (_sortingFilterFlag >= 0) {
+      sortingFilter(_sortingFilterFlag);
+    } else
+      notifyListeners();
+  }
+
+// used by productdetail screen
   ProductModel findById(int id) {
     return _productlist.firstWhere((prod) => prod.id == id);
   }

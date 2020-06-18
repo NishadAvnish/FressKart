@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Screen/screenselector.dart';
+import 'package:freshkart/routes.dart';
 import 'package:provider/provider.dart';
 import 'Provider/homeproduct_provider.dart';
 
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
         ),
-        home: ScreenSelector(),
+        initialRoute: "/screenSelector",
+        onGenerateRoute: genereateRoute,
       ),
     );
   }
