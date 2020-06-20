@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/category_model.dart';
@@ -35,7 +36,7 @@ class _SubCategoryWidgetState extends State<SubCategoryWidget> {
                     _selectedIndex = index;
                   });
 
-                  Provider.of<HomeProductProvider>(context, listen: false)
+                  Provider.of<HomeMainCategoryProvider>(context, listen: false)
                       .categoryFilter(
                           "Fruits", widget.categoryItem.subCategory[index]);
                 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Screen/categorywise_screen.dart';
 import 'package:freshkart/Util/color.dart';
@@ -10,7 +11,7 @@ class HomeCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-    final _homeProvider = Provider.of<HomeProductProvider>(context);
+    final _homeMainCategoryProvider = Provider.of<HomeMainCategoryProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
       child: Column(
@@ -56,12 +57,12 @@ class HomeCategoryWidget extends StatelessWidget {
                         child: Column(children: [
                           Expanded(
                               flex: 3,
-                              child: Image.asset(_homeProvider
+                              child: Image.asset(_homeMainCategoryProvider
                                   .mainCategoryList[index].imageUrl)),
                           Flexible(
                             flex: 1,
                             child: Text(
-                              _homeProvider.mainCategoryList[index].title,
+                              _homeMainCategoryProvider.mainCategoryList[index].title,
                               style: TextStyle(fontSize: 11.5),
                             ),
                           )

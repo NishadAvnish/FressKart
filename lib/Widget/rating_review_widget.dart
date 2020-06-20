@@ -31,7 +31,7 @@ class ReviewWidget extends StatelessWidget {
               Container(
                 width: _size.width / 3,
                 height: 100,
-                child: product.ratingPersonNo == null
+                child: product.rating.personno == null
                     ? Container()
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -40,14 +40,14 @@ class ReviewWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                product.rating.toString(),
+                                product.rating.averageRating.toString(),
                                 style: Theme.of(context).textTheme.headline5,
                               ),
                               Icon(Icons.star),
                             ],
                           ),
                           Text(
-                            "333323124",
+                            product.rating.personno.toString(),
                             style: Theme.of(context).textTheme.bodyText2,
                           ),
                         ],
@@ -66,37 +66,41 @@ class ReviewWidget extends StatelessWidget {
                     children: [
                       LinearProgress(
                           color: mainColor,
-                          trail: "21215",
+                          trail: product.rating.five,
                           heading: "5",
-                          progress: 100),
+                          progress:
+                              product.rating.five / product.rating.personno),
                       LinearProgress(
                           color: mainColor,
-                          trail: "12000",
+                          trail: product.rating.four,
                           heading: "4",
-                          progress: 100),
+                          progress:
+                              product.rating.four / product.rating.personno),
                       LinearProgress(
                           color: mainColor,
-                          trail: "800",
+                          trail: product.rating.three,
                           heading: "3",
-                          progress: 100),
+                          progress:
+                              product.rating.three / product.rating.personno),
                       LinearProgress(
                           color: Colors.orange,
-                          trail: "400",
+                          trail: product.rating.two,
                           heading: "2",
-                          progress: 100),
+                          progress:
+                              product.rating.two / product.rating.personno),
                       LinearProgress(
                           color: Colors.red,
-                          trail: "100",
+                          trail: product.rating.one,
                           heading: "1",
-                          progress: 100),
+                          progress:
+                              product.rating.one / product.rating.personno),
                     ]),
               )
             ],
           ),
-          SizedBox(height: 12,),
-
-          
-
+          SizedBox(
+            height: 12,
+          ),
         ]);
   }
 }

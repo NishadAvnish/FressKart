@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Screen/productdetail.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
-import '../fadetransition.dart';
 
 class FeatureItem extends StatelessWidget {
   final ProductModel productItem;
@@ -11,7 +9,8 @@ class FeatureItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed("detailScreen",arguments: productItem.id),
+      onTap: () => Navigator.of(context)
+          .pushNamed("detailScreen", arguments: productItem.id),
       child: MediaQuery.removePadding(
           removeTop: true,
           context: context,
@@ -47,9 +46,10 @@ class FeatureItem extends StatelessWidget {
                                   )),
                               Text(
                                   "Rating: " +
-                                      productItem.rating.toString() +
+                                      productItem.rating.averageRating
+                                          .toString() +
                                       "  (" +
-                                      productItem.ratingPersonNo.toString() +
+                                      productItem.rating.personno.toString() +
                                       ")",
                                   style: TextStyle(
                                       fontStyle: FontStyle.normal,
@@ -111,8 +111,6 @@ class FeatureItem extends StatelessWidget {
                             color: secondaryColor,
                           ),
                           child: Text(productItem.tag))),
-              Positioned(
-                  top: 0, right: 0, child: Text(productItem.id.toString()))
             ]),
           )),
     );

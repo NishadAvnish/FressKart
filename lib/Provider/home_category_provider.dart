@@ -1,12 +1,31 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:freshkart/model/category_model.dart';
 import 'package:freshkart/model/productmodel.dart';
-import '../model/productmodel.dart';
 
-class HomeProductProvider with ChangeNotifier {
+class HomeMainCategoryProvider with ChangeNotifier {
+  List<CategoryModel> _mainCategoryList = [];
   List<ProductModel> _productlist = [];
 
+  bool _sortingFilterClicked = false;
+  int _sortingFilterFlag = -1;
+  String _subCategoryFlag = "All";
+  String _categoryFlag;
+  List<ProductModel> _filterList = [];
+
   List<ProductModel> get productList {
-    return [..._productlist];
+    if (_sortingFilterClicked) {
+      return [..._filterList];
+    } else {
+      return [..._productlist];
+    }
+  }
+
+  void disposeVariables() {
+    //this will dispose all the variables on which the filter opertion either category or sorting filters works
+    _sortingFilterClicked = false;
+    _sortingFilterFlag = -1;
+    _subCategoryFlag = "All";
+    _filterList = [];
   }
 
   void fetchItem() {
@@ -35,7 +54,7 @@ class HomeProductProvider with ChangeNotifier {
         subCategory: "Maaza",
         rating: RatingModel(
             averageRating: 4.3,
-            personno: 39000,
+            personno: 135000,
             one: 0,
             two: 6000,
             three: 12000,
@@ -59,7 +78,7 @@ class HomeProductProvider with ChangeNotifier {
         subCategory: "Pepsi",
         rating: RatingModel(
             averageRating: 4.3,
-            personno: 32000,
+            personno: 8000,
             one: 0,
             two: 6000,
             three: 12000,
@@ -251,7 +270,138 @@ class HomeProductProvider with ChangeNotifier {
     ];
   }
 
-// used by productdetail screen
+  List<CategoryModel> get mainCategoryList {
+    _mainCategoryList = [
+      CategoryModel(
+          imageUrl: "assets/Images/fruits.png",
+          title: "Fruits",
+          subCategory: [
+            "All",
+            "Pepsi",
+            "Cola",
+            "Sprite",
+            "Maaza",
+            "Dew",
+            "Biscuits britania",
+            "Parle-G"
+          ]),
+      CategoryModel(imageUrl: "assets/Images/veggies.png", title: "Vegetables"),
+      CategoryModel(
+          imageUrl: "assets/Images/oilandmasala.png",
+          title: "Oil, Grains and Masala"),
+      CategoryModel(
+          imageUrl: "assets/Images/beverages.png",
+          title: "Beverages",
+          subCategory: [
+            "Pepsi",
+            "Cola",
+            "Sprite",
+            "Maaza",
+            "Dew",
+            "Biscuits britania",
+            "Parle-G"
+          ]),
+      CategoryModel(imageUrl: "assets/Images/fruits.png", title: "Fruits"),
+      CategoryModel(imageUrl: "assets/Images/veggies.png", title: "Vegetables"),
+      CategoryModel(
+          imageUrl: "assets/Images/oilandmasala.png",
+          title: "Oil, Grains and Masala"),
+      CategoryModel(
+          imageUrl: "assets/Images/beverages.png", title: "Beverages"),
+      CategoryModel(
+          imageUrl: "assets/Images/fruits.png",
+          title: "Vegetables",
+          subCategory: [
+            "All",
+            "Pepsi",
+            "Cola",
+            "Sprite",
+            "Maaza",
+            "Dew",
+            "Biscuits britania",
+            "Parle-G"
+          ]),
+    ];
+    return _mainCategoryList;
+  }
+
+  List<ProductModel> _ifCategoryFilterSelected() {
+    if (_subCategoryFlag != null && _subCategoryFlag != "All") {
+      return _productlist
+          .where((element) =>
+              element.subCategory == _subCategoryFlag &&
+              element.category == _categoryFlag)
+          .toList();
+    } else {
+      return _productlist.toList();
+    }
+  }
+
+  void _sortingFilterHelper() {
+    List<ProductModel> _templist = [];
+    //tpcheck whether any category is selected or not
+    _templist = _ifCategoryFilterSelected();
+
+    // this all the below code is for sorting Filter
+    if (_sortingFilterFlag == -1) // this means no filter is selected
+    {
+      _sortingFilterClicked = true;
+      _filterList = _templist;
+    } else {
+      _sortingFilterClicked = true;
+      switch (_sortingFilterFlag) {
+        case 0: // flag ==0 means sort by price in low to high ordre
+
+          _filterList = _templist
+            ..sort((a, b) => (a.productQuantityList[0].price)
+                .compareTo(b.productQuantityList[0].price));
+          break;
+
+        case 1: //sort by price in high to low order
+
+          _filterList = _templist
+            ..sort((a, b) => (a.productQuantityList[0].price)
+                .compareTo(b.productQuantityList[0].price));
+          _filterList = List.from(_filterList.reversed);
+          break;
+
+        case 2: //popularity
+          _filterList = _templist
+            ..sort((b, a) =>
+                a.rating.averageRating.compareTo(b.rating.averageRating));
+          break;
+
+        default:
+          _filterList = _templist.where((element) {
+            final _productItem = element.productQuantityList[0];
+            return _productItem.newModifiedPrice != null &&
+                _productItem.newModifiedPrice > _productItem.price;
+          }).toList(); //this line will help us show only discounted price and whose new modifiedPrice is less than actual price
+
+          _filterList = _filterList
+            ..sort((a, b) => (a.productQuantityList[0].newModifiedPrice)
+                .compareTo(b.productQuantityList[0].newModifiedPrice));
+          _filterList = List.from(_filterList.reversed);
+          break;
+      }
+    }
+  }
+
+  Future<void> sortingFilter(int flag) async {
+    _sortingFilterFlag = flag;
+    _sortingFilterHelper();
+    notifyListeners();
+  }
+
+  void categoryFilter(String categoryFlag, String subcategoryFlag) {
+    _subCategoryFlag = subcategoryFlag;
+    _categoryFlag = categoryFlag;
+    _sortingFilterClicked = true;
+    _sortingFilterHelper();
+    notifyListeners();
+  }
+
+  // used by productdetail screen
   ProductModel findById(int id) {
     return _productlist.firstWhere((prod) => prod.id == id);
   }

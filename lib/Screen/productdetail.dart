@@ -6,7 +6,7 @@ import 'package:freshkart/Widget/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
 import '../Widget/productdetail_pageview.dart';
-import '../Widget/productdetail_incdec.dart';
+import '../Widget/quantity_incdec.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -42,88 +42,91 @@ class _ProductDetailState extends State<ProductDetail> {
         height:
             _size.height - kToolbarHeight - MediaQuery.of(context).padding.top,
         width: _size.width,
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Stack(
                 children: <Widget>[
-                  Stack(
-                    children: <Widget>[
-                      // the tag show tag on top left i.e is the item have any tag ex. Hot, Sale ,x% Off
-                      _tag(),
-                      //This productDetailPageView show image carousal on top
-                      ProductDetailPageView(product: _product)
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  // the tag show tag on top left i.e is the item have any tag ex. Hot, Sale ,x% Off
+                  _tag(),
+                  //This productDetailPageView show image carousal on top
+                  ProductDetailPageView(product: _product),
+                  Positioned(
+                    bottom: 2,
+                    right: 5,
+                    child: Transform.translate(
+                      offset: Offset(0, 15),
+                      child: MaterialButton(
+                        onPressed: () {},
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0)),
+                        color: mainColor,
+                        child: Text("Add To Cart"),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(height: 12),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                                width: _size.width * 0.6,
-                                constraints: BoxConstraints(maxWidth: 300),
-                                child: Text(
-                                  _product.title,
-                                  style: Theme.of(context).textTheme.headline6,
-                                )),
-                            _price(),
-                          ],
-                        ),
-                        SizedBox(height: 24),
-                        Text(
-                          "Quantity",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        IncDec(_product),
-                        SizedBox(height: 15),
-                        Text(
-                          "Description",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(color: Colors.black),
-                        ),
-                        SizedBox(height: 12),
                         Container(
                             width: _size.width * 0.6,
                             constraints: BoxConstraints(maxWidth: 300),
                             child: Text(
-                              _product.description,
-                              style: Theme.of(context).textTheme.bodyText2,
+                              _product.title,
+                              style: Theme.of(context).textTheme.headline6,
                             )),
-                        Divider(color: secondaryColor),
-                        SizedBox(height: 12),
-                        ReviewWidget(
-                          product: _product,
-                        ),
+                        _price(),
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 24),
+                    Text(
+                      "Quantity",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.black),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    IncDec(_product),
+                    SizedBox(height: 15),
+                    Text(
+                      "Description",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: Colors.black),
+                    ),
+                    SizedBox(height: 12),
+                    Container(
+                        width: _size.width * 0.6,
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: Text(
+                          _product.description,
+                          style: Theme.of(context).textTheme.bodyText2,
+                        )),
+                    Divider(color: secondaryColor),
+                    SizedBox(height: 12),
+                    ReviewWidget(
+                      product: _product,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              bottom: 15,
-              right: 15,
-              child: FloatingActionButton.extended(
-                onPressed: () {},
-                label: Text("Add To Cart"),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -173,18 +176,19 @@ class _ProductDetailState extends State<ProductDetail> {
                                 .toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            decoration:
-                                _product.productQuantityList[_index].newModifiedPrice !=
-                                        null
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                            color:
-                                _product.productQuantityList[_index].newModifiedPrice !=
-                                        null
-                                    ? Colors.grey
-                                    : Colors.black)),
+                            decoration: _product.productQuantityList[_index]
+                                        .newModifiedPrice !=
+                                    null
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            color: _product.productQuantityList[_index]
+                                        .newModifiedPrice !=
+                                    null
+                                ? Colors.grey
+                                : Colors.black)),
                     //this conditional operation work if there is new modified price that means the tag is OFF
-                    _product.productQuantityList[_index].newModifiedPrice != null
+                    _product.productQuantityList[_index].newModifiedPrice !=
+                            null
                         ? Text(
                             " ₹ " +
                                 (listenedUnitValue *

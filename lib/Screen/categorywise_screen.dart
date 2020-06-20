@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Provider/homeproduct_provider.dart';
+import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/list_items.dart';
 import 'package:freshkart/Widget/subcategorylist.dart';
@@ -19,7 +19,7 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   bool _isLoading;
   bool _filterClicked = false;
   int _selectedFilterIndex;
-  HomeProductProvider _homeProvider;
+  HomeMainCategoryProvider _homeMainCategoryProvider;
   AnimationController _controller;
 
   @override
@@ -31,11 +31,26 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
       vsync: this,
       duration: Duration(milliseconds: 200),
     );
+    _fetchItems();
+  }
+
+  void _fetchItems() {
+    if (this.mounted) {
+      Provider.of<HomeMainCategoryProvider>(context, listen: false).fetchItem();
+      _isLoading = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _homeMainCategoryProvider.disposeVariables();
+    _controller?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _homeProvider = Provider.of<HomeProductProvider>(context);
+    _homeMainCategoryProvider = Provider.of<HomeMainCategoryProvider>(context);
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -72,14 +87,14 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
             child: _filter(_mediaQuery),
           ),
           SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 2.0, vertical: 8),
             sliver: SliverToBoxAdapter(
-                child:
-                    _homeProvider.mainCategoryList[widget.index].subCategory ==
-                            null
-                        ? Container()
-                        : SubCategoryWidget(
-                            _homeProvider.mainCategoryList[widget.index])),
+                child: _homeMainCategoryProvider
+                            .mainCategoryList[widget.index].subCategory ==
+                        null
+                    ? Container()
+                    : SubCategoryWidget(_homeMainCategoryProvider
+                        .mainCategoryList[widget.index])),
           ),
           SliverPadding(
             padding: const EdgeInsets.only(
@@ -88,10 +103,10 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
                 delegate: SliverChildBuilderDelegate(
                   (context, int index) {
                     return FeatureItem(
-                      productItem: _homeProvider.productList[index],
+                      productItem: _homeMainCategoryProvider.productList[index],
                     );
                   },
-                  childCount: _homeProvider.productList.length,
+                  childCount: _homeMainCategoryProvider.productList.length,
                 ),
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 190,
@@ -156,7 +171,7 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
           });
         }
 
-        Provider.of<HomeProductProvider>(context, listen: false)
+        Provider.of<HomeMainCategoryProvider>(context, listen: false)
             .sortingFilter(_selectedFilterIndex);
       },
       child: ChoiceChip(

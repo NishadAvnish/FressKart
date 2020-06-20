@@ -55,7 +55,7 @@ class _IncDecState extends State<IncDec> {
             SizedBox(width: 20),
             InkWell(
               onTap: () {
-                productUnit.value += 1;
+                if (productUnit.value < 10) productUnit.value += 1;
               },
               child: Container(
                   height: 30,
