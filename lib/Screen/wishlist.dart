@@ -88,7 +88,7 @@ class _WishListState extends State<WishList>
         SliverToBoxAdapter(
           child: Card(
             child: Container(
-              padding: EdgeInsets.only(left: 5.0),
+              padding: EdgeInsets.only(left: 12.0),
               height: 40,
               width: double.infinity,
               decoration:
@@ -96,7 +96,7 @@ class _WishListState extends State<WishList>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Sub Total: Rs ${1230}"),
+                  Text("Sub Total: Rs ${1230}",style: Theme.of(context).textTheme.subtitle2),
                   MaterialButton(
                       onPressed: () {},
                       color: ternaryColor,
