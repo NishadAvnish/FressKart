@@ -35,6 +35,7 @@ class ReviewWidget extends StatelessWidget {
                     ? Container()
                     : Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

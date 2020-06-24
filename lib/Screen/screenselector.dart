@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/home.dart';
+import 'package:freshkart/Screen/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
 
 import 'categorywise_screen.dart';
@@ -26,7 +27,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
     _screenList = [
       Home(),
       CategoryWiseDetail(index: 0),
-      Home(),
+      WishList(),
       CategoryWiseDetail(index: 0)
     ];
   }
@@ -77,7 +78,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           bottomNavigationItem(Icons.home, "Home", 0),
           bottomNavigationItem(Icons.search, "Search", 1),
-          bottomNavigationItem(Icons.add_shopping_cart, "Wishlist", 2),
+          bottomNavigationItem(Icons.add_shopping_cart, "Cart", 2),
           bottomNavigationItem(Icons.assignment, "Order", 3),
         ]),
       ),

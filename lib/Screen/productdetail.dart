@@ -30,6 +30,12 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   @override
+  void dispose() {
+    productUnit.value = 1;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
@@ -56,13 +62,13 @@ class _ProductDetailState extends State<ProductDetail> {
                     bottom: 2,
                     right: 5,
                     child: Transform.translate(
-                      offset: Offset(0, 15),
+                      offset: Offset(0, 55),
                       child: MaterialButton(
                         onPressed: () {},
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0)),
-                        color: mainColor,
+                        color: ternaryColor,
                         child: Text("Add To Cart"),
                       ),
                     ),
@@ -76,16 +82,16 @@ class _ProductDetailState extends State<ProductDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(height: 12),
+                    Container(
+                        width: _size.width * 0.6,
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: Text(
+                          _product.title,
+                          style: Theme.of(context).textTheme.headline6,
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
-                            width: _size.width * 0.6,
-                            constraints: BoxConstraints(maxWidth: 300),
-                            child: Text(
-                              _product.title,
-                              style: Theme.of(context).textTheme.headline6,
-                            )),
                         _price(),
                       ],
                     ),

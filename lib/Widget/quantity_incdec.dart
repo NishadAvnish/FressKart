@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
 import '../Provider/notifier_values.dart';
 
@@ -38,9 +39,12 @@ class _IncDecState extends State<IncDec> {
                             }
                           : null,
                       child: Container(
-                          height: 30,
-                          width: 30,
-                          decoration: BoxDecoration(border: Border.all()),
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              color: ternaryColor,
+                              borderRadius: BorderRadius.circular(8.0)),
                           child: Icon(Icons.remove)));
                 }),
             SizedBox(width: 20),
@@ -52,15 +56,18 @@ class _IncDecState extends State<IncDec> {
                     style: Theme.of(context).textTheme.bodyText1,
                   );
                 }),
-            SizedBox(width: 20),
+            SizedBox(width: 18),
             InkWell(
               onTap: () {
                 if (productUnit.value < 10) productUnit.value += 1;
               },
               child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(border: Border.all()),
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                      border: Border.all(),
+                      color: ternaryColor,
+                      borderRadius: BorderRadius.circular(8.0)),
                   child: Icon(Icons.add)),
             ),
           ],
