@@ -85,10 +85,10 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                 childCount: _homeProvider.productList.length,
               ),
               gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 190,
+                  maxCrossAxisExtent: 200,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 10,
-                  childAspectRatio: 2 / 2.7)),
+                  childAspectRatio: 2 / 2.8)),
         ),
         SliverToBoxAdapter(child: SizedBox(height: 55))
       ],

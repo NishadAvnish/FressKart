@@ -3,6 +3,7 @@ import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/home.dart';
 import 'package:freshkart/Screen/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/appDraw.dart';
 
 import 'categorywise_screen.dart';
 
@@ -35,6 +36,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       body: Stack(
         children: <Widget>[
           Positioned.fill(

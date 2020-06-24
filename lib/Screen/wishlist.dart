@@ -54,69 +54,69 @@ class _WishListState extends State<WishList>
   Widget build(BuildContext context) {
     _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishListProvider.wishList;
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          floating: true,
-          title: Text(
-            "Shoping Cart",
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-          centerTitle: true,
-          leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        ),
-        SliverToBoxAdapter(
-            child: Card(
-          elevation: 3.0,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
-            width: double.infinity,
-            constraints: BoxConstraints(
-              maxHeight: 180,
-              minHeight: 120,
+    return Scaffold(
+          body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: Text(
+              "Shoping Cart",
+              style: TextStyle(fontStyle: FontStyle.italic),
             ),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _topDetaileItem("MRP", "Rs" + "1234", Colors.black),
-                  _topDetaileItem("Discount", "- Rs" + "100", mainColor),
-                  _topDetaileItem("Delivery", "Rs" + "80", mainColor),
-                  Divider(),
-                  _topDetaileItem("Sub Total", "Rs" + "1214", Colors.black),
-                ]),
           ),
-        )),
-        SliverToBoxAdapter(
-          child: Card(
+          SliverToBoxAdapter(
+              child: Card(
+            elevation: 3.0,
             child: Container(
-              padding: EdgeInsets.only(left: 5.0),
-              height: 40,
+              padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
               width: double.infinity,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(3.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Sub Total: Rs ${1230}"),
-                  MaterialButton(
-                      onPressed: () {},
-                      color: ternaryColor,
-                      child: Text("Proceed To CheckOut")),
-                ],
+              constraints: BoxConstraints(
+                maxHeight: 180,
+                minHeight: 120,
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _topDetaileItem("MRP", "Rs" + "1234", Colors.black),
+                    _topDetaileItem("Discount", "- Rs" + "100", mainColor),
+                    _topDetaileItem("Delivery", "Rs" + "80", mainColor),
+                    Divider(),
+                    _topDetaileItem("Sub Total", "Rs" + "1214", Colors.black),
+                  ]),
+            ),
+          )),
+          SliverToBoxAdapter(
+            child: Card(
+              child: Container(
+                padding: EdgeInsets.only(left: 5.0),
+                height: 40,
+                width: double.infinity,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(3.0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text("Sub Total: Rs ${1230}"),
+                    MaterialButton(
+                        onPressed: () {},
+                        color: ternaryColor,
+                        child: Text("Proceed To CheckOut")),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(top: 12),
-          sliver: SliverAnimatedList(
-              key: _listKey,
-              initialItemCount: _wishlist.length,
-              itemBuilder: (context, index, animation) =>
-                  _buildItem(animation, index)),
-        ),
-      ],
+          SliverPadding(
+            padding: EdgeInsets.only(top: 12),
+            sliver: SliverAnimatedList(
+                key: _listKey,
+                initialItemCount: _wishlist.length,
+                itemBuilder: (context, index, animation) =>
+                    _buildItem(animation, index)),
+          ),
+        ],
+      ),
     );
   }
 
