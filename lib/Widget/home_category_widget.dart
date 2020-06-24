@@ -33,7 +33,6 @@ class HomeCategoryWidget extends StatelessWidget {
             context: context,
             removeTop: true,
             child: Container(
-              // color: Colors.blue,
               constraints: BoxConstraints(
                 maxHeight: 500,
                 minHeight: 130,
@@ -49,8 +48,8 @@ class HomeCategoryWidget extends StatelessWidget {
                     childAspectRatio: 2.5 / 2.5),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Navigator.of(context).push(fadeTransition(
-                        child: CategoryWiseDetail(index: index))),
+                    onTap: () => Navigator.of(context)
+                        .pushNamed("categoryScreen", arguments: index),
                     child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),

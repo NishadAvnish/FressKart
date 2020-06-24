@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/appdrawer.dart';
 import 'package:freshkart/Widget/list_items.dart';
 import 'package:freshkart/Widget/subcategorylist.dart';
 import 'package:provider/provider.dart';
@@ -54,6 +55,7 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
+      drawer: AppDrawer(),
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(

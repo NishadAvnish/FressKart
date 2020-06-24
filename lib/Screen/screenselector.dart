@@ -3,7 +3,7 @@ import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/home.dart';
 import 'package:freshkart/Screen/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/Widget/appDraw.dart';
+import 'package:freshkart/Widget/appdrawer.dart';
 
 import 'categorywise_screen.dart';
 
@@ -14,7 +14,6 @@ class ScreenSelector extends StatefulWidget {
 
 class _ScreenSelectorState extends State<ScreenSelector>
     with SingleTickerProviderStateMixin {
-  int _selectedBottomNavIndex;
   List<Widget> _screenList = [];
   double _previousValue = 0.0;
 
@@ -22,7 +21,6 @@ class _ScreenSelectorState extends State<ScreenSelector>
   @override
   void initState() {
     super.initState();
-    _selectedBottomNavIndex = 0;
     animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
     _screenList = [
@@ -37,37 +35,44 @@ class _ScreenSelectorState extends State<ScreenSelector>
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AppDrawer(),
-      body: Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: CustomScrollView(slivers: [
-              SliverFillRemaining(child: _screenList[_selectedBottomNavIndex]),
-            ]),
-          ),
-          Positioned(
-            bottom: 0,
-            child: ValueListenableBuilder(
-                valueListenable: offset,
-                builder: (context, value, _) {
-                  final _isMovable = _previousValue;
-                  _previousValue = value;
-                  value > _isMovable
-                      ? animationController.reverse()
-                      : animationController.forward();
-                  return SlideTransition(
-                    position:
-                        Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0))
-                            .animate(animationController),
-                    child: _customBottomNavigation(context),
-                  );
-                }),
-          )
-        ],
-      ),
+      body: ValueListenableBuilder(
+          valueListenable: selectedBottomNavIndex,
+          builder: (context, selectedBottomNavIndexValue, _) {
+            return Stack(
+              children: <Widget>[
+                Positioned.fill(
+                  child: CustomScrollView(slivers: [
+                    SliverFillRemaining(
+                        child: _screenList[selectedBottomNavIndexValue]),
+                  ]),
+                ),
+                Positioned(
+                  bottom: 0,
+                  child: ValueListenableBuilder(
+                      valueListenable: offset,
+                      builder: (context, value, _) {
+                        final _isMovable = _previousValue;
+                        _previousValue = value;
+                        value > _isMovable
+                            ? animationController.reverse()
+                            : animationController.forward();
+                        return SlideTransition(
+                          position: Tween<Offset>(
+                                  begin: Offset(0, 1), end: Offset(0, 0))
+                              .animate(animationController),
+                          child: _customBottomNavigation(
+                              context, selectedBottomNavIndexValue),
+                        );
+                      }),
+                )
+              ],
+            );
+          }),
     );
   }
 
-  Widget _customBottomNavigation(BuildContext context) {
+  Widget _customBottomNavigation(
+      BuildContext context, int selectedBottomNavIndexValue) {
     final _size = MediaQuery.of(context).size;
     return SafeArea(
       child: Container(
@@ -78,19 +83,24 @@ class _ScreenSelectorState extends State<ScreenSelector>
         padding: EdgeInsets.only(left: 22, right: 22, top: 5, bottom: 8),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          bottomNavigationItem(Icons.home, "Home", 0),
-          bottomNavigationItem(Icons.search, "Search", 1),
-          bottomNavigationItem(Icons.add_shopping_cart, "Cart", 2),
-          bottomNavigationItem(Icons.assignment, "Order", 3),
+          bottomNavigationItem(
+              Icons.home, "Home", 0, selectedBottomNavIndexValue),
+          bottomNavigationItem(
+              Icons.search, "Search", 1, selectedBottomNavIndexValue),
+          bottomNavigationItem(
+              Icons.add_shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
+          bottomNavigationItem(
+              Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
         ]),
       ),
     );
   }
 
-  bottomNavigationItem(IconData icon, String title, int index) {
+  bottomNavigationItem(
+      IconData icon, String title, int index, int selectedIndex) {
     return GestureDetector(
       onTap: () => setState(() {
-        _selectedBottomNavIndex = index;
+        selectedBottomNavIndex.value = index;
       }),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.2,
@@ -101,15 +111,12 @@ class _ScreenSelectorState extends State<ScreenSelector>
             children: [
               Icon(
                 icon,
-                color:
-                    _selectedBottomNavIndex == index ? mainColor : Colors.black,
+                color: selectedIndex == index ? mainColor : Colors.black,
               ),
               Text(
                 title,
                 style: TextStyle(
-                  color: _selectedBottomNavIndex == index
-                      ? mainColor
-                      : Colors.black,
+                  color: selectedIndex == index ? mainColor : Colors.black,
                 ),
               ),
             ]),

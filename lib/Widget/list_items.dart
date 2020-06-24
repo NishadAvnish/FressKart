@@ -34,8 +34,7 @@ class FeatureItem extends StatelessWidget {
                     Flexible(
                       flex: 3,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
+import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:provider/provider.dart';
 
@@ -8,17 +9,17 @@ class AppDrawer extends StatelessWidget {
   List _menu = [
     "Home",
     "Search",
-    "Shop by Category",
-    "Your Order",
     "Cart",
+    "Your Order",
+    "Shop by Category",
     "FAQ"
   ];
   List icon = [
     Icons.home,
     Icons.search,
-    Icons.category,
-    Icons.assignment,
     Icons.add_shopping_cart,
+    Icons.assignment,
+    Icons.category,
     Icons.question_answer
   ];
 
@@ -43,7 +44,7 @@ class AppDrawer extends StatelessWidget {
                 // SliverToBoxAdapter(child: _drawItem(_menu)),
                 SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                  return _drawItem(_menu, index);
+                  return _drawItem(_menu, context, index);
                 }, childCount: _menu.length))
               ],
             ),
@@ -73,42 +74,57 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _drawItem(List menu, int index) {
+  Widget _drawItem(List menu, BuildContext context, int index) {
     if (menu[index] == "Shop by Category") {
       return Column(
         children: <Widget>[
-          ExpansionTile(
-            leading: Icon(icon[index]),
-            title: Text(menu[index]),
-            children: <Widget>[
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: _homeMainCategoryProvider.mainCategoryList.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                        child: Image.asset(_homeMainCategoryProvider
-                            .mainCategoryList[index].imageUrl)),
-                    title: Text(_homeMainCategoryProvider
-                        .mainCategoryList[index].title),
-                  );
-                },
-              )
-            ],
+          Divider(),
+          Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              leading: Icon(icon[index]),
+              title: Text(menu[index]),
+              children: <Widget>[
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: _homeMainCategoryProvider.mainCategoryList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed("categoryScreen", arguments: index);
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                            child: Image.asset(_homeMainCategoryProvider
+                                .mainCategoryList[index].imageUrl)),
+                        title: Text(_homeMainCategoryProvider
+                            .mainCategoryList[index].title),
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
           ),
           Divider()
         ],
       );
     } else {
-      return Column(
-        children: <Widget>[
-          (menu[index] == "FAQ") ? Divider() : Container(),
-          ListTile(
-            leading: Icon(icon[index]),
-            title: Text(menu[index]),
-          ),
-        ],
+      return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+          
+          (menu[index] != "FAQ")
+              ? selectedBottomNavIndex.value = index
+              : Navigator.of(context).pushNamed("FAQ");
+        },
+        child: ListTile(
+          leading: Icon(icon[index]),
+          title: Text(menu[index]),
+        ),
       );
     }
   }

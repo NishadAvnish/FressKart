@@ -277,9 +277,6 @@ class HomeMainCategoryProvider with ChangeNotifier {
           title: "Fruits",
           subCategory: [
             "All",
-            "Pepsi",
-            "Cola",
-            "Sprite",
             "Maaza",
             "Dew",
             "Biscuits britania",
