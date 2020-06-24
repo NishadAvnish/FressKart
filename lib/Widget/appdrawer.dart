@@ -90,20 +90,28 @@ class AppDrawer extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: _homeMainCategoryProvider.mainCategoryList.length,
                   itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context)
-                            .pushNamed("categoryScreen", arguments: index);
-                      },
-                      child: ListTile(
-                        leading: CircleAvatar(
-                            child: Image.asset(_homeMainCategoryProvider
-                                .mainCategoryList[index].imageUrl)),
-                        title: Text(_homeMainCategoryProvider
-                            .mainCategoryList[index].title),
-                      ),
-                    );
+                    return ValueListenableBuilder(
+                        valueListenable: selectedDrawerCatergyIndex,
+                        builder: (context, previouSelectedIndex, _) {
+                          return GestureDetector(
+                            onTap: previouSelectedIndex == index
+                                ? () => Navigator.of(context).pop()
+                                : () {
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushNamed(
+                                        "categoryScreen",
+                                        arguments: index);
+                                    selectedDrawerCatergyIndex.value = index;
+                                  },
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                  child: Image.asset(_homeMainCategoryProvider
+                                      .mainCategoryList[index].imageUrl)),
+                              title: Text(_homeMainCategoryProvider
+                                  .mainCategoryList[index].title),
+                            ),
+                          );
+                        });
                   },
                 )
               ],
@@ -116,10 +124,11 @@ class AppDrawer extends StatelessWidget {
       return GestureDetector(
         onTap: () {
           Navigator.of(context).pop();
-          
-          (menu[index] != "FAQ")
-              ? selectedBottomNavIndex.value = index
-              : Navigator.of(context).pushNamed("FAQ");
+          if (menu[index] != "FAQ") {
+            selectedBottomNavIndex.value = index;
+          } else {
+            Navigator.of(context).pushNamed("FAQ");
+          }
         },
         child: ListTile(
           leading: Icon(icon[index]),
