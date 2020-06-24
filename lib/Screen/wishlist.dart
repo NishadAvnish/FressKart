@@ -3,7 +3,7 @@ import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/wishlist_item.dart';
-import 'package:freshkart/model/wishlist_model.dart';
+import 'package:freshkart/model/wishlist_model_provider.dart';
 import 'package:provider/provider.dart';
 
 class WishList extends StatefulWidget {
