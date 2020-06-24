@@ -21,21 +21,23 @@ class _WishlistItemState extends State<WishlistItem> {
   Widget build(BuildContext context) {
     _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishListProvider.wishList;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _price(),
-        Text(
-          _wishlist[widget.index].title,
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2
-              .copyWith(wordSpacing: 3, fontStyle: FontStyle.italic),
-        ),
-        _quantityandIncDec(context),
-      ],
-    );
+    return Consumer<WishListModel>(builder: (context, wishlistModel, _) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _price(),
+          Text(
+            _wishlist[widget.index].title,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(wordSpacing: 3, fontStyle: FontStyle.italic),
+          ),
+          _quantityandIncDec(context, wishlistModel),
+        ],
+      );
+    });
   }
 
   Widget _price() {
@@ -56,7 +58,7 @@ class _WishlistItemState extends State<WishlistItem> {
     ]);
   }
 
-  Widget _quantityandIncDec(BuildContext context) {
+  Widget _quantityandIncDec(BuildContext context, WishListModel wishlistModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -69,9 +71,12 @@ class _WishlistItemState extends State<WishlistItem> {
           children: <Widget>[
             InkWell(
                 onTap: () {
-                  _wishListProvider.changeQuantity(_wishlist[widget.index].id,
-                      _wishlist[widget.index].unit -= 1);
-                  print(_wishlist[widget.index].unit);
+                  if (_wishlist[widget.index].unit == 0) {
+                    _wishListProvider.removefromList(_wishlist[widget.index]);
+                  } else {
+                    wishlistModel.changeQuantity(
+                        updatedUnit: _wishlist[widget.index].unit -= 1);
+                  }
                 },
                 child: Container(
                     height: 30,
@@ -90,8 +95,8 @@ class _WishlistItemState extends State<WishlistItem> {
             InkWell(
               onTap: () {
                 if (_wishlist[widget.index].unit < 10) {
-                  _wishListProvider.changeQuantity(_wishlist[widget.index].id,
-                      _wishlist[widget.index].unit += 1);
+                  wishlistModel.changeQuantity(
+                      updatedUnit: _wishlist[widget.index].unit += 1);
                 }
               },
               child: Container(

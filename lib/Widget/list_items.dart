@@ -26,19 +26,19 @@ class FeatureItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
-                        flex: 2,
+                        flex: 4,
                         child: Image.asset(
                           productItem.imageUrl[0],
                           fit: BoxFit.cover,
                         )),
                     Flexible(
-                      flex: 1,
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 3),
+                            horizontal: 12.0),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text(productItem.title,
                                   style: TextStyle(

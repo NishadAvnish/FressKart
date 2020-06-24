@@ -63,8 +63,6 @@ class _WishListState extends State<WishList>
             "Shoping Cart",
             style: TextStyle(fontStyle: FontStyle.italic),
           ),
-          centerTitle: true,
-          leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
         ),
         SliverToBoxAdapter(
             child: Card(
@@ -147,7 +145,13 @@ class _WishListState extends State<WishList>
                             ),
                           ),
                           SizedBox(width: 20),
-                          Flexible(child: WishlistItem(index: index)),
+                          Flexible(
+                            child: ChangeNotifierProvider.value(
+                              value: _wishlist[
+                                  index], // this will help in changing in single WishListItem
+                              child: WishlistItem(index: index),
+                            ),
+                          ),
                           SizedBox(width: 8)
                         ],
                       )),

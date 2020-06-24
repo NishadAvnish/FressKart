@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
@@ -5,7 +7,13 @@ import 'package:freshkart/routes.dart';
 import 'package:provider/provider.dart';
 import 'Provider/homeproduct_provider.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(
+    // DevicePreview(
+    //   enabled: !kReleaseMode, // Ensures that it is disabled in release mode
+
+    //   builder: (context) => MyApp(),
+    // ),
+    MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

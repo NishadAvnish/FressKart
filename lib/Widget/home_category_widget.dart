@@ -11,7 +11,8 @@ class HomeCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-    final _homeMainCategoryProvider = Provider.of<HomeMainCategoryProvider>(context);
+    final _homeMainCategoryProvider =
+        Provider.of<HomeMainCategoryProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
       child: Column(
@@ -20,7 +21,7 @@ class HomeCategoryWidget extends StatelessWidget {
           Container(
             color: secondaryColor,
             height: 40,
-            width: _size.width,
+            width: double.infinity,
             child: Center(
               child: Text(
                 "Shop by Category",
@@ -36,7 +37,7 @@ class HomeCategoryWidget extends StatelessWidget {
               // color: Colors.blue,
               constraints: BoxConstraints(
                 maxHeight: 500,
-                minHeight: 150,
+                minHeight: 130,
               ),
               child: GridView.builder(
                 itemCount: 9,
@@ -62,7 +63,8 @@ class HomeCategoryWidget extends StatelessWidget {
                           Flexible(
                             flex: 1,
                             child: Text(
-                              _homeMainCategoryProvider.mainCategoryList[index].title,
+                              _homeMainCategoryProvider
+                                  .mainCategoryList[index].title,
                               style: TextStyle(fontSize: 11.5),
                             ),
                           )

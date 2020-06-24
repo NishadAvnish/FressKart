@@ -75,21 +75,12 @@ class WishListProvider with ChangeNotifier {
 
   void removefromList(WishListModel receivedItem) {
     _wishlist.removeWhere((item) => item == receivedItem);
+    notifyListeners();
     //we don't call notifyListener here because we use animatedList that by default remove it from UI
   }
 
   void addToWishList(WishListModel wishListItem) {
     _wishlist.add(wishListItem);
-    notifyListeners();
-  }
-
-  void changeQuantity(String id, int updatedUnit) {
-    final _index = _wishlist.indexWhere((element) => element.id == id);
-    if (updatedUnit > 0) {
-      _wishlist[_index].unit = updatedUnit;
-    } else {
-      removefromList(_wishlist[_index]);
-    }
     notifyListeners();
   }
 }

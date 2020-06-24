@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class WishListModel  with ChangeNotifier{
+class WishListModel with ChangeNotifier {
   final String id;
   final String imageUrl;
   final String title;
@@ -19,4 +19,11 @@ class WishListModel  with ChangeNotifier{
       this.quantity,
       this.unit,
       this.savedPrice});
+
+  void changeQuantity({String authorId, int updatedUnit}) {
+    if (updatedUnit > 0) {
+      unit = updatedUnit;
+    }
+    notifyListeners();
+  }
 }
