@@ -7,6 +7,7 @@ import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
 import '../Widget/productdetail_pageview.dart';
 import '../Widget/quantity_incdec.dart';
+import 'package:freshkart/Util/color.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
@@ -40,10 +41,12 @@ class _ProductDetailState extends State<ProductDetail> {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+          flexibleSpace:
+              Container(decoration: BoxDecoration(gradient: mainColorGradient)),
           title: Text(
-        _product.title,
-        style: TextStyle(fontStyle: FontStyle.italic),
-      )),
+            _product.title,
+            style: TextStyle(fontStyle: FontStyle.italic),
+          )),
       body: Container(
         height:
             _size.height - kToolbarHeight - MediaQuery.of(context).padding.top,

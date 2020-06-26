@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
-import 'package:freshkart/Screen/categorywise_screen.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:provider/provider.dart';
-
-import '../fadetransition.dart';
 
 class HomeCategoryWidget extends StatelessWidget {
   @override
@@ -15,20 +12,29 @@ class HomeCategoryWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            color: secondaryColor,
-            height: 40,
-            width: double.infinity,
-            child: Center(
-              child: Text(
-                "Shop by Category",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 0, right: 12, top: 5.0, bottom: 3),
+            child: Text(
+              "Shop By Category",
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
+          // Container(
+          //   color: secondaryColor,
+          //   height: 40,
+          //   width: double.infinity,
+          //   child: Center(
+          //     child: Text(
+          //       "Shop by Category",
+          //       textAlign: TextAlign.center,
+          //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          //     ),
+          //   ),
+          // ),
           MediaQuery.removePadding(
             context: context,
             removeTop: true,

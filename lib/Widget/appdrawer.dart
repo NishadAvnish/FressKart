@@ -38,7 +38,7 @@ class AppDrawer extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Container(
                       width: double.infinity,
-                      color: mainColor,
+                      decoration: BoxDecoration(gradient:mainColorGradient),
                       child: _drawHeader(context)),
                 ),
                 // SliverToBoxAdapter(child: _drawItem(_menu)),
@@ -94,6 +94,7 @@ class AppDrawer extends StatelessWidget {
                         valueListenable: selectedDrawerCatergyIndex,
                         builder: (context, previouSelectedIndex, _) {
                           return GestureDetector(
+                            // this below code will help in avoiding again clicking on current screen drawer
                             onTap: previouSelectedIndex == index
                                 ? () => Navigator.of(context).pop()
                                 : () {
@@ -101,6 +102,7 @@ class AppDrawer extends StatelessWidget {
                                     Navigator.of(context).pushNamed(
                                         "categoryScreen",
                                         arguments: index);
+
                                     selectedDrawerCatergyIndex.value = index;
                                   },
                             child: ListTile(
@@ -128,6 +130,7 @@ class AppDrawer extends StatelessWidget {
             selectedBottomNavIndex.value = index;
           } else {
             Navigator.of(context).pushNamed("FAQ");
+            selectedDrawerCatergyIndex.value = index;
           }
         },
         child: ListTile(

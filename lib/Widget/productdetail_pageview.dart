@@ -9,24 +9,22 @@ class ProductDetailPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _size=MediaQuery.of(context).size;
+    final _size = MediaQuery.of(context).size;
     return Container(
-                        height: _size.height * 0.4,
-                        width: _size.width,
-                        constraints:
-                            BoxConstraints(maxHeight: 300, minHeight: 275),
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: secondaryColor))),
-                        child: PageView.builder(
-                          itemCount: product.imageUrl.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Image.asset(
-                              product.imageUrl[index],
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
-                      );
+      height: _size.height * 0.4,
+      width: _size.width,
+      constraints: BoxConstraints(maxHeight: 300, minHeight: 275),
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: secondaryColor))),
+      child: PageView.builder(
+        itemCount: product.imageUrl.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Image.asset(
+            product.imageUrl[index],
+            fit: BoxFit.cover,
+          );
+        },
+      ),
+    );
   }
 }

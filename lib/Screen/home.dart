@@ -1,6 +1,9 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
+import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/Sliver_appbar.dart';
 import 'package:freshkart/Widget/list_items.dart';
 import 'package:freshkart/Widget/carouselslider.dart';
 import 'package:freshkart/Widget/home_category_widget.dart';
@@ -40,8 +43,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //temporary purpose
-    _fetchItems();
+  }
+
+  @override
+  void dispose() {
+    _scrollController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,14 +57,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        SliverAppBar(
-            floating: true,
-            title: Text(
-              "FreshKart",
-              style: TextStyle(fontStyle: FontStyle.italic),
-            )),
+        MySliverAppBar(title: "FressKart"),
         SliverToBoxAdapter(
-          child: CarouselSlider(),
+          child: SizedBox(
+              height: 160.0,
+              width: double.infinity,
+              child: Carousel(
+                images: [
+                  AssetImage('assets/Images/fruits.png'),
+                  AssetImage('assets/Images/oilandmasala.png'),
+                  AssetImage('assets/Images/beverages.png'),
+                ],
+                boxFit: BoxFit.contain,
+                autoplayDuration: Duration(seconds: 8),
+                showIndicator: true,
+                indicatorBgPadding: 0.0,
+                dotBgColor: Colors.transparent,
+                dotColor: Colors.grey,
+                dotIncreasedColor: secondaryColor,
+                dotSize: 5.0,
+                moveIndicatorFromBottom: 10.0,
+                noRadiusForIndicator: false,
+              )),
         ),
         SliverToBoxAdapter(
           child: HomeCategoryWidget(),

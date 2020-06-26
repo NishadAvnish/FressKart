@@ -1,6 +1,4 @@
 import 'dart:async';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class CarouselSlider extends StatefulWidget {
@@ -66,6 +64,7 @@ class _CarouselSliderState extends State<CarouselSlider> {
   @override
   void dispose() {
     _timer.cancel();
+    _pagecontroller?.dispose();
     super.dispose();
   }
 

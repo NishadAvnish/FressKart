@@ -4,15 +4,10 @@ import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/wishlist_model_provider.dart';
 import 'package:provider/provider.dart';
 
-class WishlistItem extends StatefulWidget {
+class WishlistItem extends StatelessWidget {
   final int index;
   WishlistItem({this.index});
 
-  @override
-  _WishlistItemState createState() => _WishlistItemState();
-}
-
-class _WishlistItemState extends State<WishlistItem> {
   List<WishListModel> _wishlist;
 
   WishListProvider _wishListProvider;
@@ -28,7 +23,7 @@ class _WishlistItemState extends State<WishlistItem> {
         children: <Widget>[
           _price(),
           Text(
-            _wishlist[widget.index].title,
+            _wishlist[index].title,
             style: Theme.of(context)
                 .textTheme
                 .bodyText2
@@ -42,12 +37,12 @@ class _WishlistItemState extends State<WishlistItem> {
 
   Widget _price() {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Text("Rs " + _wishlist[widget.index].actualPrice.toString(),
+      Text("Rs " + _wishlist[index].actualPrice.toString(),
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       SizedBox(width: 15),
-      _wishlist[widget.index].oldPrice != null
+      _wishlist[index].oldPrice != null
           ? Text(
-              "Rs " + _wishlist[widget.index].oldPrice.toString(),
+              "Rs " + _wishlist[index].oldPrice.toString(),
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
@@ -62,7 +57,7 @@ class _WishlistItemState extends State<WishlistItem> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(_wishlist[widget.index].quantity,
+        Text(_wishlist[index].quantity,
             style: Theme.of(context)
                 .textTheme
                 .bodyText2
@@ -71,11 +66,11 @@ class _WishlistItemState extends State<WishlistItem> {
           children: <Widget>[
             InkWell(
                 onTap: () {
-                  if (_wishlist[widget.index].unit == 0) {
-                    _wishListProvider.removefromList(_wishlist[widget.index]);
+                  if (_wishlist[index].unit == 0) {
+                    _wishListProvider.removefromList(_wishlist[index]);
                   } else {
                     wishlistModel.changeQuantity(
-                        updatedUnit: _wishlist[widget.index].unit -= 1);
+                        updatedUnit: _wishlist[index].unit -= 1);
                   }
                 },
                 child: Container(
@@ -88,15 +83,15 @@ class _WishlistItemState extends State<WishlistItem> {
                     child: Icon(Icons.remove))),
             SizedBox(width: 18),
             Text(
-              _wishlist[widget.index].unit.toString(),
+              _wishlist[index].unit.toString(),
               style: Theme.of(context).textTheme.bodyText1,
             ),
             SizedBox(width: 18),
             InkWell(
               onTap: () {
-                if (_wishlist[widget.index].unit < 10) {
+                if (_wishlist[index].unit < 10) {
                   wishlistModel.changeQuantity(
-                      updatedUnit: _wishlist[widget.index].unit += 1);
+                      updatedUnit: _wishlist[index].unit += 1);
                 }
               },
               child: Container(

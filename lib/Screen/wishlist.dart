@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/Sliver_appbar.dart';
 import 'package:freshkart/Widget/wishlist_item.dart';
 import 'package:freshkart/model/wishlist_model_provider.dart';
 import 'package:provider/provider.dart';
@@ -51,19 +52,20 @@ class _WishListState extends State<WishList>
   }
 
   @override
+  void dispose() {
+    _scrollController?.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishListProvider.wishList;
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        SliverAppBar(
-          floating: true,
-          title: Text(
-            "Shoping Cart",
-            style: TextStyle(fontStyle: FontStyle.italic),
-          ),
-        ),
+        MySliverAppBar(title:"Cart"),
         SliverToBoxAdapter(
             child: Card(
           elevation: 3.0,
@@ -96,7 +98,8 @@ class _WishListState extends State<WishList>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Sub Total: Rs ${1230}",style: Theme.of(context).textTheme.subtitle2),
+                  Text("Sub Total: Rs ${1230}",
+                      style: Theme.of(context).textTheme.subtitle2),
                   MaterialButton(
                       onPressed: () {},
                       color: ternaryColor,

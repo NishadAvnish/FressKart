@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/home.dart';
+import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
@@ -25,49 +26,59 @@ class _ScreenSelectorState extends State<ScreenSelector>
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
     _screenList = [
       Home(),
-      CategoryWiseDetail(index: 0),
       WishList(),
-      CategoryWiseDetail(index: 0)
+      CategoryWiseDetail(index: 0),
+      PersonScreen(),
     ];
   }
 
   @override
+  void dispose() {
+    animationController?.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: AppDrawer(),
-      body: ValueListenableBuilder(
-          valueListenable: selectedBottomNavIndex,
-          builder: (context, selectedBottomNavIndexValue, _) {
-            return Stack(
-              children: <Widget>[
-                Positioned.fill(
-                  child: CustomScrollView(slivers: [
-                    SliverFillRemaining(
-                        child: _screenList[selectedBottomNavIndexValue]),
-                  ]),
-                ),
-                Positioned(
-                  bottom: 0,
-                  child: ValueListenableBuilder(
-                      valueListenable: offset,
-                      builder: (context, value, _) {
-                        final _isMovable = _previousValue;
-                        _previousValue = value;
-                        value > _isMovable
-                            ? animationController.reverse()
-                            : animationController.forward();
-                        return SlideTransition(
-                          position: Tween<Offset>(
-                                  begin: Offset(0, 1), end: Offset(0, 0))
-                              .animate(animationController),
-                          child: _customBottomNavigation(
-                              context, selectedBottomNavIndexValue),
-                        );
-                      }),
-                )
-              ],
-            );
-          }),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Scaffold(
+        drawer: AppDrawer(),
+        resizeToAvoidBottomInset: false,
+        body: ValueListenableBuilder(
+            valueListenable: selectedBottomNavIndex,
+            builder: (context, selectedBottomNavIndexValue, _) {
+              return Stack(
+                children: <Widget>[
+                  Positioned.fill(
+                    child: CustomScrollView(slivers: [
+                      SliverFillRemaining(
+                          child: _screenList[selectedBottomNavIndexValue]),
+                    ]),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: ValueListenableBuilder(
+                        valueListenable: offset,
+                        builder: (context, value, _) {
+                          final _isMovable = _previousValue;
+                          _previousValue = value;
+                          value > _isMovable
+                              ? animationController.reverse()
+                              : animationController.forward();
+                          return SlideTransition(
+                            position: Tween<Offset>(
+                                    begin: Offset(0, 1), end: Offset(0, 0))
+                                .animate(animationController),
+                            child: _customBottomNavigation(
+                                context, selectedBottomNavIndexValue),
+                          );
+                        }),
+                  )
+                ],
+              );
+            }),
+      ),
     );
   }
 
@@ -78,19 +89,20 @@ class _ScreenSelectorState extends State<ScreenSelector>
       child: Container(
         height: 55,
         width: _size.width,
-        decoration: BoxDecoration(
-            color: Colors.white, border: Border.all(color: secondaryColor)),
+        decoration: BoxDecoration(color: Colors.white),
         padding: EdgeInsets.only(left: 22, right: 22, top: 5, bottom: 8),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           bottomNavigationItem(
               Icons.home, "Home", 0, selectedBottomNavIndexValue),
+          // bottomNavigationItem(
+          //     Icons.search, "Search", 1, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.search, "Search", 1, selectedBottomNavIndexValue),
+              Icons.add_shopping_cart, "Cart", 1, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.add_shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
+              Icons.assignment, "Order", 2, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
+              Icons.person, "Profile", 3, selectedBottomNavIndexValue),
         ]),
       ),
     );
@@ -99,9 +111,11 @@ class _ScreenSelectorState extends State<ScreenSelector>
   bottomNavigationItem(
       IconData icon, String title, int index, int selectedIndex) {
     return GestureDetector(
-      onTap: () => setState(() {
-        selectedBottomNavIndex.value = index;
-      }),
+      onTap: () {
+        setState(() {
+          selectedBottomNavIndex.value = index;
+        });
+      },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.2,
         color: Colors.white,

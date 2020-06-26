@@ -21,17 +21,12 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   bool _filterClicked = false;
   int _selectedFilterIndex;
   HomeMainCategoryProvider _homeMainCategoryProvider;
-  AnimationController _controller;
-
   @override
   void initState() {
     super.initState();
     _isLoading = true;
-    _selectedFilterIndex = -1;
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    );
+    _selectedFilterIndex = -1; // that means not any filter item  is selected
+
     _fetchItems();
   }
 
@@ -45,7 +40,6 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   @override
   void dispose() {
     _homeMainCategoryProvider.disposeVariables();
-    _controller?.dispose();
     super.dispose();
   }
 
@@ -60,10 +54,15 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
         slivers: <Widget>[
           SliverAppBar(
             floating: true,
+            flexibleSpace: Container(
+                decoration: BoxDecoration(gradient: mainColorGradient)),
             title: Text(
               "Categories",
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop()),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
@@ -72,12 +71,6 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
                       Icons.filter_list,
                     ),
                     onPressed: () {
-                      if (_filterClicked) {
-                        _controller.reverse();
-                      } else {
-                        _controller.forward();
-                      }
-
                       setState(() {
                         _filterClicked = !_filterClicked;
                       });
@@ -122,41 +115,44 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   }
 
   Widget _filter(MediaQueryData mediaQuery) {
-    return SizeTransition(
-      sizeFactor: _controller,
-      child: Container(
-        color: mainColor,
-        height: 130,
-        width: mediaQuery.size.width,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                "Sort By",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
+    return AnimatedOpacity(
+      opacity: _filterClicked ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 200),
+      child: !_filterClicked
+          ? Container()
+          : Container(
+              decoration: BoxDecoration(gradient: mainColorGradient),
+              height: 130,
+              width: mediaQuery.size.width,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Sort By",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                      softWrap: true,
+                    ),
+                    Expanded(
+                      child: Wrap(
+                          spacing: 25,
+                          runSpacing: 8,
+                          alignment: WrapAlignment.center,
+                          children: <Widget>[
+                            _choiceChip("Price (Low to High)", 0),
+                            _choiceChip("Price (High to Low)", 1),
+                            _choiceChip("Popularity", 2),
+                            _choiceChip("Discount", 3),
+                          ]),
+                    ),
+                  ],
                 ),
-                softWrap: true,
               ),
-              Expanded(
-                child: Wrap(
-                    spacing: 25,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.center,
-                    children: <Widget>[
-                      _choiceChip("Price (Low to High)", 0),
-                      _choiceChip("Price (High to Low)", 1),
-                      _choiceChip("Popularity", 2),
-                      _choiceChip("Discount", 3),
-                    ]),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
