@@ -28,7 +28,8 @@ class HomeMainCategoryProvider with ChangeNotifier {
     _filterList = [];
   }
 
-  void fetchItem() {
+  Future<void> fetchItem() async {
+    await Future.delayed(Duration(seconds: 2));
     _productlist = [
       ProductModel(
         id: 0,
@@ -275,13 +276,7 @@ class HomeMainCategoryProvider with ChangeNotifier {
       CategoryModel(
           imageUrl: "assets/Images/fruits.png",
           title: "Fruits",
-          subCategory: [
-            "All",
-            "Maaza",
-            "Dew",
-            "Biscuits britania",
-            "Parle-G"
-          ]),
+          subCategory: ["All", "Maaza", "Dew", "Biscuits britania", "Parle-G"]),
       CategoryModel(imageUrl: "assets/Images/veggies.png", title: "Vegetables"),
       CategoryModel(
           imageUrl: "assets/Images/oilandmasala.png",

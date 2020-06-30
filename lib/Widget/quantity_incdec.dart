@@ -22,6 +22,12 @@ class _IncDecState extends State<IncDec> {
   }
 
   @override
+  void dispose() {
+    productUnit.value = 1;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

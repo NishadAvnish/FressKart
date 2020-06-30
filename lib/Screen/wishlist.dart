@@ -30,25 +30,21 @@ class _WishListState extends State<WishList>
     _isLoading = true;
     _scrollController = ScrollController();
     _listKey = GlobalKey<SliverAnimatedListState>();
-    _scrollController.addListener(() {
-      offset.value = _scrollController.offset;
-    });
+    if (this.mounted)
+      _scrollController.addListener(() {
+        offset.value = _scrollController.offset;
+      });
     _fetchItems();
   }
 
-  void _fetchItems() {
+  Future<void> _fetchItems() async {
     if (this.mounted) {
-      Provider.of<WishListProvider>(context, listen: false)
+      await Provider.of<WishListProvider>(context, listen: false)
           .fetchWishListFromDatabase();
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+      });
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    //temporary purpose
-    _fetchItems();
   }
 
   @override
@@ -62,66 +58,78 @@ class _WishListState extends State<WishList>
   Widget build(BuildContext context) {
     _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishListProvider.wishList;
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        MySliverAppBar(title:"Cart"),
-        SliverToBoxAdapter(
-            child: Card(
-          elevation: 3.0,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
-            width: double.infinity,
-            constraints: BoxConstraints(
-              maxHeight: 180,
-              minHeight: 120,
-            ),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _topDetaileItem("MRP", "Rs" + "1234", Colors.black),
-                  _topDetaileItem("Discount", "- Rs" + "100", mainColor),
-                  _topDetaileItem("Delivery", "Rs" + "80", mainColor),
-                  Divider(),
-                  _topDetaileItem("Sub Total", "Rs" + "1214", Colors.black),
-                ]),
-          ),
-        )),
-        SliverToBoxAdapter(
-          child: Card(
-            child: Container(
-              padding: EdgeInsets.only(left: 12.0),
-              height: 40,
-              width: double.infinity,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(3.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Sub Total: Rs ${1230}",
-                      style: Theme.of(context).textTheme.subtitle2),
-                  MaterialButton(
-                      onPressed: () {},
-                      color: ternaryColor,
-                      child: Text("Proceed To CheckOut")),
+    return CustomScrollView(controller: _scrollController, slivers: [
+      MySliverAppBar(title: "Cart"),
+      _isLoading
+          ? SliverFillRemaining(
+              child: Center(
+              child: CircularProgressIndicator(),
+            ))
+          : SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Card(
+                    elevation: 3.0,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.0, vertical: 12.0),
+                      width: double.infinity,
+                      constraints: BoxConstraints(
+                        maxHeight: 180,
+                        minHeight: 120,
+                      ),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _topTotalContainerItem(
+                                "MRP", "Rs" + "1234", Colors.black),
+                            _topTotalContainerItem(
+                                "Discount", "- Rs" + "100", mainColor),
+                            _topTotalContainerItem(
+                                "Delivery", "Rs" + "80", mainColor),
+                            Divider(),
+                            _topTotalContainerItem(
+                                "Sub Total", "Rs" + "1214", Colors.black),
+                          ]),
+                    ),
+                  ),
+                  Card(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 12.0),
+                      height: 40,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3.0)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text("Sub Total: Rs ${1230}",
+                              style: Theme.of(context).textTheme.subtitle2),
+                          MaterialButton(
+                              onPressed: () {},
+                              color: ternaryColor,
+                              child: Text("Proceed To CheckOut")),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 12),
+                    child: AnimatedList(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        key: _listKey,
+                        initialItemCount: _wishlist.length,
+                        itemBuilder: (context, index, animation) =>
+                            _buildCartItem(animation, index)),
+                  ),
                 ],
               ),
-            ),
-          ),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(top: 12),
-          sliver: SliverAnimatedList(
-              key: _listKey,
-              initialItemCount: _wishlist.length,
-              itemBuilder: (context, index, animation) =>
-                  _buildItem(animation, index)),
-        ),
-      ],
-    );
+            )
+    ]);
   }
 
-  Widget _buildItem(Animation animation, int index) {
+  Widget _buildCartItem(Animation animation, int index) {
     return FadeTransition(
       opacity: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
       child: SizeTransition(
@@ -164,7 +172,7 @@ class _WishListState extends State<WishList>
                       _wishListProvider.removefromList(removedItem);
                       AnimatedListRemovedItemBuilder builder =
                           (context, animation) {
-                        return _buildItem(
+                        return _buildCartItem(
                             animation, index == 0 ? index : index - 1);
                       };
                       _listKey.currentState.removeItem(index, builder);
@@ -184,7 +192,7 @@ class _WishListState extends State<WishList>
   }
 
   // the top total discount sub total container
-  Widget _topDetaileItem(String title, String info, Color color) {
+  Widget _topTotalContainerItem(String title, String info, Color color) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[

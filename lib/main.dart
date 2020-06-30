@@ -1,11 +1,12 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
-import 'package:freshkart/routes.dart';
 import 'package:provider/provider.dart';
 import 'Provider/homeproduct_provider.dart';
 import 'Provider/search_provider.dart';
+import 'Provider/person_detail_provider.dart';
+import 'package:freshkart/Provider/offer_provider.dart';
+import 'Util/routes.dart';
 
 void main() => runApp(
     // DevicePreview(
@@ -32,6 +33,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: SearchProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: PersonProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: OfferProvider(),
         ),
       ],
       child: MaterialApp(

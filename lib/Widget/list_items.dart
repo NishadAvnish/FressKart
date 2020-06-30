@@ -61,6 +61,7 @@ class FeatureItem extends StatelessWidget {
                                               .productQuantityList[0].price
                                               .toString(),
                                       style: TextStyle(
+                                          fontSize: 12,
                                           fontWeight: FontWeight.bold,
                                           decoration: productItem
                                                       .productQuantityList[0]
@@ -84,15 +85,31 @@ class FeatureItem extends StatelessWidget {
                                                   .newModifiedPrice
                                                   .toString(),
                                           style: TextStyle(
+                                            fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ))
                                       : Container(),
                                 ],
                               ),
-                              //this is for adding unit with price i.e kg, Litre, Quintol etc.
-                              Text(
-                                productItem.productQuantityList[0].quantity,
-                                style: TextStyle(fontStyle: FontStyle.italic),
+                              //this is for measure unit available for a product
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(),
+                                        borderRadius:
+                                            BorderRadius.circular(5.0)),
+                                    child: Text(
+                                      productItem
+                                          .productQuantityList[0].quantity,
+                                      style: TextStyle(
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  ),
+                                ],
                               )
                             ]),
                       ),

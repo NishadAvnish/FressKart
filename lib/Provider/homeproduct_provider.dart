@@ -9,7 +9,8 @@ class HomeProductProvider with ChangeNotifier {
     return [..._productlist];
   }
 
-  void fetchItem() {
+  Future<void> fetchItem() async {
+    await Future.delayed(Duration(seconds: 1));
     _productlist = [
       ProductModel(
         id: 0,

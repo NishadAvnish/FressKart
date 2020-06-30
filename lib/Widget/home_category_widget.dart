@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
-import 'package:freshkart/Util/color.dart';
 import 'package:provider/provider.dart';
 
 class HomeCategoryWidget extends StatelessWidget {
@@ -23,18 +22,6 @@ class HomeCategoryWidget extends StatelessWidget {
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
-          // Container(
-          //   color: secondaryColor,
-          //   height: 40,
-          //   width: double.infinity,
-          //   child: Center(
-          //     child: Text(
-          //       "Shop by Category",
-          //       textAlign: TextAlign.center,
-          //       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          //     ),
-          //   ),
-          // ),
           MediaQuery.removePadding(
             context: context,
             removeTop: true,

@@ -36,44 +36,42 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    return  SliverAppBar(
-        floating: true,
-        title: _titleWidget,
-        flexibleSpace: Container(
-          decoration:BoxDecoration(gradient:mainColorGradient)
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {
-              setState(() {
-                if (!_isSearchClicked) {
-                  _focusNode.requestFocus();
-                  _actionIcon = Icons.cancel;
-                  _titleWidget = TextField(
-                    textInputAction: TextInputAction.go,
-                    focusNode: _focusNode,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        hintText: "Search for Product",
-                        hintStyle: TextStyle(color: Colors.greenAccent),
-                        fillColor: mainColor,
-                        border: InputBorder.none),
-                  );
-                } else {
-                  _focusNode.unfocus();
-                  _actionIcon = Icons.search;
-                  _titleWidget = Text(
-                    widget.title,
-                    style: const TextStyle(fontStyle: FontStyle.italic),
-                  );
-                }
-                _isSearchClicked = !_isSearchClicked;
-              });
-            },
-            icon: Icon(_actionIcon),
-          )
-        ],
-     
+    return SliverAppBar(
+      floating: true,
+      title: _titleWidget,
+      flexibleSpace:
+          Container(decoration: BoxDecoration(gradient: mainColorGradient)),
+      actions: <Widget>[
+        IconButton(
+          onPressed: () {
+            setState(() {
+              if (!_isSearchClicked) {
+                _focusNode.requestFocus();
+                _actionIcon = Icons.cancel;
+                _titleWidget = TextField(
+                  textInputAction: TextInputAction.go,
+                  focusNode: _focusNode,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                      hintText: "Search for Product",
+                      hintStyle: TextStyle(color: Colors.greenAccent),
+                      fillColor: mainColor,
+                      border: InputBorder.none),
+                );
+              } else {
+                _focusNode.unfocus();
+                _actionIcon = Icons.search;
+                _titleWidget = Text(
+                  widget.title,
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                );
+              }
+              _isSearchClicked = !_isSearchClicked;
+            });
+          },
+          icon: Icon(_actionIcon),
+        )
+      ],
     );
   }
 }

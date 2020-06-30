@@ -112,7 +112,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     IncDec(_product),
                     SizedBox(height: 15),
                     Text(
-                      "Description",
+                      "About The Product",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1

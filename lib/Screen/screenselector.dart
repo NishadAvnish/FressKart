@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
-import 'package:freshkart/Screen/home.dart';
 import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
-
-import 'categorywise_screen.dart';
+import 'CategoryScreen/categorywise_screen.dart';
+import 'offer_screen.dart';
+import '../Screen/HomeScreen/home.dart';
 
 class ScreenSelector extends StatefulWidget {
   @override
@@ -26,6 +26,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
     _screenList = [
       Home(),
+      OfferZone(),
       WishList(),
       CategoryWiseDetail(index: 0),
       PersonScreen(),
@@ -85,24 +86,28 @@ class _ScreenSelectorState extends State<ScreenSelector>
   Widget _customBottomNavigation(
       BuildContext context, int selectedBottomNavIndexValue) {
     final _size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Container(
-        height: 55,
-        width: _size.width,
-        decoration: BoxDecoration(color: Colors.white),
-        padding: EdgeInsets.only(left: 22, right: 22, top: 5, bottom: 8),
+    return Container(
+      height: 55,
+      width: _size.width,
+      decoration: BoxDecoration(color: Colors.white),
+      padding: EdgeInsets.only(left: 3, right: 3, top: 5, bottom: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: BouncingScrollPhysics(),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           bottomNavigationItem(
               Icons.home, "Home", 0, selectedBottomNavIndexValue),
+          bottomNavigationItem(
+              Icons.local_offer, "Offer", 1, selectedBottomNavIndexValue),
           // bottomNavigationItem(
           //     Icons.search, "Search", 1, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.add_shopping_cart, "Cart", 1, selectedBottomNavIndexValue),
+              Icons.add_shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.assignment, "Order", 2, selectedBottomNavIndexValue),
+              Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.person, "Profile", 3, selectedBottomNavIndexValue),
+              Icons.person, "Profile", 4, selectedBottomNavIndexValue),
         ]),
       ),
     );
@@ -117,7 +122,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
         });
       },
       child: Container(
-        width: MediaQuery.of(context).size.width * 0.2,
+        width: 60,
         color: Colors.white,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

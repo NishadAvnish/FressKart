@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Screen/categorywise_screen.dart';
+import 'package:freshkart/Screen/CategoryScreen/categorywise_screen.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
 import 'package:freshkart/Screen/screenselector.dart';
 
-import 'Screen/productdetail.dart';
-import 'fadetransition.dart';
+import '../Screen/productdetail.dart';
+import '../Widget/fadetransition.dart';
 
 Route<dynamic> genereateRoute(RouteSettings settings) {
   switch (settings.name) {
