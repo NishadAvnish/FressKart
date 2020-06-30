@@ -10,7 +10,7 @@ class HomeProductProvider with ChangeNotifier {
   }
 
   Future<void> fetchItem() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 200));
     _productlist = [
       ProductModel(
         id: 0,
@@ -228,7 +228,7 @@ class HomeProductProvider with ChangeNotifier {
         description: "Fresh Onion and deliverable at time",
         productQuantityList: [
           ProductListModel(
-            quantity: "300 gram",
+            quantity: "15000 gram",
             price: 1400,
             newModifiedPrice: 1200,
           ),

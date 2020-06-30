@@ -37,14 +37,16 @@ class WishlistItem extends StatelessWidget {
 
   Widget _price() {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Text("Rs " + _wishlist[index].actualPrice.toString(),
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+      Text(
+        "Rs " + _wishlist[index].actualPrice.toString(),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      ),
       SizedBox(width: 15),
       _wishlist[index].oldPrice != null
           ? Text(
               "Rs " + _wishlist[index].oldPrice.toString(),
               style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   decoration: TextDecoration.lineThrough,
                   color: Colors.grey),

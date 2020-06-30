@@ -29,7 +29,7 @@ class HomeMainCategoryProvider with ChangeNotifier {
   }
 
   Future<void> fetchItem() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 400));
     _productlist = [
       ProductModel(
         id: 0,

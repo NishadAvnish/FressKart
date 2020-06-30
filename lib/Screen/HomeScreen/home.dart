@@ -6,7 +6,6 @@ import 'package:freshkart/Widget/Sliver_appbar.dart';
 import 'package:freshkart/Widget/list_items.dart';
 import 'package:freshkart/Widget/home_category_widget.dart';
 import 'package:provider/provider.dart';
-import 'Widgets/home_best_selling.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -93,7 +92,6 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                     ),
                   ),
                   HomeCategoryWidget(),
-                  BestSellingProducts(),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: 12, right: 12, top: 8.0, bottom: 3),

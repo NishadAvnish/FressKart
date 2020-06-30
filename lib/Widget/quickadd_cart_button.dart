@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
 
-class AddToCartButton extends StatefulWidget {
+class QuickAddToCartButton extends StatefulWidget {
   final ProductModel product;
   double height;
   double width;
-  AddToCartButton({this.product, this.height = 25, this.width = 90});
+  QuickAddToCartButton({this.product, this.height = 25, this.width = 90});
   @override
   _AddToCartButtonState createState() => _AddToCartButtonState();
 }
 
-class _AddToCartButtonState extends State<AddToCartButton> {
+class _AddToCartButtonState extends State<QuickAddToCartButton> {
   int _count;
   @override
   void initState() {
@@ -26,10 +26,10 @@ class _AddToCartButtonState extends State<AddToCartButton> {
       height: widget.height,
       decoration: BoxDecoration(
         color: _count == 0 ? secondaryColor : Colors.transparent,
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(8.0),
       ),
       child: _count == 0
-          ? GestureDetector(
+          ? InkWell(
               onTap: () {
                 setState(() {
                   _count += 1;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
-import '../Provider/notifier_values.dart';
 
 class IncDec extends StatefulWidget {
   final ProductModel product;
@@ -83,7 +83,7 @@ class _IncDecState extends State<IncDec> {
           onChanged: (productlist) {
             setState(() {
               _selected = productlist;
-              // if the user change the packet quantity then too price will change;
+              // if the user change the packet quantity then price will change too;
             });
             productQuantity.value = _selected.quantity;
           },

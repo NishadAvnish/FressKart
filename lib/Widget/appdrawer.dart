@@ -38,7 +38,7 @@ class AppDrawer extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(gradient:mainColorGradient),
+                      decoration: BoxDecoration(gradient: mainColorGradient),
                       child: _drawHeader(context)),
                 ),
                 // SliverToBoxAdapter(child: _drawItem(_menu)),
@@ -53,24 +53,30 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _drawHeader(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 5),
-        CircleAvatar(
-          radius: 40,
-          child: FlutterLogo(),
-        ),
-        SizedBox(height: 15),
-        Text(
-          "Avnish",
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
-        Text(
-          "9971604962",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        SizedBox(height: 5),
-      ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed("about");
+      },
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 5),
+          CircleAvatar(
+            radius: 40,
+            child: FlutterLogo(),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "Avnish",
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+          Text(
+            "9971604962",
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          SizedBox(height: 5),
+        ],
+      ),
     );
   }
 

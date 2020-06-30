@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/Widget/rating_review_widget.dart';
+import 'Widgets/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
-import '../Widget/productdetail_pageview.dart';
-import '../Widget/quantity_incdec.dart';
+import 'Widgets/productdetail_pageview.dart';
+import 'Widgets/quantity_incdec.dart';
 import 'package:freshkart/Util/color.dart';
 
 class ProductDetail extends StatefulWidget {

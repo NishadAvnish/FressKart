@@ -29,7 +29,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
       OfferZone(),
       WishList(),
       CategoryWiseDetail(index: 0),
-      PersonScreen(),
+      PersonScreen()
     ];
   }
 
@@ -107,7 +107,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
           bottomNavigationItem(
               Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.person, "Profile", 4, selectedBottomNavIndexValue),
+              Icons.person, "About", 4, selectedBottomNavIndexValue),
         ]),
       ),
     );

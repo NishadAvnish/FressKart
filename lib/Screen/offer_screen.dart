@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/Widget/add_cart_button.dart';
+import 'package:freshkart/Widget/quickadd_cart_button.dart';
 import 'package:freshkart/Widget/sliver_appbar.dart';
 import 'package:provider/provider.dart';
 import '../Provider/offer_provider.dart';
@@ -45,7 +45,6 @@ class _OfferZoneState extends State<OfferZone> {
 
   @override
   Widget build(BuildContext context) {
-    final _size = MediaQuery.of(context).size;
     _offerProvider = Provider.of<OfferProvider>(context, listen: true);
     return CustomScrollView(controller: _scrollController, slivers: [
       MySliverAppBar(title: "Offer Zone"),
@@ -96,20 +95,20 @@ class _OfferZoneState extends State<OfferZone> {
                       )),
                 ),
                 Positioned(
-                  top: 0,
-                  left: 0,
+                  top: -5,
+                  left: -5,
                   child: Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                        color: secondaryColor, shape: BoxShape.circle),
-                    child: Center(
-                      child: Text(
-                        "30 % off",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: secondaryColor, shape: BoxShape.circle),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          "30 % off",
+                          textAlign: TextAlign.center,
+                        ),
+                      )),
                 )
               ],
             ),
@@ -156,7 +155,7 @@ class _OfferZoneState extends State<OfferZone> {
                       textAlign: TextAlign.center,
                     )),
               ),
-              AddToCartButton()
+              QuickAddToCartButton()
             ],
           )
         ],

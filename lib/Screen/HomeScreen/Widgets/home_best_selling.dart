@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
+import 'package:freshkart/Widget/quickadd_cart_button.dart';
+import 'package:freshkart/Widget/list_items.dart';
 import 'package:provider/provider.dart';
 
 class BestSellingProducts extends StatelessWidget {
@@ -32,25 +34,20 @@ class BestSellingProducts extends StatelessWidget {
               return Container(
                 width: 180,
                 child: Card(
-                  child: Stack(
+                  child: Column(
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Flexible(
-                              child: Image.asset(
-                            "assets/Images/fruits.png",
-                            fit: BoxFit.contain,
-                          )),
-                          Expanded(child: _price(index))
-                        ],
-                      )
+                      Expanded(
+                        flex: 3,
+                        child: FeatureItem(
+                          productItem: _homeProvider.productList[index],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               );
             },
-            //itemCount: _homeProvider.productList.length,
-            itemCount: 10,
+            itemCount: _homeProvider.productList.length,
             separatorBuilder: (BuildContext context, int index) {
               return SizedBox(width: 5.0);
             },

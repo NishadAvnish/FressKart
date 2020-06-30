@@ -146,15 +146,16 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ListTile(
-                title: Text("Sort By",
-                    style: Theme.of(context).textTheme.bodyText1),
+              Flexible(
+                child: ListTile(
+                  title: Text("Sort By",
+                      style: Theme.of(context).textTheme.bodyText1),
+                ),
               ),
-              Divider(),
-              _listTile("Price (Low to High)", 0),
-              _listTile("Price (High to Low)", 1),
-              _listTile("Popularity", 2),
-              _listTile("Discount", 3),
+              Flexible(child: _listTile("Price (Low to High)", 0)),
+              Flexible(child: _listTile("Price (High to Low)", 1)),
+              Flexible(child: _listTile("Popularity", 2)),
+              Flexible(child: _listTile("Discount", 3)),
             ],
           ),
         );

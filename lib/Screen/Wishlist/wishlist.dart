@@ -76,8 +76,8 @@ class _WishListState extends State<WishList>
                           horizontal: 15.0, vertical: 12.0),
                       width: double.infinity,
                       constraints: BoxConstraints(
-                        maxHeight: 180,
-                        minHeight: 120,
+                        maxHeight: 160,
+                        minHeight: 150,
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
