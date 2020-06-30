@@ -31,9 +31,9 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   }
 
   Future<void> _fetchItems() async {
+    await Provider.of<HomeMainCategoryProvider>(context, listen: false)
+        .fetchItem();
     if (this.mounted) {
-      await Provider.of<HomeMainCategoryProvider>(context, listen: false)
-          .fetchItem();
       setState(() {
         _isLoading = false;
       });

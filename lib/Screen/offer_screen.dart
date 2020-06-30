@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/Widget/add_cart_button.dart';
 import 'package:freshkart/Widget/sliver_appbar.dart';
-import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
 import '../Provider/offer_provider.dart';
 
@@ -29,10 +29,9 @@ class _OfferZoneState extends State<OfferZone> {
   }
 
   Future<void> _fetchItems() async {
+    await Provider.of<OfferProvider>(context, listen: false).fetchOfferList();
     if (this.mounted) {
-      await Provider.of<OfferProvider>(context, listen: false).fetchOfferList();
-
-      setState(() {
+      super.setState(() {
         _isLoading = false;
       });
     }
@@ -144,17 +143,20 @@ class _OfferZoneState extends State<OfferZone> {
             style: Theme.of(context).textTheme.bodyText2,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Card(
                 elevation: 4.0,
-                color: Colors.white70,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
-                  child: Text("300 gm"),
-                ),
+                child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 10),
+                    width: 100,
+                    child: Text(
+                      "300 gm",
+                      textAlign: TextAlign.center,
+                    )),
               ),
+              AddToCartButton()
             ],
           )
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/person_screen.dart';
-import 'package:freshkart/Screen/wishlist.dart';
+import 'package:freshkart/Screen/Wishlist/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
 import 'CategoryScreen/categorywise_screen.dart';

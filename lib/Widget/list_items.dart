@@ -4,6 +4,7 @@ import 'package:freshkart/model/productmodel.dart';
 
 class FeatureItem extends StatelessWidget {
   final ProductModel productItem;
+
   const FeatureItem({this.productItem});
 
   @override
@@ -26,7 +27,7 @@ class FeatureItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
-                        flex: 4,
+                        flex: 5,
                         child: Image.asset(
                           productItem.imageUrl[0],
                           fit: BoxFit.cover,

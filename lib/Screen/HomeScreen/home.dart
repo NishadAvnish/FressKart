@@ -34,9 +34,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
   }
 
   Future<void> _fetchItems() async {
+    await Provider.of<HomeProductProvider>(context, listen: false).fetchItem();
     if (this.mounted) {
-      await Provider.of<HomeProductProvider>(context, listen: false)
-          .fetchItem();
       super.setState(() {
         _isLoading = false;
       });

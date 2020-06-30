@@ -3,7 +3,7 @@ import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/Sliver_appbar.dart';
-import 'package:freshkart/Widget/wishlist_item.dart';
+import 'package:freshkart/Screen/Wishlist/Widget/wishlist_item.dart';
 import 'package:freshkart/model/wishlist_model_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,25 +26,26 @@ class _WishListState extends State<WishList>
 
   @override
   void initState() {
-    super.initState();
     _isLoading = true;
     _scrollController = ScrollController();
     _listKey = GlobalKey<SliverAnimatedListState>();
-    if (this.mounted)
+    if (this.mounted) {
       _scrollController.addListener(() {
         offset.value = _scrollController.offset;
       });
-    _fetchItems();
+      _fetchItems();
+    }
+    super.initState();
   }
 
   Future<void> _fetchItems() async {
-    if (this.mounted) {
-      await Provider.of<WishListProvider>(context, listen: false)
-          .fetchWishListFromDatabase();
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    await Provider.of<WishListProvider>(context, listen: false)
+        .fetchWishListFromDatabase();
+
+    if (!this.mounted) return;
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -142,8 +143,8 @@ class _WishListState extends State<WishList>
                   child: Container(
                       width: double.infinity,
                       constraints: BoxConstraints(
-                        minHeight: 100,
-                        maxHeight: 130,
+                        minHeight: 90,
+                        maxHeight: 110,
                       ),
                       child: Row(
                         children: <Widget>[

@@ -9,7 +9,7 @@ class WishListProvider with ChangeNotifier {
   }
 
   Future<void> fetchWishListFromDatabase() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 200));
     _wishlist = [
       WishListModel(
           id: "0",
