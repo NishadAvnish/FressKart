@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
+import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Screen/Wishlist/wishlist.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/model/wishlist_model_provider.dart';
 import 'Widgets/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
 import 'Widgets/productdetail_pageview.dart';
 import 'Widgets/quantity_incdec.dart';
-import 'package:freshkart/Util/color.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
-  const ProductDetail({this.productId});
+  final selectedProdQuantityIndex;
+  const ProductDetail({this.productId, this.selectedProdQuantityIndex});
 
   @override
   _ProductDetailState createState() => _ProductDetailState();
@@ -25,9 +28,12 @@ class _ProductDetailState extends State<ProductDetail> {
     _callProvider();
   }
 
-  void _callProvider() {
+  Future<void> _callProvider() async {
     _product = Provider.of<HomeProductProvider>(context, listen: false)
         .findById(widget.productId);
+    // productQuantity.value =
+    //     _product.productQuantityList[widget.selectedProdQuantityIndex].quantity;
+    print(productQuantity.value);
   }
 
   @override
@@ -67,7 +73,23 @@ class _ProductDetailState extends State<ProductDetail> {
                     child: Transform.translate(
                       offset: Offset(0, 55),
                       child: MaterialButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final _selectedQuantity = _product.productQuantityList
+                              .firstWhere((element) =>
+                                  element.quantity == productQuantity.value);
+                          Provider.of<WishListProvider>(context, listen: false)
+                              .addToWishList(WishListModel(
+                                  id: _product.id,
+                                  title: _product.title,
+                                  imageUrl: _product.imageUrl[0],
+                                  oldPrice: _selectedQuantity.price,
+                                  actualPrice:
+                                      _selectedQuantity.newModifiedPrice,
+                                  quantity: _selectedQuantity.quantity,
+                                  unit: productUnit.value,
+                                  savedPrice: _selectedQuantity.price -
+                                      _selectedQuantity.newModifiedPrice));
+                        },
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0)),
@@ -109,7 +131,11 @@ class _ProductDetailState extends State<ProductDetail> {
                     SizedBox(
                       height: 8,
                     ),
-                    IncDec(_product),
+                    IncDec(
+                      product: _product,
+                      selectedProdQuantityIndex:
+                          widget.selectedProdQuantityIndex,
+                    ),
                     SizedBox(height: 15),
                     Text(
                       "About The Product",

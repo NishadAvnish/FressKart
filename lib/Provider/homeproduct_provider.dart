@@ -13,7 +13,7 @@ class HomeProductProvider with ChangeNotifier {
     await Future.delayed(Duration(milliseconds: 200));
     _productlist = [
       ProductModel(
-        id: 0,
+        id: "0",
         title: "Kiwi",
         imageUrl: [
           "assets/Images/fruits.png",
@@ -44,7 +44,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 3,
+        id: "3",
         title: "Pepsi",
         imageUrl: ["assets/Images/veggies.png"],
         description: "Fresh Onion and deliverable at time",
@@ -68,7 +68,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 5,
+        id: "5",
         title: "Cola",
         imageUrl: [
           "assets/Images/fruits.png",
@@ -100,7 +100,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 0),
       ),
       ProductModel(
-        id: 7,
+        id: "7",
         title: "Maaza",
         imageUrl: [
           "assets/Images/veggies.png",
@@ -132,7 +132,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 9,
+        id: "9",
         title: "Mazza",
         imageUrl: ["assets/Images/veggies.png"],
         description: "Fresh Onion and deliverable at time",
@@ -163,7 +163,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 11,
+        id: "11",
         title: "Pepsi",
         imageUrl: ["assets/Images/veggies.png"],
         description: "Fresh Onion and deliverable at time",
@@ -191,9 +191,9 @@ class HomeProductProvider with ChangeNotifier {
             five: 0),
       ),
       ProductModel(
-        id: 12,
+        id: "12",
         title: "Kiwi",
-        imageUrl: ["assets/Images/fruits.png"],
+        imageUrl: ["assets/Images/beverages.png"],
         description: "Fresh Kiwi and deliverable at time",
         tag: "Sale",
         productQuantityList: [
@@ -218,7 +218,7 @@ class HomeProductProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 13,
+        id: "13",
         title: "Pepsi",
         imageUrl: [
           "assets/Images/veggies.png",
@@ -253,7 +253,7 @@ class HomeProductProvider with ChangeNotifier {
   }
 
 // used by productdetail screen
-  ProductModel findById(int id) {
+  ProductModel findById(String id) {
     return _productlist.firstWhere((prod) => prod.id == id);
   }
 }

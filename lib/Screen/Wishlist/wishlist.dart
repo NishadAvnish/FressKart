@@ -18,7 +18,6 @@ class _WishListState extends State<WishList>
   WishListProvider _wishListProvider;
   bool _isLoading;
   ScrollController _scrollController;
-
   GlobalKey<SliverAnimatedListState> _listKey;
 
   @override
@@ -51,7 +50,6 @@ class _WishListState extends State<WishList>
   @override
   void dispose() {
     _scrollController?.dispose();
-
     super.dispose();
   }
 
@@ -66,128 +64,120 @@ class _WishListState extends State<WishList>
               child: Center(
               child: CircularProgressIndicator(),
             ))
-          : SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Card(
-                    elevation: 3.0,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 15.0, vertical: 12.0),
-                      width: double.infinity,
-                      constraints: BoxConstraints(
-                        maxHeight: 160,
-                        minHeight: 150,
-                      ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _topTotalContainerItem(
-                                "MRP", "Rs" + "1234", Colors.black),
-                            _topTotalContainerItem(
-                                "Discount", "- Rs" + "100", mainColor),
-                            _topTotalContainerItem(
-                                "Delivery", "Rs" + "80", mainColor),
-                            Divider(),
-                            _topTotalContainerItem(
-                                "Sub Total", "Rs" + "1214", Colors.black),
-                          ]),
-                    ),
-                  ),
-                  Card(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 12.0),
-                      height: 40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3.0)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Sub Total: Rs ${1230}",
-                              style: Theme.of(context).textTheme.subtitle2),
-                          MaterialButton(
-                              onPressed: () {},
-                              color: ternaryColor,
-                              child: Text("Proceed To CheckOut")),
-                        ],
+          : SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Card(
+                      elevation: 3.0,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.0, vertical: 12.0),
+                        width: double.infinity,
+                        constraints: BoxConstraints(
+                          maxHeight: 160,
+                          minHeight: 150,
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              _topTotalContainerItem(
+                                  "MRP", "Rs" + "1234", Colors.black),
+                              _topTotalContainerItem(
+                                  "Discount", "- Rs" + "100", mainColor),
+                              _topTotalContainerItem(
+                                  "Delivery", "Rs" + "80", mainColor),
+                              Divider(),
+                              _topTotalContainerItem(
+                                  "Sub Total", "Rs" + "1214", Colors.black),
+                            ]),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: AnimatedList(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        key: _listKey,
-                        initialItemCount: _wishlist.length,
-                        itemBuilder: (context, index, animation) =>
-                            _buildCartItem(animation, index)),
-                  ),
-                ],
+                    Card(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 12.0),
+                        height: 40,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text("Sub Total: Rs ${1230}",
+                                style: Theme.of(context).textTheme.subtitle2),
+                            RaisedButton(
+                                onPressed: () {},
+                                color: mainColor,
+                                child: Text("Proceed To CheckOut")),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: MediaQuery.removePadding(
+                        context: context,
+                        removeTop: true,
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            key: _listKey,
+                            itemCount: _wishlist.length,
+                            itemBuilder: (context, index) =>
+                                _buildCartItem(index)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
     ]);
   }
 
-  Widget _buildCartItem(Animation animation, int index) {
-    return FadeTransition(
-      opacity: animation.drive(Tween<double>(begin: 0.0, end: 1.0)),
-      child: SizeTransition(
-        sizeFactor: animation.drive(Tween<double>(begin: 0, end: 1)),
-        child: (_wishlist.isNotEmpty)
-            ? Card(
-                child: Dismissible(
-                  direction: DismissDirection.endToStart,
-                  key: UniqueKey(),
-                  child: Container(
-                      width: double.infinity,
-                      constraints: BoxConstraints(
-                        minHeight: 90,
-                        maxHeight: 110,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 130,
-                            child: Image.asset(
-                              _wishlist[index].imageUrl,
-                              fit: BoxFit.contain,
-                              filterQuality: FilterQuality.low,
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Flexible(
-                            child: ChangeNotifierProvider.value(
-                              value: _wishlist[
-                                  index], // this will help in changing in single WishListItem
-                              child: WishlistItem(index: index),
-                            ),
-                          ),
-                          SizedBox(width: 8)
-                        ],
-                      )),
-                  background: GestureDetector(
-                    onTap: () {
-                      final removedItem = _wishlist.removeAt(index);
-                      _wishListProvider.removefromList(removedItem);
-                      AnimatedListRemovedItemBuilder builder =
-                          (context, animation) {
-                        return _buildCartItem(
-                            animation, index == 0 ? index : index - 1);
-                      };
-                      _listKey.currentState.removeItem(index, builder);
-                    },
-                    child: Container(
-                      color: Colors.red[300],
-                      child: Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(Icons.delete, size: 40)),
-                    ),
+  Widget _buildCartItem(int index) {
+    return Card(
+      child: Dismissible(
+        direction: DismissDirection.endToStart,
+        key: UniqueKey(),
+        child: Container(
+            width: double.infinity,
+            constraints: BoxConstraints(
+              minHeight: 90,
+              maxHeight: 110,
+            ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 130,
+                  child: Image.asset(
+                    _wishlist[index].imageUrl,
+                    fit: BoxFit.contain,
+                    filterQuality: FilterQuality.low,
                   ),
                 ),
-              )
-            : Container(),
+                SizedBox(width: 20),
+                Flexible(
+                  child: ChangeNotifierProvider.value(
+                    value: _wishlist[
+                        index], // this will help in changing in single WishListItem
+                    child: WishlistItem(index: index),
+                  ),
+                ),
+                SizedBox(width: 8),
+              ],
+            )),
+        background: GestureDetector(
+          onTap: () {
+            _wishListProvider.removefromList(_wishlist[index]);
+          },
+          child: Container(
+            color: Colors.red[300],
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: Icon(Icons.delete, size: 40)),
+          ),
+        ),
       ),
     );
   }

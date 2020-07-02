@@ -44,9 +44,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.pink,
-        ),
+        theme:
+            ThemeData(primarySwatch: Colors.green, splashColor: Colors.green),
         initialRoute: "/screenSelector",
         onGenerateRoute: genereateRoute,
       ),

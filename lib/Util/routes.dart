@@ -18,9 +18,15 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
     case "about":
       return fadeTransition(child: PersonScreen());
       break;
-    case "detailScreen":
+    case "productDetailScreen":
+      Map<String, dynamic> _arguments = settings.arguments as Map;
+      final _productId = _arguments["productId"];
+      final _selectedProdQuantityIndex =
+          _arguments["selectedProdQuantityIndex"];
       return fadeTransition(
-          child: ProductDetail(productId: settings.arguments));
+          child: ProductDetail(
+              productId: _productId,
+              selectedProdQuantityIndex: _selectedProdQuantityIndex));
       break;
     case "categoryScreen":
       final _index = settings.arguments;

@@ -20,6 +20,7 @@ class WishlistItem extends StatelessWidget {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _price(),
           Text(
@@ -68,7 +69,7 @@ class WishlistItem extends StatelessWidget {
           children: <Widget>[
             InkWell(
                 onTap: () {
-                  if (_wishlist[index].unit == 0) {
+                  if (_wishlist[index].unit == 1) {
                     _wishListProvider.removefromList(_wishlist[index]);
                   } else {
                     wishlistModel.changeQuantity(

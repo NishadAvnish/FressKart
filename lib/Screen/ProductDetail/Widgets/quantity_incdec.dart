@@ -5,8 +5,9 @@ import 'package:freshkart/model/productmodel.dart';
 
 class IncDec extends StatefulWidget {
   final ProductModel product;
+  final selectedProdQuantityIndex;
 
-  IncDec(this.product);
+  IncDec({this.product, this.selectedProdQuantityIndex});
 
   @override
   _IncDecState createState() => _IncDecState();
@@ -18,7 +19,8 @@ class _IncDecState extends State<IncDec> {
   @override
   void initState() {
     super.initState();
-    _selected = widget.product.productQuantityList[0];
+    _selected =
+        widget.product.productQuantityList[widget.selectedProdQuantityIndex];
   }
 
   @override
@@ -27,57 +29,50 @@ class _IncDecState extends State<IncDec> {
     super.dispose();
   }
 
+  Widget _buttonContainer(IconData icon) {
+    return Container(
+        height: 35,
+        width: 35,
+        decoration: BoxDecoration(
+            border: Border.all(),
+            color: ternaryColor,
+            borderRadius: BorderRadius.circular(8.0)),
+        child: Icon(icon));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Row(
-          children: <Widget>[
-            ValueListenableBuilder(
-                valueListenable: productUnit,
-                builder: (context, listenedUnitValue, _) {
-                  return InkWell(
-                      onTap: listenedUnitValue > 1
-                          ? () {
-                              productUnit.value -= 1;
-                            }
-                          : null,
-                      child: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                              border: Border.all(),
-                              color: ternaryColor,
-                              borderRadius: BorderRadius.circular(8.0)),
-                          child: Icon(Icons.remove)));
-                }),
-            SizedBox(width: 20),
-            ValueListenableBuilder(
-                valueListenable: productUnit,
-                builder: (context, productUnitValue, _) {
-                  return Text(
-                    productUnitValue.toString(),
+        ValueListenableBuilder(
+            valueListenable: productUnit,
+            builder: (context, listenedUnitValue, _) {
+              return Row(
+                children: <Widget>[
+                  InkWell(
+                    onTap: listenedUnitValue > 1
+                        ? () {
+                            productUnit.value -= 1;
+                          }
+                        : null,
+                    child: _buttonContainer(Icons.remove),
+                  ),
+                  SizedBox(width: 20),
+                  Text(
+                    listenedUnitValue.toString(),
                     style: Theme.of(context).textTheme.bodyText1,
-                  );
-                }),
-            SizedBox(width: 18),
-            InkWell(
-              onTap: () {
-                if (productUnit.value < 10) productUnit.value += 1;
-              },
-              child: Container(
-                  height: 35,
-                  width: 35,
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      color: ternaryColor,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  child: Icon(Icons.add)),
-            ),
-          ],
-        ),
+                  ),
+                  SizedBox(width: 18),
+                  InkWell(
+                      onTap: () {
+                        if (productUnit.value < 10) productUnit.value += 1;
+                      },
+                      child: _buttonContainer(Icons.add)),
+                ],
+              );
+            }),
         DropdownButton<ProductListModel>(
           value: _selected,
           onChanged: (productlist) {

@@ -25,7 +25,7 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   void initState() {
     super.initState();
     _isLoading = true;
-    _selectedFilterIndex = -1; // that means not any filter item  is selected
+    _selectedFilterIndex = -1; // that means no any filter item  is selected
 
     _fetchItems();
   }
@@ -49,7 +49,6 @@ class _CategoryScreenState extends State<CategoryWiseDetail>
   @override
   Widget build(BuildContext context) {
     _homeMainCategoryProvider = Provider.of<HomeMainCategoryProvider>(context);
-
     return Scaffold(
       drawer: AppDrawer(),
       body: CustomScrollView(

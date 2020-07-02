@@ -12,7 +12,7 @@ class OfferProvider with ChangeNotifier {
     await Future.delayed(Duration(seconds: 1));
     _offerList = [
       ProductModel(
-          id: 0,
+          id: "0",
           title: "Kiwi",
           imageUrl: [
             "assets/Images/fruits.png",
@@ -44,7 +44,7 @@ class OfferProvider with ChangeNotifier {
               five: 13000),
           tag: "20 %"),
       ProductModel(
-        id: 3,
+        id: "3",
         title: "Pepsi",
         imageUrl: ["assets/Images/veggies.png"],
         description: "Fresh Onion and deliverable at time",
@@ -68,7 +68,7 @@ class OfferProvider with ChangeNotifier {
             five: 13000),
       ),
       ProductModel(
-        id: 5,
+        id: "5",
         title: "Cola",
         imageUrl: [
           "assets/Images/fruits.png",
