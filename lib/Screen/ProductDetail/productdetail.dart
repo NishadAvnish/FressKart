@@ -31,9 +31,6 @@ class _ProductDetailState extends State<ProductDetail> {
   Future<void> _callProvider() async {
     _product = Provider.of<HomeProductProvider>(context, listen: false)
         .findById(widget.productId);
-    // productQuantity.value =
-    //     _product.productQuantityList[widget.selectedProdQuantityIndex].quantity;
-    print(productQuantity.value);
   }
 
   @override
@@ -47,12 +44,20 @@ class _ProductDetailState extends State<ProductDetail> {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-          flexibleSpace:
-              Container(decoration: BoxDecoration(gradient: mainColorGradient)),
-          title: Text(
-            _product.title,
-            style: TextStyle(fontStyle: FontStyle.italic),
-          )),
+        flexibleSpace:
+            Container(decoration: BoxDecoration(gradient: mainColorGradient)),
+        title: Text(
+          _product.title,
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                Navigator.of(context).pushNamed("cartScreen");
+              })
+        ],
+      ),
       body: Container(
         height:
             _size.height - kToolbarHeight - MediaQuery.of(context).padding.top,
@@ -67,37 +72,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   _tag(),
                   //This productDetailPageView show image carousal on top
                   ProductDetailPageView(product: _product),
-                  Positioned(
-                    bottom: 2,
-                    right: 5,
-                    child: Transform.translate(
-                      offset: Offset(0, 55),
-                      child: MaterialButton(
-                        onPressed: () {
-                          final _selectedQuantity = _product.productQuantityList
-                              .firstWhere((element) =>
-                                  element.quantity == productQuantity.value);
-                          Provider.of<WishListProvider>(context, listen: false)
-                              .addToWishList(WishListModel(
-                                  id: _product.id,
-                                  title: _product.title,
-                                  imageUrl: _product.imageUrl[0],
-                                  oldPrice: _selectedQuantity.price,
-                                  actualPrice:
-                                      _selectedQuantity.newModifiedPrice,
-                                  quantity: _selectedQuantity.quantity,
-                                  unit: productUnit.value,
-                                  savedPrice: _selectedQuantity.price -
-                                      _selectedQuantity.newModifiedPrice));
-                        },
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: ternaryColor,
-                        child: Text("Add To Cart"),
-                      ),
-                    ),
-                  )
                 ],
               ),
               Padding(
@@ -116,11 +90,9 @@ class _ProductDetailState extends State<ProductDetail> {
                         )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        _price(),
-                      ],
+                      children: <Widget>[_price(), _addToCartButton()],
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 10),
                     Text(
                       "Quantity",
                       style: Theme.of(context)
@@ -240,5 +212,40 @@ class _ProductDetailState extends State<ProductDetail> {
                 );
               });
         });
+  }
+
+  Widget _addToCartButton() {
+    return MaterialButton(
+      onPressed: () {
+        ProductListModel _selectedQuantity;
+        if (productQuantity.value != "") {
+          _selectedQuantity = _product.productQuantityList.firstWhere(
+              (element) => element.quantity == productQuantity.value);
+        } else {
+          _selectedQuantity = _product.productQuantityList[0];
+        }
+
+        Provider.of<WishListProvider>(context, listen: false).addToWishList(
+            WishListModel(
+                id: _product.id,
+                title: _product.title,
+                imageUrl: _product.imageUrl[0],
+                oldPrice: _selectedQuantity.newModifiedPrice == null
+                    ? null
+                    : _selectedQuantity.price,
+                actualPrice: _selectedQuantity.newModifiedPrice ??
+                    _selectedQuantity.price,
+                quantity: _selectedQuantity.quantity,
+                unit: productUnit.value,
+                savedPrice: _selectedQuantity.newModifiedPrice == null
+                    ? 0
+                    : _selectedQuantity.price -
+                        _selectedQuantity.newModifiedPrice));
+      },
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: ternaryColor,
+      child: Text("Add To Cart"),
+    );
   }
 }

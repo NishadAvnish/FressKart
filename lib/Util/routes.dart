@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Screen/CategoryScreen/categorywise_screen.dart';
+import 'package:freshkart/Screen/Wishlist/wishlist.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
 import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/screenselector.dart';
@@ -31,6 +32,9 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
     case "categoryScreen":
       final _index = settings.arguments;
       return fadeTransition(child: CategoryWiseDetail(index: _index));
+      break;
+    case "cartScreen":
+      return fadeTransition(child: WishList());
       break;
   }
 }

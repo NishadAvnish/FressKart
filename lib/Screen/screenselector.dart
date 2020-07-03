@@ -29,7 +29,6 @@ class _ScreenSelectorState extends State<ScreenSelector>
       OfferZone(),
       WishList(),
       CategoryWiseDetail(index: 0),
-      PersonScreen()
     ];
   }
 
@@ -100,14 +99,10 @@ class _ScreenSelectorState extends State<ScreenSelector>
               Icons.home, "Home", 0, selectedBottomNavIndexValue),
           bottomNavigationItem(
               Icons.local_offer, "Offer", 1, selectedBottomNavIndexValue),
-          // bottomNavigationItem(
-          //     Icons.search, "Search", 1, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.add_shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
+              Icons.shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
           bottomNavigationItem(
               Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
-          bottomNavigationItem(
-              Icons.person, "About", 4, selectedBottomNavIndexValue),
         ]),
       ),
     );
@@ -122,7 +117,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
         });
       },
       child: Container(
-        width: 60,
+        width: 80,
         color: Colors.white,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
