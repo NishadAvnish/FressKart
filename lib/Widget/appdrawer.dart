@@ -58,24 +58,35 @@ class AppDrawer extends StatelessWidget {
         Navigator.of(context).pop();
         Navigator.of(context).pushNamed("about");
       },
-      child: Column(
-        children: <Widget>[
-          SizedBox(height: 5),
-          CircleAvatar(
-            radius: 40,
-            child: FlutterLogo(),
-          ),
-          SizedBox(height: 15),
-          Text(
-            "Avnish",
-            style: Theme.of(context).textTheme.subtitle2,
-          ),
-          Text(
-            "9971604962",
-            style: Theme.of(context).textTheme.subtitle1,
-          ),
-          SizedBox(height: 5),
-        ],
+      child: SizedBox(
+        height: kToolbarHeight,
+        child: Padding(
+            padding: const EdgeInsets.only(
+                left: 30, top: 8.0, right: 8.0, bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      "Welcome",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: Colors.white),
+                    ),
+                    Text(
+                      "Avnish",
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
+                IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: null)
+              ],
+            )),
       ),
     );
   }

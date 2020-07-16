@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
+import 'package:freshkart/model/wishlist_model_provider.dart';
+import 'package:provider/provider.dart';
 
 class QuickAddToCartButton extends StatefulWidget {
   final ProductModel product;
+  final String popUpSelectedItem;
   double height;
   double width;
   double buttonWidth;
   QuickAddToCartButton(
-      {this.product, this.height = 25, this.width = 90, this.buttonWidth = 25});
+      {this.product,
+      this.popUpSelectedItem = "",
+      this.height = 25,
+      this.width = 90,
+      this.buttonWidth = 25});
   @override
   _AddToCartButtonState createState() => _AddToCartButtonState();
 }
@@ -19,6 +27,41 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
   void initState() {
     _count = 0;
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(QuickAddToCartButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.popUpSelectedItem != widget.popUpSelectedItem) {
+      setState(() {});
+    }
+  }
+
+  void _addToCartOperation() {
+    ProductListModel _selectedQuantity;
+    if (widget.popUpSelectedItem != "") {
+      _selectedQuantity = widget.product.productQuantityList.firstWhere(
+          (element) => element.quantity == widget.popUpSelectedItem);
+    } else {
+      _selectedQuantity = widget.product.productQuantityList[0];
+    }
+
+    Provider.of<WishListProvider>(context, listen: false).addToWishList(
+        WishListModel(
+            id: widget.product.id,
+            title: widget.product.title,
+            imageUrl: widget.product.imageUrl[0],
+            oldPrice: _selectedQuantity.newModifiedPrice == null
+                ? null
+                : _selectedQuantity.price,
+            actualPrice:
+                _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
+            quantity: _selectedQuantity.quantity,
+            unit: _count,
+            savedPrice: _selectedQuantity.newModifiedPrice == null
+                ? 0
+                : _selectedQuantity.price -
+                    _selectedQuantity.newModifiedPrice));
   }
 
   @override
@@ -36,6 +79,7 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
                 setState(() {
                   _count += 1;
                 });
+                _addToCartOperation();
               },
               child: Center(
                 child: Text(
@@ -57,26 +101,29 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
                     setState(() {
                       _count -= 1;
                     });
+                    _addToCartOperation();
                   }
                 : null,
-            child: _addRemoveutton(Icons.remove)),
+            child: _addRemoveButton(Icons.remove)),
         Text(
           _count.toString(),
           style: Theme.of(context).textTheme.bodyText1,
         ),
         InkWell(
             onTap: () {
-              if (_count < 10)
+              if (_count < 10) {
                 setState(() {
                   _count += 1;
                 });
+                _addToCartOperation();
+              }
             },
-            child: _addRemoveutton(Icons.add)),
+            child: _addRemoveButton(Icons.add)),
       ],
     );
   }
 
-  Widget _addRemoveutton(IconData icon) {
+  Widget _addRemoveButton(IconData icon) {
     return Container(
         height: widget.height,
         width: widget.buttonWidth,

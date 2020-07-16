@@ -74,33 +74,37 @@ class _PersonScreenState extends State<PersonScreen> {
                         child: Column(children: [
                           _fullDetail(context),
                           SizedBox(height: 15),
-                          _updateNameandAddress(
-                              "You Full Name",
-                              TextEditingController(text: _personDetail.name),
-                              1),
+                          _updatableField(
+                              heading: "You Full Name",
+                              controller: TextEditingController(
+                                  text: _personDetail.name),
+                              maxLines: 1),
                           SizedBox(height: 15),
-                          _updateNameandAddress(
-                              "Mobile No.",
-                              TextEditingController(
-                                  text: _personDetail.phoneNo),
-                              1),
+                          _updatableField(
+                            heading: "Mobile No.",
+                            controller: TextEditingController(
+                                text: _personDetail.phoneNo),
+                            maxLines: 1,
+                            isEnable: false,
+                          ),
                           SizedBox(height: 15),
-                          _updateNameandAddress(
-                              "Address",
-                              TextEditingController(
+                          _updatableField(
+                              heading: "Address",
+                              controller: TextEditingController(
                                   text: _personDetail.address),
-                              4),
+                              maxLines: 4),
                           SizedBox(height: 15),
-                          _updateNameandAddress(
-                              "Area",
-                              TextEditingController(text: _personDetail.area),
-                              1),
+                          _updatableField(
+                              heading: "Area",
+                              controller: TextEditingController(
+                                  text: _personDetail.area),
+                              maxLines: 1),
                           SizedBox(height: 15),
-                          _updateNameandAddress(
-                              "Pincode",
-                              TextEditingController(
+                          _updatableField(
+                              heading: "Pincode",
+                              controller: TextEditingController(
                                   text: _personDetail.pincode),
-                              1),
+                              maxLines: 1),
                           SizedBox(height: 25),
                           MaterialButton(
                             onPressed: () {},
@@ -108,7 +112,7 @@ class _PersonScreenState extends State<PersonScreen> {
                             color: ternaryColor,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0)),
-                            child: Text("Upload",
+                            child: Text("Update",
                                 style: Theme.of(context).textTheme.headline6),
                           ),
                           SizedBox(height: kToolbarHeight)
@@ -145,8 +149,11 @@ class _PersonScreenState extends State<PersonScreen> {
     ]);
   }
 
-  Widget _updateNameandAddress(
-      String heading, TextEditingController controller, int maxLines) {
+  Widget _updatableField(
+      {String heading,
+      TextEditingController controller,
+      int maxLines,
+      bool isEnable = true}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -157,11 +164,12 @@ class _PersonScreenState extends State<PersonScreen> {
         SizedBox(height: 3),
         TextField(
           maxLines: maxLines,
+          enabled: isEnable,
           controller: controller,
           style: Theme.of(context)
               .textTheme
               .bodyText2
-              .copyWith(color: Colors.black),
+              .copyWith(color: isEnable ? Colors.black : Colors.grey),
           decoration: InputDecoration(
               border:
                   OutlineInputBorder(borderRadius: BorderRadius.circular(8.0))),

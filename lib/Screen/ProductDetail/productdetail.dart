@@ -39,6 +39,33 @@ class _ProductDetailState extends State<ProductDetail> {
     super.dispose();
   }
 
+  void _addToCartOperation() {
+    ProductListModel _selectedQuantity;
+    if (productQuantity.value != "") {
+      _selectedQuantity = _product.productQuantityList
+          .firstWhere((element) => element.quantity == productQuantity.value);
+    } else {
+      _selectedQuantity = _product.productQuantityList[0];
+    }
+
+    Provider.of<WishListProvider>(context, listen: false).addToWishList(
+        WishListModel(
+            id: _product.id,
+            title: _product.title,
+            imageUrl: _product.imageUrl[0],
+            oldPrice: _selectedQuantity.newModifiedPrice == null
+                ? null
+                : _selectedQuantity.price,
+            actualPrice:
+                _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
+            quantity: _selectedQuantity.quantity,
+            unit: productUnit.value,
+            savedPrice: _selectedQuantity.newModifiedPrice == null
+                ? 0
+                : _selectedQuantity.price -
+                    _selectedQuantity.newModifiedPrice));
+  }
+
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
@@ -217,30 +244,7 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget _addToCartButton() {
     return MaterialButton(
       onPressed: () {
-        ProductListModel _selectedQuantity;
-        if (productQuantity.value != "") {
-          _selectedQuantity = _product.productQuantityList.firstWhere(
-              (element) => element.quantity == productQuantity.value);
-        } else {
-          _selectedQuantity = _product.productQuantityList[0];
-        }
-
-        Provider.of<WishListProvider>(context, listen: false).addToWishList(
-            WishListModel(
-                id: _product.id,
-                title: _product.title,
-                imageUrl: _product.imageUrl[0],
-                oldPrice: _selectedQuantity.newModifiedPrice == null
-                    ? null
-                    : _selectedQuantity.price,
-                actualPrice: _selectedQuantity.newModifiedPrice ??
-                    _selectedQuantity.price,
-                quantity: _selectedQuantity.quantity,
-                unit: productUnit.value,
-                savedPrice: _selectedQuantity.newModifiedPrice == null
-                    ? 0
-                    : _selectedQuantity.price -
-                        _selectedQuantity.newModifiedPrice));
+        _addToCartOperation();
       },
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

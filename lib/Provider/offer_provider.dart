@@ -9,40 +9,39 @@ class OfferProvider with ChangeNotifier {
   }
 
   Future<void> fetchOfferList() async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(milliseconds: 200));
     _offerList = [
       ProductModel(
-          id: "0",
-          title: "Kiwi",
-          imageUrl: [
-            "assets/Images/fruits.png",
-            "assets/Images/fruits.png",
-            "assets/Images/fruits.png"
-          ],
-          description:
-              "Fresh Kiwi and deliverable at time\n\nFull of nutrition",
-          productQuantityList: [
-            ProductListModel(
-              quantity: "300 gram",
-              price: 100,
-            ),
-            ProductListModel(
-              quantity: "1 Kg",
-              price: 2400,
-              newModifiedPrice: 1800,
-            )
-          ],
-          category: "Fruits",
-          subCategory: "Maaza",
-          rating: RatingModel(
-              averageRating: 4.3,
-              personno: 39000,
-              one: 0,
-              two: 6000,
-              three: 12000,
-              four: 8000,
-              five: 13000),
-          tag: "20 %"),
+        id: "0",
+        title: "Kiwi",
+        imageUrl: [
+          "assets/Images/fruits.png",
+          "assets/Images/fruits.png",
+          "assets/Images/fruits.png"
+        ],
+        description: "Fresh Kiwi and deliverable at time\n\nFull of nutrition",
+        productQuantityList: [
+          ProductListModel(
+            quantity: "300 gram",
+            price: 100,
+          ),
+          ProductListModel(
+            quantity: "1 Kg",
+            price: 2400,
+            newModifiedPrice: 1800,
+          )
+        ],
+        category: "Fruits",
+        subCategory: "Maaza",
+        rating: RatingModel(
+            averageRating: 4.3,
+            personno: 39000,
+            one: 0,
+            two: 6000,
+            three: 12000,
+            four: 8000,
+            five: 13000),
+      ),
       ProductModel(
         id: "3",
         title: "Pepsi",

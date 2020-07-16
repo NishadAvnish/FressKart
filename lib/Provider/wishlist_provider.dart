@@ -59,8 +59,6 @@ class WishListProvider with ChangeNotifier {
           : wishlistItem.actualPrice);
       _mrp += current_mrp * wishlistItem.unit;
 
-      print("oldPrice ${wishlistItem.unit}");
-
       _discountPrice += wishlistItem.savedPrice.abs() * wishlistItem.unit;
     });
 
@@ -70,8 +68,6 @@ class WishListProvider with ChangeNotifier {
   }
 
   void addToWishList(WishListModel receivedItem) {
-    print("avnish");
-
     _wishlist.removeWhere((wishlistIten) {
       if (wishlistIten.id == receivedItem.id &&
           wishlistIten.quantity == receivedItem.quantity)
@@ -79,10 +75,8 @@ class WishListProvider with ChangeNotifier {
       else
         return false;
     });
-    print("acnish");
 
     _wishlist.add(receivedItem);
-    print("listsize: ${_wishlist.length}");
     totaling();
     notifyListeners();
   }

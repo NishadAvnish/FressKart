@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Widget/Sliver_appbar.dart';
-import 'package:freshkart/Widget/list_items.dart';
+import 'package:freshkart/Widget/main_list_items.dart';
 import 'package:freshkart/Widget/home_category_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin {
                             mainAxisSpacing: 10,
                             childAspectRatio: 2.0 / 2.8),
                         itemBuilder: (context, int index) {
-                          return FeatureItem(
+                          return MainListItem(
                             productItem: _homeProvider.productList[index],
                           );
                         },

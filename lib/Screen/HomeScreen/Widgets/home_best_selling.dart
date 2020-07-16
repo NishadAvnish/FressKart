@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Widget/quickadd_cart_button.dart';
-import 'package:freshkart/Widget/list_items.dart';
+import 'package:freshkart/Widget/main_list_items.dart';
 import 'package:provider/provider.dart';
 
 class BestSellingProducts extends StatelessWidget {
@@ -38,7 +38,7 @@ class BestSellingProducts extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         flex: 3,
-                        child: FeatureItem(
+                        child: MainListItem(
                           productItem: _homeProvider.productList[index],
                         ),
                       ),

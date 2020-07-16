@@ -3,24 +3,23 @@ import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/quickadd_cart_button.dart';
 import 'package:freshkart/model/productmodel.dart';
 
-class FeatureItem extends StatefulWidget {
+class MainListItem extends StatefulWidget {
   final ProductModel productItem;
 
-  FeatureItem({this.productItem});
+  MainListItem({this.productItem});
 
   @override
-  _FeatureItemState createState() => _FeatureItemState();
+  _MainListItemState createState() => _MainListItemState();
 }
 
-class _FeatureItemState extends State<FeatureItem> {
+class _MainListItemState extends State<MainListItem> {
   String _quantityPopUpSelected;
   int _selectedProdQuantityIndex;
-  int _count = 0;
+
   @override
   void initState() {
-    _quantityPopUpSelected = widget.productItem.productQuantityList[0].quantity;
-
     super.initState();
+    _quantityPopUpSelected = widget.productItem.productQuantityList[0].quantity;
   }
 
   void getSelectedQuantityIndex() {
@@ -87,7 +86,7 @@ class _FeatureItemState extends State<FeatureItem> {
                                     color: Colors.grey)),
                             //price
                             _price(),
-                            //this is for measure unit available  and Add tot Cart for a product
+                            //this is for measure unit available  and Add to Cart for a product
                             _lowerProductOrderDetail(),
                           ]),
                     ),
@@ -191,6 +190,8 @@ class _FeatureItemState extends State<FeatureItem> {
           ),
         ),
         QuickAddToCartButton(
+          popUpSelectedItem: _quantityPopUpSelected,
+          product: widget.productItem,
           width: 150,
           height: 25,
           buttonWidth: 35,

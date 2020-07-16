@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
-import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/Wishlist/wishlist.dart';
+import 'package:freshkart/Screen/search_screen.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
 import 'CategoryScreen/categorywise_screen.dart';
@@ -26,6 +26,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
         AnimationController(vsync: this, duration: Duration(milliseconds: 250));
     _screenList = [
       Home(),
+      SearchScreen(),
       OfferZone(),
       WishList(),
       CategoryWiseDetail(index: 0),
@@ -74,7 +75,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
                                 context, selectedBottomNavIndexValue),
                           );
                         }),
-                  )
+                  ),
                 ],
               );
             }),
@@ -98,11 +99,13 @@ class _ScreenSelectorState extends State<ScreenSelector>
           bottomNavigationItem(
               Icons.home, "Home", 0, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.local_offer, "Offer", 1, selectedBottomNavIndexValue),
+              Icons.search, "Search", 1, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.shopping_cart, "Cart", 2, selectedBottomNavIndexValue),
+              Icons.local_offer, "Offer", 2, selectedBottomNavIndexValue),
           bottomNavigationItem(
-              Icons.assignment, "Order", 3, selectedBottomNavIndexValue),
+              Icons.shopping_cart, "Cart", 3, selectedBottomNavIndexValue),
+          bottomNavigationItem(
+              Icons.assignment, "Order", 4, selectedBottomNavIndexValue),
         ]),
       ),
     );
@@ -117,7 +120,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
         });
       },
       child: Container(
-        width: 80,
+        width: 60,
         color: Colors.white,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
