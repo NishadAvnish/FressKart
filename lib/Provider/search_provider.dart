@@ -18,7 +18,8 @@ class SearchProvider with ChangeNotifier {
     return [..._searchedList];
   }
 
-  void searchItem(String productName) {
+  Future<void> searchItem(String productName) async {
+    await Future.delayed(Duration(milliseconds: 200));
     _searchedList.clear();
     _searchedList.add(
       ProductModel(

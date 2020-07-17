@@ -9,6 +9,7 @@ class AppDrawer extends StatelessWidget {
   List _menu = [
     "Home",
     "Search",
+    "Offer",
     "Cart",
     "Your Order",
     "Shop by Category",
@@ -17,6 +18,7 @@ class AppDrawer extends StatelessWidget {
   List icon = [
     Icons.home,
     Icons.search,
+    Icons.local_offer,
     Icons.add_shopping_cart,
     Icons.assignment,
     Icons.category,
