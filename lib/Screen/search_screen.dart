@@ -55,7 +55,10 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(12.0),
               child: Text(
                 "Suggestion",
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: Colors.grey),
               ),
             ),
           ),

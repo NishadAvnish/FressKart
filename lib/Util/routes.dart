@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Screen/CategoryScreen/categorywise_screen.dart';
 import 'package:freshkart/Screen/Wishlist/wishlist.dart';
+import 'package:freshkart/Screen/checkout_page.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
 import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/screenselector.dart';
@@ -10,7 +11,7 @@ import '../Widget/fadetransition.dart';
 
 Route<dynamic> genereateRoute(RouteSettings settings) {
   switch (settings.name) {
-    case "/screenSelector":
+    case "screenSelector":
       return MaterialPageRoute(builder: (context) => ScreenSelector());
       break;
     case "FAQ":
@@ -35,6 +36,9 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
       break;
     case "cartScreen":
       return fadeTransition(child: WishList());
+      break;
+    case "checkOutScreen":
+      return fadeTransition(child: CheckoutPage());
       break;
   }
 }

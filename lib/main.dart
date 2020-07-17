@@ -46,7 +46,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme:
             ThemeData(primarySwatch: Colors.green, splashColor: Colors.green),
-        initialRoute: "/screenSelector",
+        // initialRoute: "screenSelector",
+        initialRoute: "checkOutScreen",
         onGenerateRoute: genereateRoute,
       ),
     );
