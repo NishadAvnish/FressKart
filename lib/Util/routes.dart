@@ -37,7 +37,7 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
     case "cartScreen":
       return fadeTransition(child: WishList());
       break;
-    case "checkOutScreen":
+    case "checkoutScreen":
       return fadeTransition(child: CheckoutPage());
       break;
   }

@@ -55,96 +55,124 @@ class _WishListState extends State<WishList>
   Widget build(BuildContext context) {
     _wishlistProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishlistProvider.wishList;
-    return Scaffold(
-      body: CustomScrollView(controller: _scrollController, slivers: [
+    return CustomScrollView(
+      controller: _scrollController,
+      slivers: [
         MySliverAppBar(title: "Cart"),
         _isLoading
             ? SliverFillRemaining(
                 child: Center(
-                child: CircularProgressIndicator(),
-              ))
-            : SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Card(
-                        elevation: 3.0,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 15.0, vertical: 12.0),
-                          width: double.infinity,
-                          constraints: BoxConstraints(
-                            maxHeight: 160,
-                            minHeight: 150,
-                          ),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _topTotalContainerItem(
-                                    "MRP",
-                                    "Rs" + _wishlistProvider.MRP.toString(),
-                                    Colors.black),
-                                _topTotalContainerItem(
-                                    "Discount",
-                                    "Rs" +
-                                        _wishlistProvider.discountPrice
-                                            .toString(),
-                                    mainColor),
-                                _topTotalContainerItem(
-                                    "Delivery",
-                                    "Rs" +
-                                        _wishlistProvider.deliveryCharge
-                                            .toString(),
-                                    mainColor),
-                                Divider(),
-                                _topTotalContainerItem(
-                                    "Sub Total",
-                                    "Rs" +
-                                        _wishlistProvider.totalPrice.toString(),
-                                    Colors.black),
-                              ]),
-                        ),
-                      ),
-                      Card(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 12.0),
-                          height: 40,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                  "Sub Total: Rs ${_wishlistProvider.totalPrice}",
-                                  style: Theme.of(context).textTheme.subtitle2),
-                              RaisedButton(
-                                  onPressed: () {},
-                                  color: mainColor,
-                                  child: Text("Proceed To CheckOut")),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 4),
-                        child: MediaQuery.removePadding(
-                          context: context,
-                          removeTop: true,
-                          child: ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: _wishlist.length,
-                              itemBuilder: (context, index) =>
-                                  _buildCartItem(index)),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: CircularProgressIndicator(),
                 ),
               )
-      ]),
+            : _wishlistProvider.wishList.length == 0
+                ? SliverFillRemaining(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("No products in your cart"),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        MaterialButton(
+                          color: secondaryColor,
+                          padding: EdgeInsets.all(8.0),
+                          onPressed: () {
+                            selectedBottomNavIndex.value = 0;
+                          },
+                          child: Text("Go To Home"),
+                        )
+                      ],
+                    ),
+                  )
+                : SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    sliver: SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Card(
+                            elevation: 3.0,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15.0, vertical: 12.0),
+                              width: double.infinity,
+                              constraints: BoxConstraints(
+                                maxHeight: 160,
+                                minHeight: 150,
+                              ),
+                              child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    _topTotalContainerItem(
+                                        "MRP",
+                                        "Rs" + _wishlistProvider.MRP.toString(),
+                                        Colors.black),
+                                    _topTotalContainerItem(
+                                        "Discount",
+                                        "Rs" +
+                                            _wishlistProvider.discountPrice
+                                                .toString(),
+                                        mainColor),
+                                    _topTotalContainerItem(
+                                        "Delivery",
+                                        "Rs" +
+                                            _wishlistProvider.deliveryCharge
+                                                .toString(),
+                                        mainColor),
+                                    Divider(),
+                                    _topTotalContainerItem(
+                                        "Sub Total",
+                                        "Rs" +
+                                            _wishlistProvider.totalPrice
+                                                .toString(),
+                                        Colors.black),
+                                  ]),
+                            ),
+                          ),
+                          Card(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 12.0),
+                              height: 40,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3.0)),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                      "Sub Total: Rs ${_wishlistProvider.totalPrice}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle2),
+                                  RaisedButton(
+                                      onPressed: () => Navigator.of(context)
+                                          .pushNamed("checkoutScreen"),
+                                      color: mainColor,
+                                      child: Text("Proceed To CheckOut")),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: MediaQuery.removePadding(
+                              context: context,
+                              removeTop: true,
+                              child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: _wishlist.length,
+                                  itemBuilder: (context, index) =>
+                                      _buildCartItem(index)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+      ],
     );
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:freshkart/Screen/Wishlist/Widget/wishlist_item.dart';
 import 'package:freshkart/model/wishlist_model_provider.dart';
 
 class WishListProvider with ChangeNotifier {
@@ -65,6 +64,8 @@ class WishListProvider with ChangeNotifier {
     _totalPrice += _mrp - _discountPrice;
     _deliveryCharge = _totalPrice > 400 ? 0.0 : 80.0;
     _totalPrice += _deliveryCharge;
+
+    notifyListeners();
   }
 
   void addToWishList(WishListModel receivedItem) {
@@ -78,12 +79,10 @@ class WishListProvider with ChangeNotifier {
 
     _wishlist.add(receivedItem);
     totaling();
-    notifyListeners();
   }
 
   void removefromList(WishListModel receivedItem) {
     _wishlist.removeWhere((item) => item == receivedItem);
     totaling();
-    notifyListeners();
   }
 }

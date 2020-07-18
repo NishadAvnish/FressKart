@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Screen/Wishlist/wishlist.dart';
+import 'package:freshkart/Screen/OrderScreen/order_screen.dart';
 import 'package:freshkart/Screen/search_screen.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
@@ -29,7 +30,7 @@ class _ScreenSelectorState extends State<ScreenSelector>
       SearchScreen(),
       OfferZone(),
       WishList(),
-      CategoryWiseDetail(index: 0),
+      OrderScreeen(),
     ];
   }
 

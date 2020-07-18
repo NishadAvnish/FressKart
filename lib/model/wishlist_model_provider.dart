@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:provider/provider.dart';
 
 class WishListModel with ChangeNotifier {
   final String id;
@@ -20,10 +22,11 @@ class WishListModel with ChangeNotifier {
       this.unit,
       this.savedPrice});
 
-  void changeQuantity({String authorId, int updatedUnit}) {
+  void changeQuantity({String authorId, int updatedUnit, context}) {
     if (updatedUnit > 0) {
       unit = updatedUnit;
     }
+    Provider.of<WishListProvider>(context, listen: false).totaling();
     notifyListeners();
   }
 }

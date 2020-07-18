@@ -73,7 +73,8 @@ class WishlistItem extends StatelessWidget {
                     _wishListProvider.removefromList(_wishlist[index]);
                   } else {
                     wishlistModel.changeQuantity(
-                        updatedUnit: _wishlist[index].unit -= 1);
+                        updatedUnit: _wishlist[index].unit -= 1,
+                        context: context);
                   }
                 },
                 child: Container(
@@ -94,7 +95,8 @@ class WishlistItem extends StatelessWidget {
               onTap: () {
                 if (_wishlist[index].unit < 10) {
                   wishlistModel.changeQuantity(
-                      updatedUnit: _wishlist[index].unit += 1);
+                      updatedUnit: _wishlist[index].unit += 1,
+                      context: context);
                 }
               },
               child: Container(

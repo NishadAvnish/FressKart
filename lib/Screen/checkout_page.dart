@@ -93,28 +93,29 @@ class _CheckoutPageState extends State<CheckoutPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border(top: BorderSide()),
-                // borderRadius:
-                //     BorderRadius.vertical(top: Radius.circular(8.0))
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text("Sub Total ₹ 400",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .copyWith(color: Colors.black)),
-                  Container(
-                    color: secondaryColor,
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text("Confirm Order",
+              child: Consumer<WishListProvider>(
+                  builder: (context, wishlistProvider, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text("Sub Total ₹ ${wishlistProvider.totalPrice}",
                         style: Theme.of(context)
                             .textTheme
                             .subtitle2
-                            .copyWith(color: Colors.white)),
-                  ),
-                ],
-              ),
+                            .copyWith(color: Colors.black)),
+                    Container(
+                      color: secondaryColor,
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text("Confirm Order",
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              .copyWith(color: Colors.white)),
+                    ),
+                  ],
+                );
+              }),
             ),
           )
         ],
@@ -162,54 +163,51 @@ class _CheckoutPageState extends State<CheckoutPage> {
         SizedBox(
           height: 12,
         ),
-        Consumer<WishListProvider>(builder: (context, wishListProvider, _) {
-          return AnimatedContainer(
-            duration: Duration(milliseconds: 250),
-            width: double.infinity,
-            // height: wishListProvider.wishList.length * 20.0,
-            height: min(20.0 * 40.0, 400),
-            child: Card(
-              elevation: 2.0,
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 40,
-                    // color: index % 2 == 0
-                    //     ? Colors.white
-                    //     : Colors.black.withOpacity(0.1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                          "Item $index",
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        Text(
-                          "Qty: $index",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(color: Colors.black54),
-                        ),
-                        Text(
-                          "₹ 40.0",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText1
-                              .copyWith(color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: 10,
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
-                },
+        Consumer<WishListProvider>(
+          builder: (context, wishListProvider, _) {
+            return Container(
+              width: double.infinity,
+              height: min(wishListProvider.wishList.length * 45.0, 400),
+              child: Card(
+                elevation: 2.0,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            wishListProvider.wishList[index].title,
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          Text(
+                            "Qty: ${wishListProvider.wishList[index].quantity}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.black54),
+                          ),
+                          Text(
+                            "₹ ${wishListProvider.wishList[index].actualPrice}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.black54),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: wishListProvider.wishList.length,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider();
+                  },
+                ),
               ),
-            ),
-          );
-        })
+            );
+          },
+        )
       ],
     );
   }
