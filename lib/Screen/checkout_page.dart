@@ -189,7 +189,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 .copyWith(color: Colors.black54),
                           ),
                           Text(
-                            "₹ ${wishListProvider.wishList[index].actualPrice}",
+                            "₹ ${wishListProvider.wishList[index].actualPrice} x ${wishListProvider.wishList[index].unit}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1

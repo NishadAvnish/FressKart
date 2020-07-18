@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:freshkart/model/wishlist_model_provider.dart';
+import 'package:freshkart/model/wishlist_model_and_provider.dart';
 
 class WishListProvider with ChangeNotifier {
   List<WishListModel> _wishlist = List();

@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Widget/sliver_appbar.dart';
+import 'package:freshkart/model/order_model.dart';
+
+import 'Widget/orderlist_item.dart';
 
 class OrderScreeen extends StatefulWidget {
   @override
@@ -44,7 +47,7 @@ class _OrderScreeenState extends State<OrderScreeen> {
       controller: _scrollController,
       slivers: <Widget>[
         MySliverAppBar(
-          title: "Order",
+          title: "My Order",
         ),
         _isLoading
             ? SliverFillRemaining(
@@ -52,9 +55,7 @@ class _OrderScreeenState extends State<OrderScreeen> {
               )
             : SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  return ListTile(
-                    title: Text("Title:$index"),
-                  );
+                  return OrderListItem();
                 }, childCount: 5),
               )
       ],

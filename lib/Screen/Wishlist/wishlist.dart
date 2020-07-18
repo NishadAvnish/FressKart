@@ -4,7 +4,7 @@ import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/Sliver_appbar.dart';
 import 'package:freshkart/Screen/Wishlist/Widget/wishlist_item.dart';
-import 'package:freshkart/model/wishlist_model_provider.dart';
+import 'package:freshkart/model/wishlist_model_and_provider.dart';
 import 'package:provider/provider.dart';
 
 class WishList extends StatefulWidget {

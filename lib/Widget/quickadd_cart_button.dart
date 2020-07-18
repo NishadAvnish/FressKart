@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/model/productmodel.dart';
-import 'package:freshkart/model/wishlist_model_provider.dart';
+import 'package:freshkart/model/wishlist_model_and_provider.dart';
 import 'package:provider/provider.dart';
 
 class QuickAddToCartButton extends StatefulWidget {

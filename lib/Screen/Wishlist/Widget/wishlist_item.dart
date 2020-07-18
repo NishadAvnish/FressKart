@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/wishlist_provider.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/model/wishlist_model_provider.dart';
+import 'package:freshkart/model/wishlist_model_and_provider.dart';
 import 'package:provider/provider.dart';
 
 class WishlistItem extends StatelessWidget {
@@ -39,13 +39,13 @@ class WishlistItem extends StatelessWidget {
   Widget _price() {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Text(
-        "Rs " + _wishlist[index].actualPrice.toString(),
+        "₹ " + _wishlist[index].actualPrice.toString(),
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
       SizedBox(width: 15),
       _wishlist[index].oldPrice != null
           ? Text(
-              "Rs " + _wishlist[index].oldPrice.toString(),
+              "₹ " + _wishlist[index].oldPrice.toString(),
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
