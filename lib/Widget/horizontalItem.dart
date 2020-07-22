@@ -32,79 +32,88 @@ class _HorizontalListItemState extends State<HorizontalItem> {
   @override
   Widget build(BuildContext context) {
     getSelectedQuantityIndex();
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Stack(
+    return Column(
+      children: <Widget>[
+        Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .pushNamed("productDetailScreen", arguments: {
-                    "productId": widget.productItem.id,
-                    "selectedProdQuantityIndex": _selectedProdQuantityIndex
-                  });
-                },
-                child: Container(
-                  width: 120,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.horizontal(left: Radius.circular(10.0)),
-                    image: DecorationImage(
-                      image: AssetImage(widget.productItem.imageUrl[0]),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                top: -5,
-                left: -5,
-                child: widget.productItem.tag == null
-                    ? Container()
-                    : Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: secondaryColor, shape: BoxShape.circle),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.productItem.tag,
-                            textAlign: TextAlign.center,
-                          ),
+              Stack(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushNamed("productDetailScreen", arguments: {
+                        "productId": widget.productItem.id,
+                        "selectedProdQuantityIndex": _selectedProdQuantityIndex
+                      });
+                    },
+                    child: Container(
+                      width: 120,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.horizontal(
+                            left: Radius.circular(10.0)),
+                        image: DecorationImage(
+                          image: AssetImage(widget.productItem.imageUrl[0]),
+                          fit: BoxFit.fitHeight,
                         ),
                       ),
-              )
+                    ),
+                  ),
+                  Positioned(
+                    top: -5,
+                    left: -5,
+                    child: widget.productItem.tag == null
+                        ? Container()
+                        : Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: secondaryColor, shape: BoxShape.circle),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                widget.productItem.tag,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                  )
+                ],
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Flexible(
+                child: ClipRRect(
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius:
+                      BorderRadius.horizontal(right: Radius.circular(10.0)),
+                  child: _productDetail(),
+                ),
+              ),
             ],
           ),
-          SizedBox(
-            width: 10.0,
-          ),
-          Flexible(
-            child: ClipRRect(
-              clipBehavior: Clip.antiAlias,
-              borderRadius:
-                  BorderRadius.horizontal(right: Radius.circular(10.0)),
-              child: _productDetail(),
-            ),
-          ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 5.0,
+        )
+      ],
     );
   }
 
   Widget _productDetail() {
     return Container(
-      height: 100,
+      height: 90,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           _price(),
           Text(

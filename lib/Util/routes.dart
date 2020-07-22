@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Screen/CategoryScreen/categorywise_screen.dart';
 import 'package:freshkart/Screen/Wishlist/wishlist.dart';
-import 'package:freshkart/Screen/checkout_page.dart';
+import 'package:freshkart/Screen/CheckoutScreen/checkout_page.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
 import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/screenselector.dart';
-
+import '../Screen/OrderScreen/order_detail.dart';
 import '../Screen/ProductDetail/productdetail.dart';
 import '../Widget/fadetransition.dart';
 
@@ -39,6 +39,11 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
       break;
     case "checkoutScreen":
       return fadeTransition(child: CheckoutPage());
+      break;
+    case "orderDetail":
+      final _index = settings.arguments;
+      return MaterialPageRoute(
+          builder: (context) => OrderDetailScreen(index: _index));
       break;
   }
 }

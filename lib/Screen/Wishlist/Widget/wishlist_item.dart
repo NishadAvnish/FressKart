@@ -16,31 +16,28 @@ class WishlistItem extends StatelessWidget {
   Widget build(BuildContext context) {
     _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
     _wishlist = _wishListProvider.wishList;
-    return Consumer<WishListModel>(builder: (context, wishlistModel, _) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          _price(),
-          Text(
-            _wishlist[index].title,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .copyWith(wordSpacing: 3, fontStyle: FontStyle.italic),
-          ),
-          _quantityandIncDec(context, wishlistModel),
-        ],
-      );
-    });
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        _price(),
+        Text(_wishlist[index].title,
+            style: Theme.of(context).textTheme.bodyText2),
+        Consumer<WishListModel>(
+          builder: (context, wishlistModel, _) {
+            return _quantityandIncDec(context, wishlistModel);
+          },
+        )
+      ],
+    );
   }
 
   Widget _price() {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Text(
         "₹ " + _wishlist[index].actualPrice.toString(),
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
       SizedBox(width: 15),
       _wishlist[index].oldPrice != null
@@ -68,23 +65,25 @@ class WishlistItem extends StatelessWidget {
         Row(
           children: <Widget>[
             InkWell(
-                onTap: () {
-                  if (_wishlist[index].unit == 1) {
-                    _wishListProvider.removefromList(_wishlist[index]);
-                  } else {
-                    wishlistModel.changeQuantity(
-                        updatedUnit: _wishlist[index].unit -= 1,
-                        context: context);
-                  }
-                },
-                child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        border: Border.all(),
-                        color: ternaryColor,
-                        borderRadius: BorderRadius.circular(8.0)),
-                    child: Icon(Icons.remove))),
+              onTap: () {
+                if (_wishlist[index].unit == 1) {
+                  _wishListProvider.removefromList(_wishlist[index]);
+                } else {
+                  wishlistModel.changeQuantity(
+                      updatedUnit: _wishlist[index].unit -= 1,
+                      context: context);
+                }
+              },
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    color: ternaryColor,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Icon(Icons.remove),
+              ),
+            ),
             SizedBox(width: 18),
             Text(
               _wishlist[index].unit.toString(),
@@ -100,13 +99,14 @@ class WishlistItem extends StatelessWidget {
                 }
               },
               child: Container(
-                  height: 30,
-                  width: 30,
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      color: ternaryColor,
-                      borderRadius: BorderRadius.circular(8.0)),
-                  child: Icon(Icons.add)),
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                    border: Border.all(),
+                    color: ternaryColor,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Icon(Icons.add),
+              ),
             ),
           ],
         ),

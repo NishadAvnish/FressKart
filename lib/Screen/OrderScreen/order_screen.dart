@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
+import 'package:freshkart/Provider/order_provider.dart';
 import 'package:freshkart/Widget/sliver_appbar.dart';
-import 'package:freshkart/model/order_model.dart';
+import 'package:provider/provider.dart';
 
 import 'Widget/orderlist_item.dart';
 
@@ -28,6 +29,7 @@ class _OrderScreeenState extends State<OrderScreeen> {
   }
 
   Future<void> _fetchItems() async {
+    await Provider.of<OrderProvider>(context, listen: false).fetchOrder();
     if (this.mounted) {
       super.setState(() {
         _isLoading = false;
@@ -43,6 +45,7 @@ class _OrderScreeenState extends State<OrderScreeen> {
 
   @override
   Widget build(BuildContext context) {
+    final _orderProvider = Provider.of<OrderProvider>(context);
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
@@ -51,12 +54,18 @@ class _OrderScreeenState extends State<OrderScreeen> {
         ),
         _isLoading
             ? SliverFillRemaining(
-                child: CircularProgressIndicator(),
+                child: Center(child: CircularProgressIndicator()),
               )
-            : SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return OrderListItem();
-                }, childCount: 5),
+            : SliverPadding(
+                padding: const EdgeInsets.only(bottom: kToolbarHeight),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return ChangeNotifierProvider.value(
+                      value: _orderProvider.orderlist[index],
+                      child: OrderListItem(index: index),
+                    );
+                  }, childCount: _orderProvider.orderlist.length),
+                ),
               )
       ],
     );

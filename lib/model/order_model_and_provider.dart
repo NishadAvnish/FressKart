@@ -1,21 +1,30 @@
-class OrderModel {
+import 'package:flutter/cupertino.dart';
+
+class OrderModelProvider with ChangeNotifier {
   final String orderId;
-  final String orderTime;
-  final double subTotal, mrp, discount, delivery;
+  final String orderDate;
+  final double subTotal, mrp, discount, deliveryCharge;
   final String paymentType;
   final String deliveryAddress;
+  String status;
   final List<OrderedItemsModel> orderedItemList;
 
-  OrderModel(
+  OrderModelProvider(
       {this.orderId,
-      this.orderTime,
+      this.orderDate,
       this.subTotal,
       this.mrp,
       this.discount,
-      this.delivery,
+      this.deliveryCharge,
       this.paymentType,
       this.deliveryAddress,
+      this.status,
       this.orderedItemList});
+
+  void cancelOrder() {
+    status = "Cancelled";
+    notifyListeners();
+  }
 }
 
 class OrderedItemsModel {

@@ -86,10 +86,25 @@ class _WishListState extends State<WishList>
                     ),
                   )
                 : SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        top: 8.0,
+                        bottom: kToolbarHeight),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate(
                         [
+                          Text(
+                            "Order Total",
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.grey),
+                          ),
+                          SizedBox(
+                            height: 12.0,
+                          ),
                           Card(
                             elevation: 3.0,
                             child: Container(
@@ -106,24 +121,24 @@ class _WishListState extends State<WishList>
                                   children: [
                                     _topTotalContainerItem(
                                         "MRP",
-                                        "Rs" + _wishlistProvider.MRP.toString(),
+                                        "₹ " + _wishlistProvider.MRP.toString(),
                                         Colors.black),
                                     _topTotalContainerItem(
                                         "Discount",
-                                        "Rs" +
+                                        "₹ " +
                                             _wishlistProvider.discountPrice
                                                 .toString(),
                                         mainColor),
                                     _topTotalContainerItem(
                                         "Delivery",
-                                        "Rs" +
+                                        "₹ " +
                                             _wishlistProvider.deliveryCharge
                                                 .toString(),
                                         mainColor),
                                     Divider(),
                                     _topTotalContainerItem(
                                         "Sub Total",
-                                        "Rs" +
+                                        "₹ " +
                                             _wishlistProvider.totalPrice
                                                 .toString(),
                                         Colors.black),
@@ -145,15 +160,30 @@ class _WishListState extends State<WishList>
                                       "Sub Total: Rs ${_wishlistProvider.totalPrice}",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .subtitle2),
+                                          .bodyText2),
                                   RaisedButton(
                                       onPressed: () => Navigator.of(context)
                                           .pushNamed("checkoutScreen"),
                                       color: mainColor,
-                                      child: Text("Proceed To CheckOut")),
+                                      child: Text(
+                                        "Proceed To CheckOut",
+                                        style:
+                                            Theme.of(context).textTheme.button,
+                                      )),
                                 ],
                               ),
                             ),
+                          ),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          Text(
+                            "Your Cart",
+                            textAlign: TextAlign.start,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: Colors.grey),
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 4),
@@ -201,7 +231,7 @@ class _WishListState extends State<WishList>
                 Flexible(
                   child: ChangeNotifierProvider.value(
                     value: _wishlist[
-                        index], // this will help in changing in single WishListItem
+                        index], // this will help in changing value of single WishListItem
                     child: WishlistItem(index: index),
                   ),
                 ),
@@ -230,16 +260,12 @@ class _WishListState extends State<WishList>
       children: <Widget>[
         Text(
           title,
-          style: title == "Sub Total"
-              ? Theme.of(context).textTheme.bodyText1
-              : Theme.of(context).textTheme.bodyText2,
+          style: TextStyle(fontSize: 13.0),
         ),
         Text(
           info,
           textAlign: TextAlign.start,
-          style: title == "Sub Total"
-              ? Theme.of(context).textTheme.subtitle2
-              : Theme.of(context).textTheme.subtitle2.copyWith(color: color),
+          style: TextStyle(fontSize: 14.0, color: color),
         ),
       ],
     );
