@@ -64,7 +64,7 @@ class OrderProvider with ChangeNotifier {
           discount: 100.0,
           deliveryCharge: 80.0,
           deliveryAddress: "H-330A, Dakshinpuri, New Delhi-110062",
-          paymentType: "COD",
+          paymentType: "C.O.D",
           status: "Cancelled",
           orderedItemList: [
             OrderedItemsModel(

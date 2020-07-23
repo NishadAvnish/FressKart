@@ -28,22 +28,20 @@ class OrderListItem extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _columnedText("OrderId", _orderItem.orderId, context),
-                  if (_orderItem.status == "Processing")
-                    GestureDetector(
-                      onTap: () => Provider.of<OrderModelProvider>(context,
-                              listen: false)
-                          .cancelOrder(),
-                      child: Card(
-                        elevation: 5,
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Text(
-                            "Cancel Order",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        ),
+                  InkWell(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed("orderDetail", arguments: index),
+                    child: Container(
+                      padding: EdgeInsets.all(4.0),
+                      child: Text(
+                        "View",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .copyWith(color: mainColor),
                       ),
-                    )
+                    ),
+                  ),
                 ],
               ),
               Divider(
@@ -108,20 +106,22 @@ class OrderListItem extends StatelessWidget {
                           )
                         ]),
                       ),
-                      InkWell(
-                        onTap: () => Navigator.of(context)
-                            .pushNamed("orderDetail", arguments: index),
-                        child: Container(
-                          padding: EdgeInsets.all(4.0),
-                          child: Text(
-                            "View",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText1
-                                .copyWith(color: mainColor),
+                      if (_orderItem.status == "Processing")
+                        GestureDetector(
+                          onTap: () => Provider.of<OrderModelProvider>(context,
+                                  listen: false)
+                              .cancelOrder(),
+                          child: Card(
+                            elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Text(
+                                "Cancel Order",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        )
                     ],
                   );
                 }),

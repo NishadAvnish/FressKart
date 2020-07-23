@@ -62,7 +62,21 @@ class _OfferZoneState extends State<OfferZone>
             ))
           : _offerProvider.offerList.length == 0
               ? SliverFillRemaining(
-                  child: Center(child: Text("No Offer Present")))
+                  child: Center(
+                      child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.local_offer,
+                      size: 85,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text("No Offer Present"),
+                  ],
+                )))
               : SliverPadding(
                   padding: const EdgeInsets.all(8.0),
                   sliver: SliverList(
