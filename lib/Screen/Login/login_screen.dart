@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Util/color.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -34,8 +35,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       height: _size.height * 0.2,
                       width: _size.height * 0.2,
-                      constraints:
-                          BoxConstraints(minHeight: 140.0, maxHeight: 160.0),
+                      constraints: BoxConstraints(
+                          minHeight: 140.0,
+                          maxHeight: 160.0,
+                          minWidth: 140.0,
+                          maxWidth: 160.0),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.red,
@@ -138,7 +142,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    RichText(
+                        text: TextSpan(children: <TextSpan>[
+                      TextSpan(
+                        text: "New Here? ",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal, color: Colors.black),
+                      ),
+                      TextSpan(
+                        text: "Create a new account",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: mainColor),
+                      ),
+                    ])),
                   ]),
                 )
               ],
