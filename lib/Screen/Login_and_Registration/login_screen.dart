@@ -11,7 +11,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _showPassword = true;
+    _showPassword = false;
   }
 
   @override
@@ -146,19 +146,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 30,
                     ),
-                    RichText(
-                        text: TextSpan(children: <TextSpan>[
-                      TextSpan(
-                        text: "New Here? ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal, color: Colors.black),
-                      ),
-                      TextSpan(
-                        text: "Create a new account",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: mainColor),
-                      ),
-                    ])),
+                    GestureDetector(
+                      onTap: () =>
+                          Navigator.of(context).pushNamed("registration"),
+                      child: RichText(
+                          text: TextSpan(children: <TextSpan>[
+                        TextSpan(
+                          text: "New Here? ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black),
+                        ),
+                        TextSpan(
+                          text: "Create a new account",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: mainColor),
+                        ),
+                      ])),
+                    ),
                   ]),
                 )
               ],

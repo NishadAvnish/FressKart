@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Screen/CategoryScreen/categorywise_screen.dart';
-import 'package:freshkart/Screen/Login/login_screen.dart';
+import 'package:freshkart/Screen/Login_and_Registration/login_screen.dart';
+import 'package:freshkart/Screen/Login_and_Registration/registration.dart';
 import 'package:freshkart/Screen/Wishlist/wishlist.dart';
 import 'package:freshkart/Screen/CheckoutScreen/checkout_page.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
@@ -16,8 +17,10 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => ScreenSelector());
       break;
     case "login":
-      final _index = settings.arguments;
       return MaterialPageRoute(builder: (context) => LoginScreen());
+      break;
+    case "registration":
+      return MaterialPageRoute(builder: (context) => RegistrationScreen());
       break;
     case "FAQ":
       return fadeTransition(child: FAQ());
