@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         theme:
             ThemeData(primarySwatch: Colors.green, splashColor: Colors.green),
         // initialRoute: "screenSelector",
-        initialRoute: "registration",
+        initialRoute: "splashscreen",
         onGenerateRoute: genereateRoute,
       ),
     );

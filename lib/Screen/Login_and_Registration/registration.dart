@@ -27,6 +27,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _showPassword = true;
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   String _validateMobile(String value) {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     RegExp regExp = RegExp(pattern);
@@ -103,7 +109,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 SizedBox(
                   height: 40,
                 ),
-                _phoneNumberText(),
+                _phoneNumberField(),
                 SizedBox(
                   height: 15,
                 ),
@@ -172,7 +178,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-  Widget _phoneNumberText() {
+  Widget _phoneNumberField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[

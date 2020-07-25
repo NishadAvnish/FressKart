@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _showPassword = false;
+    _showPassword = true;
   }
 
   @override
@@ -28,26 +29,46 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Transform.translate(
-                  offset: Offset(25, -15),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      height: _size.height * 0.2,
-                      width: _size.height * 0.2,
-                      constraints: BoxConstraints(
-                          minHeight: 140.0,
-                          maxHeight: 160.0,
-                          minWidth: 140.0,
-                          maxWidth: 160.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red,
-                          image: DecorationImage(
-                              image: AssetImage("assets/Images/snacks.jpg"),
-                              fit: BoxFit.fill)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        SharedPreferences.getInstance().then(
+                            (sharedPreferences) => sharedPreferences.setBool(
+                                "canSkipLogin", true));
+                        Navigator.of(context).pushNamed("screenSelector");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15.0),
+                        child: Text(
+                          "Skip >>",
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ),
                     ),
-                  ),
+                    Transform.translate(
+                      offset: Offset(25, -15),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          height: _size.height * 0.2,
+                          width: _size.height * 0.2,
+                          constraints: BoxConstraints(
+                              minHeight: 140.0,
+                              maxHeight: 160.0,
+                              minWidth: 140.0,
+                              maxWidth: 160.0),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red,
+                              image: DecorationImage(
+                                  image: AssetImage("assets/Images/snacks.jpg"),
+                                  fit: BoxFit.fill)),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),

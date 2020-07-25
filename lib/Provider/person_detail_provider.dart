@@ -13,7 +13,8 @@ class PersonProvider with ChangeNotifier {
     if (_personDetail == null) {
       await Future.delayed(Duration(milliseconds: 200));
 
-      _personDetail = PersonModel(
+      _personDetail = null;
+      PersonModel(
           name: "Avnish",
           phoneNo: "8826331014",
           address: "H-330 A, Bloack-H, Dakshinpuri, New Delhi ",

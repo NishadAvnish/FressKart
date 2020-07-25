@@ -100,7 +100,6 @@ class OrderProvider with ChangeNotifier {
         ),
       ]);
       _count += 1;
-      print("Avnish from orderprovider");
     }
     notifyListeners();
   }

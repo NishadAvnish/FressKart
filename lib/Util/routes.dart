@@ -7,6 +7,7 @@ import 'package:freshkart/Screen/CheckoutScreen/checkout_page.dart';
 import 'package:freshkart/Screen/faqscreen.dart';
 import 'package:freshkart/Screen/person_screen.dart';
 import 'package:freshkart/Screen/screenselector.dart';
+import 'package:freshkart/Screen/splashscreen.dart';
 import '../Screen/OrderScreen/order_detail.dart';
 import '../Screen/ProductDetail/productdetail.dart';
 import '../Widget/fadetransition.dart';
@@ -17,7 +18,11 @@ Route<dynamic> genereateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => ScreenSelector());
       break;
     case "login":
-      return MaterialPageRoute(builder: (context) => LoginScreen());
+      return fadeTransition(child: LoginScreen());
+
+      break;
+    case "splashscreen":
+      return MaterialPageRoute(builder: (context) => SplashScreen());
       break;
     case "registration":
       return MaterialPageRoute(builder: (context) => RegistrationScreen());
