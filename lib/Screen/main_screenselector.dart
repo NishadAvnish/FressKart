@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
-import 'package:freshkart/Screen/Wishlist/wishlist.dart';
+import 'package:freshkart/Screen/Cart/cart.dart';
 import 'package:freshkart/Screen/OrderScreen/order_screen.dart';
 import 'package:freshkart/Screen/search_screen.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:freshkart/Widget/appdrawer.dart';
-import 'CategoryScreen/categorywise_screen.dart';
 import 'offer_screen.dart';
-import '../Screen/HomeScreen/home.dart';
+import 'HomeScreen/home.dart';
 
 class ScreenSelector extends StatefulWidget {
   @override
@@ -29,7 +28,9 @@ class _ScreenSelectorState extends State<ScreenSelector>
       Home(),
       SearchScreen(),
       OfferZone(),
-      WishList(),
+      WishList(
+        flag: 0,
+      ),
       OrderScreeen(),
     ];
   }

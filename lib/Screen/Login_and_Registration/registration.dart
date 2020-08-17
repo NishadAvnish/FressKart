@@ -221,7 +221,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: TextFormField(
               obscureText: _showPassword,
               decoration: InputDecoration(
-                suffixIcon: InkWell(
+                suffixIcon: GestureDetector(
                   child: Icon(
                       _showPassword ? Icons.visibility_off : Icons.visibility),
                   onTap: () {

@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Container(
@@ -37,7 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         SharedPreferences.getInstance().then(
                             (sharedPreferences) => sharedPreferences.setBool(
                                 "canSkipLogin", true));
-                        Navigator.of(context).pushNamed("screenSelector");
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            "screenSelector", ModalRoute.withName("/"));
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(left: 15.0),
@@ -72,126 +74,136 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: Column(children: [
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      "Welcome Back !",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Icon(Icons.phone),
-                        Flexible(
-                          child: Container(
-                            height: 60,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(15.0))),
-                            ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        "Welcome Back !",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      _inputField(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            "Forget Password",
+                            style: TextStyle(fontWeight: FontWeight.normal),
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Icon(Icons.beenhere),
-                        Flexible(
-                          child: Container(
-                            height: 60,
-                            child: TextField(
-                              obscureText: _showPassword,
-                              decoration: InputDecoration(
-                                suffix: InkWell(
-                                  child: Icon(_showPassword
-                                      ? Icons.visibility_off
-                                      : Icons.visibility),
-                                  onTap: () {
-                                    setState(() {
-                                      _showPassword = !_showPassword;
-                                    });
-                                    print(_showPassword);
-                                  },
-                                ),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                              ),
-                            ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: MaterialButton(
+                          onPressed: () {},
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(),
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "Forget Password",
-                          style: TextStyle(fontWeight: FontWeight.normal),
-                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: MaterialButton(
-                        onPressed: () {},
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(),
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Text(
-                          "Login",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
+                      SizedBox(
+                        height: 30,
                       ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          Navigator.of(context).pushNamed("registration"),
-                      child: RichText(
+                      GestureDetector(
+                        onTap: () =>
+                            Navigator.of(context).pushNamed("registration"),
+                        child: RichText(
                           text: TextSpan(children: <TextSpan>[
-                        TextSpan(
-                          text: "New Here? ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black),
+                            TextSpan(
+                              text: "New Here? ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black),
+                            ),
+                            TextSpan(
+                              text: "Create a new account",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: mainColor),
+                            ),
+                          ]),
                         ),
-                        TextSpan(
-                          text: "Create a new account",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: mainColor),
-                        ),
-                      ])),
-                    ),
-                  ]),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _inputField() {
+    return Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Icon(Icons.phone),
+            Flexible(
+              child: Container(
+                height: 60,
+                child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0))),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 45,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Icon(Icons.beenhere),
+            Flexible(
+              child: Container(
+                height: 60,
+                child: TextField(
+                  obscureText: _showPassword,
+                  decoration: InputDecoration(
+                    suffixIcon: GestureDetector(
+                      child: Icon(_showPassword
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onTap: () {
+                        setState(() {
+                          _showPassword = !_showPassword;
+                        });
+                      },
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

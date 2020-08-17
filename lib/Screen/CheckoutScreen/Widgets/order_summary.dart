@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 class OrderSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wishListProvider = Provider.of<WishListProvider>(context);
+    final _cartProvider = Provider.of<CartProvider>(context);
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
@@ -18,18 +18,18 @@ class OrderSummary extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
                     Text(
-                      wishListProvider.wishList[index].title,
+                      _cartProvider.cartList[index].title,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     Text(
-                      "Qty: ${wishListProvider.wishList[index].quantity}",
+                      "Qty: ${_cartProvider.cartList[index].quantity}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
                           .copyWith(color: Colors.black54),
                     ),
                     Text(
-                      "₹ ${wishListProvider.wishList[index].actualPrice} x ${wishListProvider.wishList[index].unit}",
+                      "₹ ${_cartProvider.cartList[index].actualPrice} x ${_cartProvider.cartList[index].unit}",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -42,7 +42,7 @@ class OrderSummary extends StatelessWidget {
             ],
           );
         },
-        childCount: wishListProvider.wishList.length,
+        childCount: _cartProvider.cartList.length,
       ),
     );
   }

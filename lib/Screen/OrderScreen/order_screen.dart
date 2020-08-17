@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
 import 'package:freshkart/Provider/order_provider.dart';
+import 'package:freshkart/Provider/person_detail_provider.dart';
+import 'package:freshkart/Widget/must_login.dart';
 import 'package:freshkart/Widget/sliver_appbar.dart';
 import 'package:provider/provider.dart';
 
@@ -46,27 +48,31 @@ class _OrderScreeenState extends State<OrderScreeen> {
   @override
   Widget build(BuildContext context) {
     final _orderProvider = Provider.of<OrderProvider>(context);
+    final _personDetail = Provider.of<PersonProvider>(context).personDetail;
+
     return CustomScrollView(
       controller: _scrollController,
       slivers: <Widget>[
         MySliverAppBar(
           title: "My Order",
         ),
-        _isLoading
-            ? SliverFillRemaining(
-                child: Center(child: CircularProgressIndicator()),
-              )
-            : SliverPadding(
-                padding: const EdgeInsets.only(bottom: kToolbarHeight),
-                sliver: SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return ChangeNotifierProvider.value(
-                      value: _orderProvider.orderlist[index],
-                      child: OrderListItem(index: index),
-                    );
-                  }, childCount: _orderProvider.orderlist.length),
-                ),
-              )
+        _personDetail == null
+            ? MustLoginWidget()
+            : _isLoading
+                ? SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                : SliverPadding(
+                    padding: const EdgeInsets.only(bottom: kToolbarHeight),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return ChangeNotifierProvider.value(
+                          value: _orderProvider.orderlist[index],
+                          child: OrderListItem(index: index),
+                        );
+                      }, childCount: _orderProvider.orderlist.length),
+                    ),
+                  )
       ],
     );
   }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
-import 'package:freshkart/Screen/Wishlist/wishlist.dart';
+import 'package:freshkart/Provider/person_detail_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/model/wishlist_model_and_provider.dart';
+import 'package:freshkart/model/person_model.dart';
+import 'package:freshkart/model/cart_model_and_provider.dart';
 import 'Widgets/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,8 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   ProductModel _product;
+  PersonModel _personDetail;
+
   @override
   void initState() {
     super.initState();
@@ -48,27 +51,27 @@ class _ProductDetailState extends State<ProductDetail> {
       _selectedQuantity = _product.productQuantityList[0];
     }
 
-    Provider.of<WishListProvider>(context, listen: false).addToWishList(
-        WishListModel(
-            id: _product.id,
-            title: _product.title,
-            imageUrl: _product.imageUrl[0],
-            oldPrice: _selectedQuantity.newModifiedPrice == null
-                ? null
-                : _selectedQuantity.price,
-            actualPrice:
-                _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
-            quantity: _selectedQuantity.quantity,
-            unit: productUnit.value,
-            savedPrice: _selectedQuantity.newModifiedPrice == null
-                ? 0
-                : _selectedQuantity.price -
-                    _selectedQuantity.newModifiedPrice));
+    Provider.of<CartProvider>(context, listen: false).addToWishList(CartModel(
+        id: _product.id,
+        title: _product.title,
+        imageUrl: _product.imageUrl[0],
+        oldPrice: _selectedQuantity.newModifiedPrice == null
+            ? null
+            : _selectedQuantity.price,
+        actualPrice:
+            _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
+        quantity: _selectedQuantity.quantity,
+        unit: productUnit.value,
+        savedPrice: _selectedQuantity.newModifiedPrice == null
+            ? 0
+            : _selectedQuantity.price - _selectedQuantity.newModifiedPrice));
   }
 
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
+    _personDetail = Provider.of<PersonProvider>(context).personDetail;
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace:
@@ -78,11 +81,36 @@ class _ProductDetailState extends State<ProductDetail> {
           style: TextStyle(fontStyle: FontStyle.italic),
         ),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.shopping_cart),
-              onPressed: () {
-                Navigator.of(context).pushNamed("cartScreen");
-              })
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("cartScreen", arguments: 1);
+                },
+              ),
+              Positioned(
+                  right: 5,
+                  top: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blue, shape: BoxShape.circle),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Consumer<CartProvider>(
+                          builder: (context, _cartProvider, _) {
+                        return Text(
+                          "${_cartProvider.cartList.length}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.white),
+                        );
+                      }),
+                    ),
+                  )),
+            ],
+          )
         ],
       ),
       body: Container(
@@ -244,7 +272,9 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget _addToCartButton() {
     return MaterialButton(
       onPressed: () {
-        _addToCartOperation();
+        _personDetail == null
+            ? Navigator.of(context).pushNamed("login")
+            : _addToCartOperation();
       },
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),

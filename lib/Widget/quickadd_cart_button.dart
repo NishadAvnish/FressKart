@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Provider/person_detail_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:freshkart/model/person_model.dart';
 import 'package:freshkart/model/productmodel.dart';
-import 'package:freshkart/model/wishlist_model_and_provider.dart';
+import 'package:freshkart/model/cart_model_and_provider.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class QuickAddToCartButton extends StatefulWidget {
   final ProductModel product;
   final String popUpSelectedItem;
@@ -23,6 +26,8 @@ class QuickAddToCartButton extends StatefulWidget {
 
 class _AddToCartButtonState extends State<QuickAddToCartButton> {
   int _count;
+  PersonModel _personDetail;
+
   @override
   void initState() {
     _count = 0;
@@ -46,26 +51,28 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
       _selectedQuantity = widget.product.productQuantityList[0];
     }
 
-    Provider.of<WishListProvider>(context, listen: false).addToWishList(
-        WishListModel(
-            id: widget.product.id,
-            title: widget.product.title,
-            imageUrl: widget.product.imageUrl[0],
-            oldPrice: _selectedQuantity.newModifiedPrice == null
-                ? null
-                : _selectedQuantity.price,
-            actualPrice:
-                _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
-            quantity: _selectedQuantity.quantity,
-            unit: _count,
-            savedPrice: _selectedQuantity.newModifiedPrice == null
-                ? 0
-                : _selectedQuantity.price -
-                    _selectedQuantity.newModifiedPrice));
+    Provider.of<CartProvider>(context, listen: false).addToWishList(
+      CartModel(
+          id: widget.product.id,
+          title: widget.product.title,
+          imageUrl: widget.product.imageUrl[0],
+          oldPrice: _selectedQuantity.newModifiedPrice == null
+              ? null
+              : _selectedQuantity.price,
+          actualPrice:
+              _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
+          quantity: _selectedQuantity.quantity,
+          unit: _count,
+          savedPrice: _selectedQuantity.newModifiedPrice == null
+              ? 0
+              : _selectedQuantity.price - _selectedQuantity.newModifiedPrice),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    _personDetail = Provider.of<PersonProvider>(context).personDetail;
+
     return Container(
       width: widget.width,
       height: widget.height,
@@ -75,12 +82,14 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
       ),
       child: _count == 0
           ? InkWell(
-              onTap: () {
-                setState(() {
-                  _count += 1;
-                });
-                _addToCartOperation();
-              },
+              onTap: _personDetail == null
+                  ? () => Navigator.of(context).pushNamed("login")
+                  : () {
+                      setState(() {
+                        _count += 1;
+                      });
+                      _addToCartOperation();
+                    },
               child: Center(
                 child: Text(
                   "Add To Cart",
@@ -96,28 +105,32 @@ class _AddToCartButtonState extends State<QuickAddToCartButton> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         InkWell(
-            onTap: _count >= 1
-                ? () {
-                    setState(() {
-                      _count -= 1;
-                    });
-                    _addToCartOperation();
-                  }
-                : null,
+            onTap: _personDetail == null
+                ? () => Navigator.of(context).pushNamed("login")
+                : _count >= 1
+                    ? () {
+                        setState(() {
+                          _count -= 1;
+                        });
+                        _addToCartOperation();
+                      }
+                    : null,
             child: _addRemoveButton(Icons.remove)),
         Text(
           _count.toString(),
           style: Theme.of(context).textTheme.bodyText1,
         ),
         InkWell(
-            onTap: () {
-              if (_count < 10) {
-                setState(() {
-                  _count += 1;
-                });
-                _addToCartOperation();
-              }
-            },
+            onTap: _personDetail == null
+                ? () => Navigator.of(context).pushNamed("login")
+                : () {
+                    if (_count < 10) {
+                      setState(() {
+                        _count += 1;
+                      });
+                      _addToCartOperation();
+                    }
+                  },
             child: _addRemoveButton(Icons.add)),
       ],
     );

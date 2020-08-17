@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
 import 'package:freshkart/Provider/order_provider.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/model/order_model_and_provider.dart';
 import 'package:provider/provider.dart';
 import 'Provider/homeproduct_provider.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           value: HomeMainCategoryProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: WishListProvider(),
+          value: CartProvider(),
         ),
         ChangeNotifierProvider.value(
           value: SearchProvider(),

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/model/wishlist_model_and_provider.dart';
+import 'package:freshkart/model/cart_model_and_provider.dart';
 import 'package:provider/provider.dart';
 
 class WishlistItem extends StatelessWidget {
   final int index;
   WishlistItem({this.index});
 
-  List<WishListModel> _wishlist;
+  List<CartModel> _cartList;
 
-  WishListProvider _wishListProvider;
+  CartProvider _cartProvider;
 
   @override
   Widget build(BuildContext context) {
-    _wishListProvider = Provider.of<WishListProvider>(context, listen: true);
-    _wishlist = _wishListProvider.wishList;
+    _cartProvider = Provider.of<CartProvider>(context, listen: true);
+    _cartList = _cartProvider.cartList;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         _price(),
-        Text(_wishlist[index].title,
+        Text(_cartList[index].title,
             style: Theme.of(context).textTheme.bodyText2),
-        Consumer<WishListModel>(
+        Consumer<CartModel>(
           builder: (context, wishlistModel, _) {
             return _quantityandIncDec(context, wishlistModel);
           },
@@ -36,13 +36,13 @@ class WishlistItem extends StatelessWidget {
   Widget _price() {
     return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Text(
-        "₹ " + _wishlist[index].actualPrice.toString(),
+        "₹ " + _cartList[index].actualPrice.toString(),
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
       SizedBox(width: 15),
-      _wishlist[index].oldPrice != null
+      _cartList[index].oldPrice != null
           ? Text(
-              "₹ " + _wishlist[index].oldPrice.toString(),
+              "₹ " + _cartList[index].oldPrice.toString(),
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -53,11 +53,11 @@ class WishlistItem extends StatelessWidget {
     ]);
   }
 
-  Widget _quantityandIncDec(BuildContext context, WishListModel wishlistModel) {
+  Widget _quantityandIncDec(BuildContext context, CartModel wishlistModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(_wishlist[index].quantity,
+        Text(_cartList[index].quantity,
             style: Theme.of(context)
                 .textTheme
                 .bodyText2
@@ -66,11 +66,11 @@ class WishlistItem extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                if (_wishlist[index].unit == 1) {
-                  _wishListProvider.removefromList(_wishlist[index]);
+                if (_cartList[index].unit == 1) {
+                  _cartProvider.removefromList(_cartList[index]);
                 } else {
                   wishlistModel.changeQuantity(
-                      updatedUnit: _wishlist[index].unit -= 1,
+                      updatedUnit: _cartList[index].unit -= 1,
                       context: context);
                 }
               },
@@ -86,15 +86,15 @@ class WishlistItem extends StatelessWidget {
             ),
             SizedBox(width: 18),
             Text(
-              _wishlist[index].unit.toString(),
+              _cartList[index].unit.toString(),
               style: Theme.of(context).textTheme.bodyText1,
             ),
             SizedBox(width: 18),
             InkWell(
               onTap: () {
-                if (_wishlist[index].unit < 10) {
+                if (_cartList[index].unit < 10) {
                   wishlistModel.changeQuantity(
-                      updatedUnit: _wishlist[index].unit += 1,
+                      updatedUnit: _cartList[index].unit += 1,
                       context: context);
                 }
               },

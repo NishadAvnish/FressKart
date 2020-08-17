@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:freshkart/model/wishlist_model_and_provider.dart';
+import 'package:freshkart/model/cart_model_and_provider.dart';
 
-class WishListProvider with ChangeNotifier {
-  List<WishListModel> _wishlist = List();
+class CartProvider with ChangeNotifier {
+  List<CartModel> _cartList = List();
   int count = 0;
   double _totalPrice = 0.0;
   double _mrp = 0.0;
   double _deliveryCharge = 0.0;
   double _discountPrice = 0.0;
 
-  List<WishListModel> get wishList {
-    return [..._wishlist];
+  List<CartModel> get cartList {
+    return [..._cartList];
   }
 
   double get totalPrice {
@@ -52,7 +52,7 @@ class WishListProvider with ChangeNotifier {
     _discountPrice = 0.0;
     _totalPrice = 0.0;
     _deliveryCharge = 0.0;
-    _wishlist.forEach((wishlistItem) {
+    _cartList.forEach((wishlistItem) {
       final current_mrp = (wishlistItem.oldPrice != null
           ? wishlistItem.oldPrice
           : wishlistItem.actualPrice);
@@ -68,8 +68,8 @@ class WishListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addToWishList(WishListModel receivedItem) {
-    _wishlist.removeWhere((wishlistIten) {
+  void addToWishList(CartModel receivedItem) {
+    _cartList.removeWhere((wishlistIten) {
       if (wishlistIten.id == receivedItem.id &&
           wishlistIten.quantity == receivedItem.quantity)
         return true;
@@ -77,12 +77,12 @@ class WishListProvider with ChangeNotifier {
         return false;
     });
 
-    _wishlist.add(receivedItem);
+    _cartList.add(receivedItem);
     totaling();
   }
 
-  void removefromList(WishListModel receivedItem) {
-    _wishlist.removeWhere((item) => item == receivedItem);
+  void removefromList(CartModel receivedItem) {
+    _cartList.removeWhere((item) => item == receivedItem);
     totaling();
   }
 }

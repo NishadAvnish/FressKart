@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freshkart/Provider/wishlist_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/Util/color.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +13,7 @@ class BottomOrderAmount extends StatelessWidget {
         color: Colors.white,
         border: Border(top: BorderSide()),
       ),
-      child:
-          Consumer<WishListProvider>(builder: (context, wishlistProvider, _) {
+      child: Consumer<CartProvider>(builder: (context, wishlistProvider, _) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
