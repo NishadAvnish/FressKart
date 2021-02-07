@@ -1,42 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/home_category_provider.dart';
-import 'package:freshkart/Provider/homeproduct_provider.dart';
-import 'package:freshkart/Screen/categorywise_screen.dart';
-import 'package:freshkart/Util/color.dart';
 import 'package:provider/provider.dart';
-
-import '../fadetransition.dart';
 
 class HomeCategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
-    final _homeMainCategoryProvider = Provider.of<HomeMainCategoryProvider>(context);
+    final _homeMainCategoryProvider =
+        Provider.of<HomeMainCategoryProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            color: secondaryColor,
-            height: 40,
-            width: _size.width,
-            child: Center(
-              child: Text(
-                "Shop by Category",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 0, right: 12, top: 5.0, bottom: 3),
+            child: Text(
+              "Shop By Category",
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
           MediaQuery.removePadding(
             context: context,
             removeTop: true,
             child: Container(
-              // color: Colors.blue,
               constraints: BoxConstraints(
                 maxHeight: 500,
-                minHeight: 150,
+                minHeight: 130,
               ),
               child: GridView.builder(
                 itemCount: 9,
@@ -49,8 +41,8 @@ class HomeCategoryWidget extends StatelessWidget {
                     childAspectRatio: 2.5 / 2.5),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => Navigator.of(context).push(fadeTransition(
-                        child: CategoryWiseDetail(index: index))),
+                    onTap: () => Navigator.of(context)
+                        .pushNamed("categoryScreen", arguments: index),
                     child: Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),
@@ -62,7 +54,8 @@ class HomeCategoryWidget extends StatelessWidget {
                           Flexible(
                             flex: 1,
                             child: Text(
-                              _homeMainCategoryProvider.mainCategoryList[index].title,
+                              _homeMainCategoryProvider
+                                  .mainCategoryList[index].title,
                               style: TextStyle(fontSize: 11.5),
                             ),
                           )

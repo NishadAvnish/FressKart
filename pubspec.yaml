@@ -24,6 +24,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
   provider:
+  device_preview: ^0.4.5
+  carousel_pro: ^1.0.0
+  shared_preferences: ^0.5.8
+  http: 
 
 dev_dependencies:
   flutter_test:

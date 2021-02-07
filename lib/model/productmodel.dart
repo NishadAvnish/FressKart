@@ -1,10 +1,11 @@
 class ProductModel {
-  final int id;
+  final String id;
   final String title, description;
   final List<String> imageUrl; // this will be the list and at index 0 the image
   final String tag;
   final List<ProductListModel> productQuantityList;
-  final String category,subCategory; // this subcategory can be null  because some categories maynot have subcategories
+  final String category,
+      subCategory; // this subcategory can be null  because some categories maynot have subcategories
   RatingModel rating;
 
   ProductModel(

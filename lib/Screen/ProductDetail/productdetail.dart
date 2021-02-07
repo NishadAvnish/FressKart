@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:freshkart/Provider/homeproduct_provider.dart';
 import 'package:freshkart/Provider/notifier_values.dart';
+import 'package:freshkart/Provider/person_detail_provider.dart';
+import 'package:freshkart/Provider/cart_provider.dart';
 import 'package:freshkart/Util/color.dart';
-import 'package:freshkart/Widget/rating_review_widget.dart';
+import 'package:freshkart/model/person_model.dart';
+import 'package:freshkart/model/cart_model_and_provider.dart';
+import 'Widgets/rating_review_widget.dart';
 import 'package:freshkart/model/productmodel.dart';
 import 'package:provider/provider.dart';
-import '../Widget/productdetail_pageview.dart';
-import '../Widget/quantity_incdec.dart';
+import 'Widgets/productdetail_pageview.dart';
+import 'Widgets/quantity_incdec.dart';
 
 class ProductDetail extends StatefulWidget {
   final productId;
-  const ProductDetail({this.productId});
+  final selectedProdQuantityIndex;
+  const ProductDetail({this.productId, this.selectedProdQuantityIndex});
 
   @override
   _ProductDetailState createState() => _ProductDetailState();
@@ -18,26 +23,96 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   ProductModel _product;
+  PersonModel _personDetail;
+
   @override
   void initState() {
     super.initState();
     _callProvider();
   }
 
-  void _callProvider() {
+  Future<void> _callProvider() async {
     _product = Provider.of<HomeProductProvider>(context, listen: false)
         .findById(widget.productId);
   }
 
   @override
+  void dispose() {
+    productUnit.value = 1;
+    super.dispose();
+  }
+
+  void _addToCartOperation() {
+    ProductListModel _selectedQuantity;
+    if (productQuantity.value != "") {
+      _selectedQuantity = _product.productQuantityList
+          .firstWhere((element) => element.quantity == productQuantity.value);
+    } else {
+      _selectedQuantity = _product.productQuantityList[0];
+    }
+
+    Provider.of<CartProvider>(context, listen: false).addToWishList(CartModel(
+        id: _product.id,
+        title: _product.title,
+        imageUrl: _product.imageUrl[0],
+        oldPrice: _selectedQuantity.newModifiedPrice == null
+            ? null
+            : _selectedQuantity.price,
+        actualPrice:
+            _selectedQuantity.newModifiedPrice ?? _selectedQuantity.price,
+        quantity: _selectedQuantity.quantity,
+        unit: productUnit.value,
+        savedPrice: _selectedQuantity.newModifiedPrice == null
+            ? 0
+            : _selectedQuantity.price - _selectedQuantity.newModifiedPrice));
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
+    _personDetail = Provider.of<PersonProvider>(context).personDetail;
+
     return Scaffold(
       appBar: AppBar(
-          title: Text(
-        _product.title,
-        style: TextStyle(fontStyle: FontStyle.italic),
-      )),
+        flexibleSpace:
+            Container(decoration: BoxDecoration(gradient: mainColorGradient)),
+        title: Text(
+          _product.title,
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+        actions: <Widget>[
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("cartScreen", arguments: 1);
+                },
+              ),
+              Positioned(
+                  right: 5,
+                  top: 1,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blue, shape: BoxShape.circle),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Consumer<CartProvider>(
+                          builder: (context, _cartProvider, _) {
+                        return Text(
+                          "${_cartProvider.cartList.length}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .copyWith(color: Colors.white),
+                        );
+                      }),
+                    ),
+                  )),
+            ],
+          )
+        ],
+      ),
       body: Container(
         height:
             _size.height - kToolbarHeight - MediaQuery.of(context).padding.top,
@@ -52,21 +127,6 @@ class _ProductDetailState extends State<ProductDetail> {
                   _tag(),
                   //This productDetailPageView show image carousal on top
                   ProductDetailPageView(product: _product),
-                  Positioned(
-                    bottom: 2,
-                    right: 5,
-                    child: Transform.translate(
-                      offset: Offset(0, 15),
-                      child: MaterialButton(
-                        onPressed: () {},
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0)),
-                        color: mainColor,
-                        child: Text("Add To Cart"),
-                      ),
-                    ),
-                  )
                 ],
               ),
               Padding(
@@ -76,20 +136,18 @@ class _ProductDetailState extends State<ProductDetail> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     SizedBox(height: 12),
+                    Container(
+                        width: _size.width * 0.6,
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: Text(
+                          _product.title,
+                          style: Theme.of(context).textTheme.headline6,
+                        )),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                            width: _size.width * 0.6,
-                            constraints: BoxConstraints(maxWidth: 300),
-                            child: Text(
-                              _product.title,
-                              style: Theme.of(context).textTheme.headline6,
-                            )),
-                        _price(),
-                      ],
+                      children: <Widget>[_price(), _addToCartButton()],
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: 10),
                     Text(
                       "Quantity",
                       style: Theme.of(context)
@@ -100,10 +158,14 @@ class _ProductDetailState extends State<ProductDetail> {
                     SizedBox(
                       height: 8,
                     ),
-                    IncDec(_product),
+                    IncDec(
+                      product: _product,
+                      selectedProdQuantityIndex:
+                          widget.selectedProdQuantityIndex,
+                    ),
                     SizedBox(height: 15),
                     Text(
-                      "Description",
+                      "About The Product",
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -205,5 +267,19 @@ class _ProductDetailState extends State<ProductDetail> {
                 );
               });
         });
+  }
+
+  Widget _addToCartButton() {
+    return MaterialButton(
+      onPressed: () {
+        _personDetail == null
+            ? Navigator.of(context).pushNamed("login")
+            : _addToCartOperation();
+      },
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      color: ternaryColor,
+      child: Text("Add To Cart"),
+    );
   }
 }
