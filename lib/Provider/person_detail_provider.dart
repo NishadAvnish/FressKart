@@ -10,20 +10,25 @@ class PersonProvider with ChangeNotifier {
 
   Future<void> fetchDetail() async {
     await Future.delayed(Duration(milliseconds: 00));
-    if (_personDetail == null) {
-      await Future.delayed(Duration(milliseconds: 200));
+    // if (_personDetail == null) {
+    //   await Future.delayed(Duration(milliseconds: 200));
+    //   _personDetail = null;
+    // }
 
-      // _personDetail = null;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    _personDetail = null;
+    notifyListeners();
+  }
+
+  Future<void> login() async {
+    if (_personDetail == null) {
       _personDetail = PersonModel(
           name: "Avnish",
-          phoneNo: "8826331014",
-          address: "H-330 A, Bloack-H, Dakshinpuri, New Delhi ",
-          area: "South Delhi",
-          pincode: "110062");
-      PersonModel(
-          name: "Avnish",
-          phoneNo: "8826331014",
-          address: "H-330 A, Bloack-H, Dakshinpuri, New Delhi ",
+          phoneNo: "8236817468",
+          address: " New Delhi ",
           area: "South Delhi",
           pincode: "110062");
     }

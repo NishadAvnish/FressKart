@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:freshkart/Provider/person_detail_provider.dart';
 import 'package:freshkart/Util/color.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -109,7 +111,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Provider.of<PersonProvider>(context, listen: false)
+                                .login();
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                "screenSelector", ModalRoute.withName("/"));
+                          },
                           shape: RoundedRectangleBorder(
                               side: BorderSide(),
                               borderRadius: BorderRadius.circular(15.0)),

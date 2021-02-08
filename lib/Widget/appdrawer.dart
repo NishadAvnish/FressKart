@@ -16,7 +16,8 @@ class AppDrawer extends StatelessWidget {
     "Cart",
     "Your Order",
     "Shop by Category",
-    "FAQ"
+    "FAQ",
+    "Logout"
   ];
   List icon = [
     Icons.home,
@@ -25,7 +26,8 @@ class AppDrawer extends StatelessWidget {
     Icons.add_shopping_cart,
     Icons.assignment,
     Icons.category,
-    Icons.question_answer
+    Icons.question_answer,
+    Icons.logout
   ];
 
   @override
@@ -151,10 +153,13 @@ class AppDrawer extends StatelessWidget {
     } else {
       return GestureDetector(
         onTap: () {
-          Navigator.of(context).pop();
-          if (menu[index] != "FAQ") {
+          if (menu[index] == "Logout") {
+            Provider.of<PersonProvider>(context, listen: false).logout();
+          } else if (menu[index] != "FAQ") {
+            Navigator.of(context).pop();
             selectedBottomNavIndex.value = index;
           } else {
+            Navigator.of(context).pop();
             Navigator.of(context).pushNamed("FAQ");
             selectedDrawerCatergyIndex.value = index;
           }
