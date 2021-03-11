@@ -47,6 +47,11 @@ class CartProvider with ChangeNotifier {
     }
   }
 
+  Future<void> clearCartItems() {
+    _cartList = [];
+    notifyListeners();
+  }
+
   void totaling() {
     _mrp = 0.0;
     _discountPrice = 0.0;

@@ -28,6 +28,13 @@ dependencies:
   carousel_pro: ^1.0.0
   shared_preferences: ^0.5.8
   http: 
+  intl: ^0.16.0
+  flutter_launcher_icons: "^0.8.1"  
+
+flutter_icons:
+  image_path: "assets/Images/icon.png" 
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
