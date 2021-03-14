@@ -120,8 +120,7 @@ class OrderProvider with ChangeNotifier {
       paymentType: orderDetail["paymentMethod"],
       deliveryAddress: orderDetail["deliveryAddress"],
     ));
-    print("______________________________________________");
-    print(_orderList.length);
+    print(orderDetail["productList"]);
     notifyListeners();
   }
 }

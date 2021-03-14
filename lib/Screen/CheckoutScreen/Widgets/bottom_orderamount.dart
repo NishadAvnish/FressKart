@@ -33,17 +33,18 @@ class BottomOrderAmount extends StatelessWidget {
             MaterialButton(
               onPressed: () {
                 List<OrderedItemsModel> _orderedItem = [];
-                wishlistProvider.cartList.map(
-                  (cartList) => _orderedItem.add(
+                wishlistProvider.cartList.forEach((cartListItem) {
+                  print(cartListItem.title);
+                  return _orderedItem.add(
                     OrderedItemsModel(
-                      title: cartList.title,
-                      quantity: cartList.quantity,
-                      price: cartList.actualPrice,
-                      unit: cartList.unit,
+                      title: cartListItem.title,
+                      quantity: cartListItem.quantity,
+                      price: cartListItem.actualPrice,
+                      unit: cartListItem.unit,
                     ),
-                  ),
-                );
-
+                  );
+                });
+                print(_orderedItem.length);
                 Map<String, dynamic> _orderDetail = {
                   "mrp": wishlistProvider.MRP,
                   "totalPrice": wishlistProvider.totalPrice,

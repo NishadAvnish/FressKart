@@ -87,30 +87,27 @@ class _WishListState extends State<WishList>
                     ? SliverFillRemaining(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
+                          children: [
                             Text(
-                              "No products in your cart",
-                              style: Theme.of(context).textTheme.bodyText1,
+                              "No product in your Cart",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  .copyWith(color: Colors.grey),
+                              textAlign: TextAlign.center,
                             ),
                             SizedBox(
-                              height: 5,
+                              height: 12,
                             ),
-                            MaterialButton(
-                              color: secondaryColor,
-                              padding: EdgeInsets.all(8.0),
-                              onPressed: () {
-                                selectedBottomNavIndex.value = 0;
-                              },
-                              child: Text("Go To Home"),
+                            GestureDetector(
+                              onTap: () => selectedBottomNavIndex.value = 0,
+                              child: Text(
+                                "Go to Home",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: mainColor),
+                              ),
                             ),
-                            MaterialButton(
-                              color: secondaryColor,
-                              padding: EdgeInsets.all(8.0),
-                              onPressed: () {
-                                return errorDialog("Hello", context);
-                              },
-                              child: Text("Dialog"),
-                            )
                           ],
                         ),
                       )
