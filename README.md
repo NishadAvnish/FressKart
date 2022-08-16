@@ -1,4 +1,4 @@
-# freshkart
+# FressKart
 
 A new Flutter project.
 
