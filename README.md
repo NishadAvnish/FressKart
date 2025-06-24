@@ -15,3 +15,7 @@ Note: This project is only for Learning and is only UI component there is no bac
 Note: We are shifting this project to new avatar along with Api integration
 https://github.com/NishadAvnish/freshKart
 
+
+
+NOTE: This app will not support latest flutter version 
+Refer this Project for new updated project: [New Project](https://github.com/NishadAvnish/freshKart)
